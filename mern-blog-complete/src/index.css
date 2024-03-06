@@ -93,3 +93,9 @@ img {
 section {
   margin-top: 6rem;
 }
+
+main {
+  height: 65vh;
+  display: flex;
+
+}
