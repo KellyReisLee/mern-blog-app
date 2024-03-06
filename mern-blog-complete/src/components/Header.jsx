@@ -2,16 +2,18 @@ import React from 'react'
 import { Link } from "react-router-dom"
 import Logo from '../assets/blog-1.jpg'
 import { GiHamburgerMenu } from "react-icons/gi";
+// import { IoMdClose } from "react-icons/io";
+import classes from './Header.module.css'
 
 
 const Header = () => {
   return (
-    <nav>
-      <div className='container nav__container'>
-        <Link to='/' className='nav__logo'>
+    <nav className={classes.navHeader}>
+      <div className={classes.containerHeader}>
+        <Link to='/' className={classes.logoImg}>
           <img src={Logo} alt='logo-computer' />
         </Link>
-        <ul className='nav__menu'>
+        <ul className={classes.navMenu}>
           <li>
             <Link to="/profile">Ernest Smith</Link>
           </li>
@@ -26,7 +28,7 @@ const Header = () => {
           </li>
         </ul>
         {/* Navbar for a mobile */}
-        <button className='nav__toggle-btn'>
+        <button className={`${classes.btnHeader} ${classes.displayNone}`}>
           <GiHamburgerMenu />
         </button>
       </div>
