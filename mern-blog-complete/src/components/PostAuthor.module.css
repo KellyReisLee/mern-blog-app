@@ -1,0 +1,44 @@
+.authorContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 3rem;
+}
+
+.author {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--color-gray-900);
+
+}
+
+.authorImg {
+  width: 3.2rem;
+
+}
+
+.authorImg img {
+  aspect-ratio: 1/1;
+  border-radius: var(--radius-2);
+}
+
+.authorDetail h5 {
+  color: var(--color-gray-300);
+  font-size: 0.7rem;
+
+}
+
+.authorDetail i {
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.authorDetail small {
+  color: var(--color-gray-300);
+  font-size: 0.7rem;
+}

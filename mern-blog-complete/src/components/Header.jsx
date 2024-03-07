@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom"
-import Logo from '../assets/blog-1.jpg'
+import Logo from '../assets/logo.jpg'
 import { GiHamburgerMenu } from "react-icons/gi";
 // import { IoMdClose } from "react-icons/io";
 import classes from './Header.module.css'
