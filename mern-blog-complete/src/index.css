@@ -25,6 +25,8 @@
 
 }
 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -32,6 +34,11 @@
   outline: 0;
   box-sizing: border-box;
   background-color: var(--color-bg);
+}
+
+
+html {
+  background-color: var(--color-gray-100);
 }
 
 body {
@@ -95,7 +102,7 @@ section {
 }
 
 main {
-  height: 65vh;
+  height: 80vh;
   display: flex;
 
 }

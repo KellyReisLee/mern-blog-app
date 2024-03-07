@@ -1,0 +1,36 @@
+.errorPg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorPg div {
+  text-align: center;
+  padding-top: 5rem;
+  margin-inline: center;
+  display: block;
+  width: 50%;
+
+}
+
+.errorPg a {
+  font-size: 1.1rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 1.5rem 2.5rem;
+  border-radius: 50px;
+}
+
+.errorPg a:hover {
+  background-color: var(--color-gray-900);
+}
+
+.errorPg h2 {
+  margin-top: 6rem;
+  font-size: 4rem;
+  color: var(--color-gray-700);
+  border: 10px solid var(--color-gray-700);
+  padding: 3.5rem;
+  border-radius: 20px;
+
+}
