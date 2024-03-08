@@ -1,7 +1,7 @@
 .post {
   width: 100%;
   background-color: rgba(229, 229, 229, 0.739);
-  padding: 1.7rem;
+  padding: 1rem;
   border-radius: 2rem;
   transition: var(--transition);
   cursor: pointer;

@@ -1,7 +1,10 @@
 .footer {
   background-color: var(--color-gray-900);
-  margin-top: 6rem;
-  padding-top: 3rem;
+  margin-top: 10rem;
+  padding-top: 2.5rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
 
 }
 

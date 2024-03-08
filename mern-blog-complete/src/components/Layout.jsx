@@ -4,13 +4,16 @@ import Header from './Header'
 
 const Layout = () => {
   return (
-    <>
+    <div className='project-container'>
       <Header />
+
       <main>
         <Outlet />
+
       </main>
+
       <Footer />
-    </>
+    </div>
   )
 }
 
