@@ -3,14 +3,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5rem;
-  margin-top: 9rem;
+  margin-bottom: 2rem;
+  margin-top: 8rem;
 
 }
 
 .mainContainer {
   width: var(--form-width);
-  background-color: var(--color-white);
+  background-color: var(--color-box);
   padding: 2rem;
   border-radius: var(--radius-1);
   box-shadow: 3px 8px 57px -14px rgba(105, 105, 105, 0.6);

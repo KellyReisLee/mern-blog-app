@@ -1,6 +1,6 @@
 .post {
   width: 100%;
-  background-color: rgba(229, 229, 229, 0.739);
+  background-color: #dddcdb;
   padding: 1rem;
   border-radius: 2rem;
   transition: var(--transition);
