@@ -1,0 +1,67 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+  margin-top: 9rem;
+
+}
+
+.mainContainer {
+  width: var(--form-width);
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: var(--radius-1);
+  box-shadow: 3px 8px 57px -14px rgba(105, 105, 105, 0.6);
+  -webkit-box-shadow: 3px 8px 57px -14px rgba(105, 105, 105, 0.6);
+  -moz-box-shadow: 3px 8px 57px -14px rgba(105, 105, 105, 0.6);
+}
+
+
+.mainContainer h1 {
+  text-align: center;
+  margin: 3rem 0 1rem 0;
+  color: var(--color-gray-700);
+
+}
+
+.containerImg {
+  width: 100%;
+  margin-bottom: 2rem;
+
+}
+
+.containerImg img {
+  object-fit: cover;
+}
+
+
+
+.header {
+  display: flex;
+}
+
+.btns {
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.btns a {
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-1);
+  color: aliceblue;
+  font-size: 0.9rem;
+}
+
+.edit {
+  background-color: var(--color-primary);
+
+}
+
+.delete {
+  background-color: var(--color-red);
+}
