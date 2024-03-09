@@ -1,8 +1,18 @@
-import React from 'react'
+import { useState } from 'react'
+import PostItem from '../components/PostItem'
+import postData from '../helpers/dataPost'
 
+import classes from './AuthorPosts.module.css'
 const AuthorPosts = () => {
+  const [posts, setPosts] = useState(postData)
   return (
-    <div>AuthorPosts</div>
+    <section className={classes.container}>
+      {
+        posts.map((post) => (
+          <PostItem key={post.id} id={post.id} image={post.image} category={post.category} title={post.title} description={post.description} authorId={post.authorId} />
+        ))
+      }
+    </section>
   )
 }
 
