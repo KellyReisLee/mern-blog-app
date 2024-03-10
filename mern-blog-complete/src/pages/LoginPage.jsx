@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
   const [userData, setUserData] = useState({
-
     email: '',
     password: '',
 
