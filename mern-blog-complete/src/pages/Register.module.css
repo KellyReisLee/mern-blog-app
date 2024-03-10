@@ -1,0 +1,72 @@
+.register {
+  padding: 1.6rem 7rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.mainRegister {
+  width: var(--form-width);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: rgba(224, 224, 224, 0.889);
+  border-radius: var(--radius-3);
+  box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.3);
+
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+
+}
+
+.mainRegister h2 {
+  color: var(--color-primary);
+  font-family: "Urbanist", sans-serif;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form p {
+  background-color: rgba(221, 67, 67, 0.838);
+  color: aliceblue;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-1);
+  margin-bottom: 0.4rem;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 1px;
+
+}
+
+.mainRegister button {
+  width: 100%;
+  background-color: var(--color-primary);
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-1);
+  color: aliceblue;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-family: "Urbanist", sans-serif;
+  letter-spacing: 1px;
+}
+
+.mainRegister a {
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 0.2rem;
+}
+
+.mainRegister small {
+  text-align: center;
+  font-size: 0.7rem;
+}
