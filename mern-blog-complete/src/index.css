@@ -127,15 +127,12 @@ textarea {
 }
 
 
-main {
-  display: flex;
-  flex: 1;
-
-}
+main {}
 
 .project-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+
 }
