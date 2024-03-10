@@ -20,7 +20,7 @@ const RegisterPage = () => {
   return (
     <section className={classes.register}>
       <div className={classes.mainRegister}>
-        <h2>Sign up</h2>
+        <h2>Sign Up</h2>
         <form className={classes.form}>
           <p>This is an error message</p>
           <input
