@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import PostItem from '../components/PostItem'
 import classes from './Posts.module.css'
-import dummyData from '../helpers/dataPost'
+import { dummy_Data } from '../helpers/dataPost'
 
 
 const Posts = () => {
-  const [posts, setPosts] = useState(dummyData);
+  const [posts, setPosts] = useState(dummy_Data);
   return (
     <section >
       <div className={classes.posts}>

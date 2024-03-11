@@ -2,22 +2,10 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import classes from './Authors.module.css'
 
-import face5 from '../assets/face-images/face-5.png'
-import face6 from '../assets/face-images/face-6.png'
-import face7 from '../assets/face-images/face-7.png'
-import face8 from '../assets/face-images/face-8.png'
-import face9 from '../assets/face-images/face-9.png'
-
-const usersData = [
-  { id: 5, image: face5, name: 'Angela Smith', posts: 3 },
-  { id: 6, image: face6, name: 'John Schmidt', posts: 4 },
-  { id: 7, image: face7, name: 'Dan Goldman', posts: 1 },
-  { id: 8, image: face8, name: 'Paula Lee', posts: 2 },
-  { id: 9, image: face9, name: 'Iris Silva', posts: 5 },
-]
+import { authorsData } from '../helpers/dataPost'
 
 const Authors = () => {
-  const [authors, setAuthors] = useState(usersData || []);
+  const [authors, setAuthors] = useState(authorsData || []);
 
   return (
     <section>

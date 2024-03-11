@@ -38,7 +38,7 @@ const UserProfile = () => {
   return (
     <section>
       <div className={classes.mainContainer}>
-        <Link to={`myposts/rsrsrs`}>My Posts</Link>
+        <Link to={`/myposts/rsrsrs`}>My Posts</Link>
         <div className={classes.profile}>
           <div className={classes.wrapperImg}>
             <div className={classes.containerImg}>
