@@ -1,0 +1,19 @@
+.dashboard {
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  padding: 1.6rem 7rem;
+  grid: 1rem;
+}
+
+.dashboardPost {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  background-color: var(--color-white);
+  padding: 2rem;
+}
+
+.imgContainer {
+  width: 4rem;
+}
