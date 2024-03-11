@@ -15,7 +15,7 @@ const Header = () => {
         </Link>
         <ul className={classes.navMenu}>
           <li>
-            <Link to="/profile">Ernest Smith</Link>
+            <Link to="/profile/rsrss">Ernest Smith</Link>
           </li>
           <li>
             <Link to="/create">Create Post</Link>
