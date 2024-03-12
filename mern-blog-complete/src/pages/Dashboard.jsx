@@ -19,9 +19,9 @@ const Dashboard = () => {
                   <h3>{item.title}</h3>
                 </div>
                 <div className={classes.btns}>
-                  <Link to={`/posts/${item.id}`}>View</Link>
-                  <Link to={`/posts/${item.id}/edit`}>Edit</Link>
-                  <Link to={`/posts/${item.id}/delete`}>Delete</Link>
+                  <Link className={classes.view} to={`/posts/${item.id}`}>View</Link>
+                  <Link className={classes.edit} to={`/posts/${item.id}/edit`}>Edit</Link>
+                  <Link className={classes.delete} to={`/posts/${item.id}/delete`}>Delete</Link>
                 </div>
 
               </article>
