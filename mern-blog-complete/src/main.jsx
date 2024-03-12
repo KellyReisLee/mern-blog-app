@@ -17,7 +17,7 @@ import AuthorPosts from './pages/AuthorPosts.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Logout from './pages/Logout.jsx'
 import Authors from './pages/Authors.jsx'
-
+import DeletePost from './pages/DeletePost.jsx'
 
 
 const router = createBrowserRouter([
@@ -36,6 +36,7 @@ const router = createBrowserRouter([
       { path: "posts/users/:id", element: <AuthorPosts /> },
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
+      { path: "posts/:id/delete", element: <DeletePost /> },
       { path: "logout", element: <Logout /> },
       { path: "authors", element: <Authors /> },
     ]
