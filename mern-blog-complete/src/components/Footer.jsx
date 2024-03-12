@@ -29,7 +29,7 @@ const Footer = () => {
 
       </ul>
       <div className={classes.copyright}>
-        <small>All Rights Reserved &copy; Copyright, Kelly Reis</small>
+        <small>Created by Kelly Reis - 2024</small>
 
       </div>
     </footer>

@@ -11,12 +11,13 @@ const Dashboard = () => {
         <div className={classes.dashboard}>
           {
             posts.map((item) => {
+
               return <article key={item.id} className={classes.dashboardPost}>
                 <div className={classes.imgContainer}>
                   <img src={item.image} alt={item.name} />
                 </div>
                 <div className={classes.title}>
-                  <h3>{item.title}</h3>
+                  <h3>{item.title.length > 20 ? `${item.title.slice(0, 20)}...` : `${item.title}`}</h3>
                 </div>
                 <div className={classes.btns}>
                   <Link className={classes.view} to={`/posts/${item.id}`}>View</Link>

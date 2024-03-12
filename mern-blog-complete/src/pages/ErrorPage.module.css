@@ -34,3 +34,39 @@
   border-radius: 20px;
 
 }
+
+
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+
+  .errorPg div {
+    text-align: center;
+    padding-top: 2rem;
+    margin-inline: center;
+    display: block;
+    width: 90%;
+
+  }
+
+  .errorPg a {
+    font-size: 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+  }
+
+
+  .errorPg h2 {
+    margin-top: 4rem;
+    font-size: 2rem;
+    color: var(--color-gray-700);
+    border: 10px solid var(--color-gray-700);
+    padding: 3.5rem;
+    border-radius: 20px;
+
+  }
+
+}

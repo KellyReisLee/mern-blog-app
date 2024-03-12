@@ -56,3 +56,17 @@
   background-color: var(--color-white);
   height: 10rem;
 }
+
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+
+  .container {
+    width: 80%;
+  }
+
+  .container h2 {
+    font-size: 2rem;
+  }
+}

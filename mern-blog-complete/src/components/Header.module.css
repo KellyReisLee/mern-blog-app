@@ -76,20 +76,28 @@
 
   .navMenu {
     position: absolute;
-    top: 5.1rem;
-    right: 0;
-    flex-direction: column;
+    border: none;
     gap: 0;
+    top: 5rem;
+    right: 0%;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+
 
   }
 
   .navHeader li {
+
     width: 100%;
     box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.3);
     animation: dropDown 500ms ease forwards;
     opacity: 0;
     transform: rotateX(90deg);
     transform-origin: top;
+
   }
 
   @keyframes dropDown {
@@ -115,7 +123,7 @@
 
   .navHeader li a {
     display: block;
-    background-color: aliceblue;
+    background-color: rgb(226, 224, 224);
     padding: 0.85rem 2.5rem;
   }
 

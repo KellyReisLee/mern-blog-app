@@ -65,3 +65,15 @@
 .delete {
   background-color: var(--color-red);
 }
+
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+
+  .mainContainer {
+    width: 80%;
+
+
+  }
+}

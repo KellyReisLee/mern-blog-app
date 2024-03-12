@@ -35,3 +35,30 @@
   border-top: 2px solid var(--color-gray-700);
   color: var(--color-white)
 }
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+  .footer {
+    margin-top: 2rem;
+  }
+
+  .footer ul {
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    gap: 1.2rem;
+    margin-bottom: 0;
+    padding: 0.1rem 3rem 1rem 3rem;
+
+
+  }
+
+  .footer ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+
+}

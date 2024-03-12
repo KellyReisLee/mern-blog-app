@@ -41,9 +41,15 @@ const Header = () => {
           </ul>
         )}
         {/* Navbar for a mobile */}
-        <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
-          {show ? <IoMdClose /> : < GiHamburgerMenu />}
-        </button>
+
+        {
+          window.innerWidth < 800 && (
+            <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
+              {show ? <IoMdClose /> : < GiHamburgerMenu />}
+            </button>
+          )
+        }
+
       </div>
     </nav>
   )

@@ -113,9 +113,11 @@ img {
 }
 
 
+
 section {
   margin-top: 7rem;
 }
+
 
 input,
 select,
@@ -127,8 +129,7 @@ textarea {
   background-color: #ffffff;
 }
 
-/* 
-main {} */
+
 
 .project-container {
   display: flex;
