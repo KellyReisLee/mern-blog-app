@@ -3,7 +3,8 @@
 :root {
   --color-primary: #6f6af8;
   --color-white: #ffff;
-  --color-red: red;
+  --color-red: rgba(221, 67, 67, 0.838);
+  ;
   --color-gray-100: #bbb;
   --color-gray-200: #999;
   --color-gray-300: #777;
@@ -126,16 +127,13 @@ textarea {
   background-color: #ffffff;
 }
 
-
-main {
-  display: flex;
-  flex: 1;
-
-}
+/* 
+main {} */
 
 .project-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+
 }
