@@ -66,3 +66,63 @@
   flex-direction: row;
   gap: 2rem;
 }
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+  .containerHeader {
+    position: relative;
+  }
+
+  .navMenu {
+    position: absolute;
+    top: 5.1rem;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+
+  }
+
+  .navHeader li {
+    width: 100%;
+    box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.3);
+    animation: dropDown 500ms ease forwards;
+    opacity: 0;
+    transform: rotateX(90deg);
+    transform-origin: top;
+  }
+
+  @keyframes dropDown {
+    to {
+      opacity: 1;
+      transform: rotateX(0);
+    }
+
+  }
+
+  .navHeader li:nth-child(2) {
+    animation-delay: 300ms;
+  }
+
+  .navHeader li:nth-child(3) {
+    animation-delay: 600ms;
+  }
+
+  .navHeader li:nth-child(4) {
+    animation-delay: 900ms;
+  }
+
+
+  .navHeader li a {
+    display: block;
+    background-color: aliceblue;
+    padding: 0.85rem 2.5rem;
+  }
+
+  .btnHeader {
+    display: inline-block;
+    background-color: transparent;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}

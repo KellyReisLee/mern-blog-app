@@ -42,3 +42,10 @@
   color: var(--color-gray-300);
   font-size: 0.7rem;
 }
+
+@media screen and (max-width: 800px) {
+
+  .authorContainer {
+    width: var(--container-width-md);
+  }
+}
