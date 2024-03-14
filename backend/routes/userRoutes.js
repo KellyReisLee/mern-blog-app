@@ -5,7 +5,8 @@ const {
   getUser,
   changeImgUser,
   editUser,
-  getAuthors
+  getAuthors,
+  getVerification
 } = require('../controllers/userController')
 
 const router = Router();
@@ -16,6 +17,7 @@ router.get('/:id', getUser)
 router.get('/', getAuthors)
 router.post('/change-avatar', changeImgUser)
 router.patch('/edit-user', editUser)
+router.get('/verify/:id/:token', getVerification)
 
 
 module.exports = router
