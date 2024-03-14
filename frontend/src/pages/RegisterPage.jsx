@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import classes from './Register.module.css'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const RegisterPage = () => {
   const [userData, setUserData] = useState({
@@ -9,6 +10,9 @@ const RegisterPage = () => {
     password: '',
     confirmPassword: ''
   })
+
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   const isValid = (password) => {
     // Regular expression for password validation
@@ -19,17 +23,20 @@ const RegisterPage = () => {
   }
 
   function validation() {
-    const { username, password, confirmPassword } = userData;
+    const { username, email, password, confirmPassword } = userData;
 
-    if (username.length < 4) {
-      alert('The username must contain at least 4 characters.')
+    if (!username || !email || !password || !confirmPassword) {
+      setError('All fields are required!')
+      return false
+    } else if (username.length < 4) {
+      setError('The username must contain at least 4 characters.')
       return false
     } else if (!isValid(password)) {
-      alert('Password must contain minimum 8 characters, including: 1 special character(! # $ % ?) and 1 capital letter.')
+      setError('Password must contain minimum 8 characters, including: 1 special character(! # $ % ?) and 1 capital letter.')
       return false
 
     } else if (password !== confirmPassword) {
-      alert('Password and Confirm Password have to match!')
+      setError('Password and Confirm Password have to match!')
       return false
     }
     return true
@@ -37,23 +44,31 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (validation) {
+    if (validation()) {
+      const { username, email, password, confirmPassword } = userData;
       try {
-        const { data } = await axios.post("/register", {
-          username, email, password
+        const data = await axios.post("api/users/register", {
+          username, email, password, confirmPassword
         })
 
-        if (data.error) {
-          alert(error)
+
+        if (!data) {
+          console.log(data.message);
         } else {
-          alert('Register Successful. Welcome!')
-          setUserData({})
+          setError('')
+          setSuccess('Register Successful. Check your email!')
+          setUserData({
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+          })
+
 
         }
 
       } catch (error) {
-        console.log(error);
+        setError(error.response.data.message)
       }
     }
 
@@ -61,9 +76,9 @@ const RegisterPage = () => {
 
 
 
-  function changeInputHandler(e) {
+  function changeInputHandler(identifier, e) {
     setUserData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value }
+      return { ...prev, [identifier]: e.target.value }
     })
 
   }
@@ -73,13 +88,19 @@ const RegisterPage = () => {
       <div className={classes.mainRegister}>
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className={classes.form}>
-          <p>This is an error message</p>
+          {error && (
+            <p className={classes.error}>{error}</p>
+          )}
+          {success && !error && (
+            <p className={classes.success}>{success}</p>
+          )}
+
           <input
             type='text'
             placeholder='Username'
             name='username'
             value={userData.username}
-            onChange={changeInputHandler}
+            onChange={(e) => changeInputHandler('username', e)}
             autoFocus
 
           />
@@ -89,7 +110,7 @@ const RegisterPage = () => {
             placeholder='Email'
             name='email'
             value={userData.email}
-            onChange={changeInputHandler}
+            onChange={(e) => changeInputHandler('email', e)}
 
           />
           {/* password */}
@@ -98,7 +119,7 @@ const RegisterPage = () => {
             placeholder='Password'
             name='password'
             value={userData.password}
-            onChange={changeInputHandler}
+            onChange={(e) => changeInputHandler('password', e)}
 
           />
           {/* confirm password */}
@@ -107,11 +128,12 @@ const RegisterPage = () => {
             placeholder='Confirm Password'
             name='confirmPassword'
             value={userData.confirmPassword}
-            onChange={changeInputHandler}
+            onChange={(e) => changeInputHandler('confirmPassword', e)}
 
           />
+          <button >Register</button>
         </form>
-        <button>Register</button>
+
         <small>Already have an account? <Link to="/login">Sign in</Link></small>
 
       </div>

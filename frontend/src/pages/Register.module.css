@@ -40,16 +40,27 @@
 }
 
 .form p {
-  background-color: rgba(221, 67, 67, 0.838);
+
   color: aliceblue;
-  font-size: 0.8rem;
-  padding: 0.4rem 0.7rem;
+  font-size: 1.1rem;
+  padding: 1rem 1rem;
   border-radius: var(--radius-1);
   margin-bottom: 0.4rem;
   font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
 
 }
+
+.error {
+  background-color: rgba(221, 67, 67, 0.838);
+
+}
+
+.success {
+  background-color: rgb(15, 111, 15);
+
+}
+
 
 .mainRegister button {
   width: 100%;
