@@ -18,6 +18,7 @@ import Dashboard from './pages/Dashboard.jsx'
 import Logout from './pages/Logout.jsx'
 import Authors from './pages/Authors.jsx'
 import DeletePost from './pages/DeletePost.jsx'
+import VerificationPage from './pages/VerificationPage.jsx'
 
 
 const router = createBrowserRouter([
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
       { path: "posts/:id/delete", element: <DeletePost /> },
       { path: "logout", element: <Logout /> },
       { path: "authors", element: <Authors /> },
+      { path: "verify/:id/:token", element: <VerificationPage /> }
     ]
 
   }
