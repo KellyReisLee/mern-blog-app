@@ -4,18 +4,18 @@ const bcrypt = require('bcrypt');
 const tokenModel = require("../model/token.js");
 const sendEmail = require("../utils/email")
 const crypto = require('crypto');
-
-
+const jwt = require('jsonwebtoken')
 
 
 // Register user.
 // POST: api/users/register
 // UNPROTECTED AREA
 const registerUser = async (req, res, next) => {
-  const { username, email, password, confirmPassword } = req.body;
-  const salt = await bcrypt.genSalt(10)
-  const hashedPass = await bcrypt.hash(password, salt)
+
   try {
+    const { username, email, password, confirmPassword } = req.body;
+    const salt = await bcrypt.genSalt(10)
+    const hashedPass = await bcrypt.hash(password, salt)
 
     if (!username || !email || !password || !confirmPassword) {
       return res.status(422).json({ message: "All fields are required" })
@@ -47,13 +47,14 @@ const registerUser = async (req, res, next) => {
       token: crypto.randomBytes(32).toString("hex"),
     })
 
-    const link = `${process.env.BASE_URL}/user/verify/${user.id}/${token.token}`
+    const link = `${process.env.BASE_URL}/users/verify/${user.id}/${token.token}`
     await sendEmail(user.email, "Verify Email", link, user.username);
 
     res.status(201).json({ message: 'You received an email.', user, token })
 
   } catch (error) {
-    console.log(error);
+
+    res.status(500).json({ message: "An error occurred trying create a user", error });
 
   }
 
@@ -64,10 +65,37 @@ const registerUser = async (req, res, next) => {
 // POST: api/users/login
 // UNPROTECTED AREA
 const loginUser = async (req, res, next) => {
-  res.json('Login controller')
 
+  try {
+    const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({ message: 'All fields are required!' })
+    }
+    const user = await userModel.findOne({ email }).select(-password)
+    if (!user) {
+      return res.status(400).json({ message: 'Email not found!' })
+    }
 
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
+        if (err) throw err;
+        res.cookie('token', token).json(user);
+
+      });
+
+      // res.status(200).json({ token });
+    }
+    if (!passwordMatch) {
+      return res.json({ error: 'Incorrect password' });
+    }
+
+  } catch (error) {
+    res.status(500).json({ message: "Login failed. Please check your credentials.", error });
+
+  }
 }
 
 
@@ -128,7 +156,7 @@ const getVerification = async (req, res, next) => {
     const user = await userModel.findOne({ _id: req.params.id })
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid user' })
+      return res.status(400).json({ message: 'Invalid link' })
     }
 
     const token = await tokenModel.findOne({
@@ -137,22 +165,19 @@ const getVerification = async (req, res, next) => {
     })
 
     if (!token) {
-      return res.status(400).json({ message: 'Invalid token' })
+      return res.status(400).json({ message: 'Invalid link' })
     }
 
     await userModel.updateOne({ _id: user._id, verified: true });
     await tokenModel.findByIdAndDelete(token._id);
 
-    res.status(200).json({ message: "Email verified successfully" })
+    res.status(200).json({ message: "Email verified successfully", user })
   } catch (error) {
     // Captura e trata qualquer erro interno
     console.error('Error during email verification:', error);
     res.status(500).json({ message: "An error occurred during email verification" });
   }
 }
-
-
-
 
 module.exports = {
   registerUser,
