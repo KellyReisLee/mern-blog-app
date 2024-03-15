@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import classes from './UserProfile.module.css'
 import avatar from '../assets/avatar.png'
 import { FaEdit } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa";
+import { UserContext } from '../../context/userContext'
 
 
 
 const UserProfile = () => {
 
+  const { userData } = useContext(UserContext);
   const [image, setImage] = useState('');
   const [imageState, setImageState] = useState(false);
-  const [userData, setUserData] = useState({
+  const [user, setUser] = useState({
     name: '',
     email: '',
     password: '',
@@ -22,7 +24,7 @@ const UserProfile = () => {
 
 
   function changeInputHandler(e) {
-    setUserData((prev) => {
+    setUser((prev) => {
       return { ...prev, [e.target.name]: e.target.value }
     })
 
@@ -39,7 +41,8 @@ const UserProfile = () => {
   return (
     <section>
       <div className={classes.mainContainer}>
-        <Link to={`/myposts/rsrsrs`}>My Posts</Link>
+        <Link to={`/myposts/rsrsrs
+        `}>My Posts</Link>
         <div className={classes.profile}>
           <div className={classes.wrapperImg}>
             <div className={classes.containerImg}>
@@ -52,24 +55,24 @@ const UserProfile = () => {
             {/* {image && setImageState && (<button className={classes.imageBtn}><FaCheck /></button>
             )} */}
           </div>
-          <h2>Kelly Reis</h2>
+          <h2>{userData.username}</h2>
           <form className={classes.form}>
             <p className={classes.error}>This is an error</p>
             {/* Name */}
-            <input name='name' type='text' placeholder='Full Name' value={userData.name} onChange={changeInputHandler} />
+            <input name='name' type='text' placeholder='Full Name' value={user.name} onChange={changeInputHandler} />
 
             {/* Email */}
-            <input name='email' type='text' placeholder='Email' value={userData.email} onChange={changeInputHandler} />
+            <input name='email' type='text' placeholder='Email' value={user.email} onChange={changeInputHandler} />
 
             {/* Current password */}
-            <input name='password' type='password' placeholder='Current Password' value={userData.password} onChange={changeInputHandler} />
+            <input name='password' type='password' placeholder='Current Password' value={user.password} onChange={changeInputHandler} />
 
             {/* New password */}
-            <input name='newPassword' type='password' placeholder='New Password' value={userData.newPassword} onChange={changeInputHandler} />
+            <input name='newPassword' type='password' placeholder='New Password' value={user.newPassword} onChange={changeInputHandler} />
 
 
             {/* Confirm New password */}
-            <input name='confirmNewPassword' type='password' placeholder='Confirm Password' value={userData.confirmNewPassword} onChange={changeInputHandler} />
+            <input name='confirmNewPassword' type='password' placeholder='Confirm Password' value={user.confirmNewPassword} onChange={changeInputHandler} />
             <button type='submit'>Update Profile</button>
           </form>
 

@@ -11,7 +11,9 @@ const userDataString = localStorage.getItem('user-data');
 const userDataLocal = JSON.parse(userDataString);
 
 const Header = () => {
+
   const { userData, setUserData } = useContext(UserContext);
+  console.log(userData);
   const navigation = useNavigate();
   useEffect(() => {
     setUserData(userDataLocal)
@@ -73,7 +75,7 @@ const Header = () => {
               {show && (
                 <ul className={classes.navMenu}>
                   <li>
-                    <Link to={`api/users/profile/${userData._id}`} onClick={handleCloseNav}>{userData.username}</Link>
+                    <Link to={`api/users/profile/${userData.id}`} onClick={handleCloseNav}>{userData.username}</Link>
                   </li>
                   <li>
                     <Link to="/create" onClick={handleCloseNav}>Create Post</Link>

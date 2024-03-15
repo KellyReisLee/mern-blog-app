@@ -22,6 +22,8 @@ import DeletePost from './pages/DeletePost.jsx'
 import VerificationPage from './pages/VerificationPage.jsx'
 import { UserContextProvider } from '../context/userContext'
 
+
+
 // Define a URL base para todas as requisições dentro do axios.
 axios.defaults.baseURL = 'http://localhost:4000';
 //Esta linha configura o Axios para enviar cookies junto com as requisições feitas para o servidor.

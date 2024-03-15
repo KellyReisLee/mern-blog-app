@@ -134,7 +134,7 @@ const RegisterPage = () => {
           <button >Register</button>
         </form>
 
-        <small>Already have an account? <Link to="/login">Sign in</Link></small>
+        <small>Already have an account? <Link to="/api/users/login">Sign in</Link></small>
 
       </div>
 
