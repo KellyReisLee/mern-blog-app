@@ -47,7 +47,7 @@ const router = createBrowserRouter([
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
       { path: "posts/:id/delete", element: <DeletePost /> },
-      { path: "logout", element: <Logout /> },
+      { path: "logout", element: <Home /> },
       { path: "authors", element: <Authors /> },
 
 

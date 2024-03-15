@@ -8,6 +8,7 @@ import { FaCheck } from "react-icons/fa";
 
 
 const UserProfile = () => {
+
   const [image, setImage] = useState('');
   const [imageState, setImageState] = useState(false);
   const [userData, setUserData] = useState({

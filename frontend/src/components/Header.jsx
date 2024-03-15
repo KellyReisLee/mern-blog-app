@@ -1,14 +1,26 @@
-import { useState } from 'react'
-import { Link } from "react-router-dom"
+import { useState, useContext, useEffect } from 'react'
+import { Link, useNavigate } from "react-router-dom"
 import Logo from '../assets/logo.jpg'
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import classes from './Header.module.css'
+import { UserContext } from '../../context/userContext'
+import axios from 'axios';
 
+const userDataString = localStorage.getItem('user-data');
+const userDataLocal = JSON.parse(userDataString);
 
 const Header = () => {
+  const { userData, setUserData } = useContext(UserContext);
+  const navigation = useNavigate();
+  useEffect(() => {
+    setUserData(userDataLocal)
+    console.log(userData);
+  }, [])
+
 
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
+  const [error, setError] = useState(false)
 
   function handleCloseNav() {
     if (window.innerWidth < 800) {
@@ -18,40 +30,117 @@ const Header = () => {
     }
   }
 
+
+  const handleLogout = () => {
+    setError(true)
+    // Faz a solicitação de logout
+    axios.get('/api/users/logout').then((res) => {
+
+      if (res.data.Message === 'Success Logout') {
+        console.log(res.data.Message);
+        localStorage.clear();
+
+
+      } else {
+        console.log('Error');
+      }
+
+    }
+    ).catch(err => console.log(err))
+    localStorage.clear();
+
+    handleCloseNav()
+    setUserData([])
+
+    setTimeout(() => {
+      window.location.reload(true)
+      navigation('/logout')
+    }, 2000);
+
+  };
+
+
   return (
-    <nav className={classes.navHeader}>
-      <div className={classes.containerHeader}>
-        <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
-          <img src={Logo} alt='logo-computer' />
-        </Link>
-        {show && (
-          <ul className={classes.navMenu}>
-            <li>
-              <Link to="/profile/rsrss" onClick={handleCloseNav}>Ernest Smith</Link>
-            </li>
-            <li>
-              <Link to="/create" onClick={handleCloseNav}>Create Post</Link>
-            </li>
-            <li>
-              <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
-            </li>
-            <li>
-              <Link to="/logout" onClick={handleCloseNav}>Logout</Link>
-            </li>
-          </ul>
-        )}
-        {/* Navbar for a mobile */}
 
-        {
-          window.innerWidth < 800 && (
-            <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
-              {show ? <IoMdClose /> : < GiHamburgerMenu />}
-            </button>
-          )
-        }
+    <>
+      <nav className={classes.navHeader}>
+        <div className={classes.containerHeader}>
+          {userData && (
+            <>
+              <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
+                <img src={Logo} alt='logo-computer' />
+              </Link>
+              {show && (
+                <ul className={classes.navMenu}>
+                  <li>
+                    <Link to={`api/users/profile/${userData._id}`} onClick={handleCloseNav}>{userData.username}</Link>
+                  </li>
+                  <li>
+                    <Link to="/create" onClick={handleCloseNav}>Create Post</Link>
+                  </li>
+                  <li>
+                    <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
+                  </li>
+                  <li>
+                    <Link to="/logout" onClick={handleLogout}>Logout</Link>
+                  </li>
+                </ul>
+              )}
+              {/* Navbar for a mobile */}
 
-      </div>
-    </nav>
+              {
+                window.innerWidth < 800 && (
+                  <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
+                    {show ? <IoMdClose /> : < GiHamburgerMenu />}
+                  </button>
+                )
+              }
+            </>
+          )}
+
+          {!userData && (
+            <>
+              <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
+                <img src={Logo} alt='logo-computer' />
+              </Link>
+              {show && (
+                <ul className={classes.navMenu}>
+
+                  <li>
+                    <Link to="/api/users/login" onClick={handleCloseNav}>Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
+                  </li>
+
+                </ul>
+              )}
+              {/* Navbar for a mobile */}
+
+              {
+                window.innerWidth < 800 && (
+                  <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
+                    {show ? <IoMdClose /> : < GiHamburgerMenu />}
+                  </button>
+                )
+              }
+            </>
+          )}
+
+
+        </div>
+
+
+
+      </nav>
+      {error && (
+        <div className={classes.error}>
+          <p>Logout Successfully!</p>
+        </div>
+      )}
+
+    </>
+
   )
 }
 

@@ -7,7 +7,7 @@ import axios from 'axios'
 const LoginPage = () => {
   const navigate = useNavigate();
   const { userData, setUserData } = useContext(UserContext)
-  console.log(userData._id);
+
   const [userDataLogin, setUserDataLogin] = useState({
     email: '',
     password: '',
@@ -15,6 +15,7 @@ const LoginPage = () => {
   })
   const [error, setError] = useState('')
 
+  console.log(userData);
   function changeInputHandler(identifier, e) {
     setUserDataLogin((prev) => {
       return { ...prev, [identifier]: e.target.value }
@@ -35,12 +36,13 @@ const LoginPage = () => {
       if (data.error) {
         setError(data.error)
       } else {
+        localStorage.setItem("user-data", JSON.stringify(data || []))
         setUserData(data);
         setUserDataLogin({
           email: '',
           password: '',
         });
-        navigate(`/api/users/profile/${userData._id}`)
+        navigate('/')
 
 
 

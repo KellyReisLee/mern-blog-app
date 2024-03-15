@@ -134,3 +134,40 @@
     cursor: pointer;
   }
 }
+
+.error {
+  margin-top: 0rem;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+}
+
+.error p {
+  background-color: rgb(15, 111, 15);
+  padding: 1rem;
+  width: 30%;
+  border-radius: var(--radius-1);
+  color: var(--color-white);
+  font-size: 1.3rem;
+  position: absolute;
+  top: 83px;
+  right: 3px;
+  z-index: 2;
+  /* animation: remove 3s; */
+  /* transform: translateX(0%); */
+
+}
+
+/* 
+@keyframes remove {
+
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(110%);
+  }
+} */
