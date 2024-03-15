@@ -72,17 +72,18 @@ const loginUser = async (req, res, next) => {
     if (!email || !password) {
       return res.status(400).json({ message: 'All fields are required!' })
     }
-    const user = await userModel.findOne({ email }).select(-password)
+    const user = await userModel.findOne({ email }).select(-password, -email).lean()
     if (!user) {
       return res.status(400).json({ message: 'Email not found!' })
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
 
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    const { id: _id, username, posts, verified } = user;
     if (passwordMatch) {
       const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) throw err;
-        res.cookie('token', token).json(user);
+        res.cookie('token', token).json({ token, username, posts, verified });
 
       });
 
@@ -94,7 +95,6 @@ const loginUser = async (req, res, next) => {
 
   } catch (error) {
     res.status(500).json({ message: "Login failed. Please check your credentials.", error });
-
   }
 }
 
@@ -103,7 +103,16 @@ const loginUser = async (req, res, next) => {
 // POST: api/users/:id
 // PROTECTED AREA
 const getUser = async (req, res, next) => {
-  res.json('Profile controller')
+  // const { token } = req.cookies;
+
+  // if (token) {
+  //   jwt.verify(token, process.env.SECRET, {}, (err, user) => {
+  //     if (err) throw err
+  //     res.json(user)
+  //   })
+  // } else {
+  //   res.json(null)
+  // }
 
 }
 
@@ -179,6 +188,13 @@ const getVerification = async (req, res, next) => {
   }
 }
 
+const userLogout = async (req, res) => {
+
+  res.clearCookie('token')
+  return res.json({ message: 'Success Logout' });
+
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -186,5 +202,6 @@ module.exports = {
   changeImgUser,
   editUser,
   getAuthors,
-  getVerification
+  getVerification,
+  userLogout
 }
