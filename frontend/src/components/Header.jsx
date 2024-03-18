@@ -15,11 +15,11 @@ const Header = () => {
   const { userData, setUserData } = useContext(UserContext);
   console.log(userData);
   const navigation = useNavigate();
+
   useEffect(() => {
     setUserData(userDataLocal)
     console.log(userData);
   }, [])
-
 
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
   const [error, setError] = useState(false)

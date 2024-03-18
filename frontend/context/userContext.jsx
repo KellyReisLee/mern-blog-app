@@ -12,16 +12,18 @@ export function UserContextProvider({ children }) {
   const [totalData, setTotalData] = useState([]);
   const [userData, setUserData] = useState({} || userDataObject);
 
-
-
   // useEffect(() => {
 
-  //   axios.get('').then(({ data }) => {
-  //     setUser(data)
-  //   })
+  //   const timer = setTimeout(() => {
+
+  //     localStorage.removeItem('user-data');
+  //     window.location.reload(true)
+  //   }, 3600000);
 
 
-  // }, [])
+  //   return () => clearTimeout(timer);
+  // }, []);
+
 
   return (
     <UserContext.Provider value={{ totalData, setTotalData, userData, setUserData }}>

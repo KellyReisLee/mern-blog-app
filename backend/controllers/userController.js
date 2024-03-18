@@ -83,12 +83,13 @@ const loginUser = async (req, res, next) => {
 
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-    const { username, posts, verified } = user;
+    const { username, posts, verified, avatar } = user;
     const id = user._id;
+
     if (passwordMatch) {
       const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) throw err;
-        res.cookie('token', token).json({ token, username, posts, verified, id });
+        res.cookie('token', token).json({ token, username, posts, verified, id, avatar });
 
       });
 
@@ -98,8 +99,12 @@ const loginUser = async (req, res, next) => {
       return res.json({ error: 'Incorrect password' });
     }
 
+    if (verified === false) {
+      return res.status(422).json({ message: 'User not Verified! Check your email and activate the link.' })
+    }
+
   } catch (error) {
-    res.status(500).json({ message: "Login failed. Please check your credentials.", error });
+    res.status(500).json({ error: "Login failed. Please check your credentials.", error });
   }
 }
 
@@ -111,7 +116,7 @@ const getUser = async (req, res, next) => {
 
   try {
     const token = req.cookies.token
-    console.log(token)
+    //console.log(token)
     if (token) {
       jwt.verify(token, process.env.SECRET, {}, (err, user) => {
         if (err) throw err
@@ -187,16 +192,26 @@ const changeImgUser = async (req, res) => {
         fileName = avatar.name;
         let splitName = fileName.split('.')
         let newFileName = splitName[0] + uuidv4() + '.' + splitName[splitName.length - 1]
+
+
+
+        // let splitedData = newFileName[newFileName.length - 1]
+        // let extensions = ['png', 'jpg', 'jpeg']
+        // if (extensions.indexOf(splitedData) === -1) {
+        //   return res.status(422).json({ error: 'Just these extensions are allowed: png, jpg, jpeg' })
+        // }
+
         avatar.mv(path.join(__dirname, '..', 'uploads', newFileName), async (err) => {
           if (err) {
             return json({ error: err })
           }
 
-          const updateUser = await userModel.findByIdAndUpdate(user.userId, { avatar: newFileName }, { new: true })
+          const updateUser = await userModel.findByIdAndUpdate(user.userId, { avatar: newFileName }, { new: true }).select('-password')
 
           if (!updateUser) {
-            return res.status(422).json({ message: 'Could not update user image.' })
+            return res.status(422).json({ error: 'Could not update user image.' })
           }
+
           res.status(200).json({ message: 'Image Updated!', updateUser })
 
         })
@@ -208,7 +223,7 @@ const changeImgUser = async (req, res) => {
 
 
   } catch (error) {
-    res.status(500).json({ message: "It's not possible change user image.", error, casa });
+    return res.status(500).json({ message: "It's not possible change user image.", error, casa });
   }
 
 }
@@ -249,12 +264,12 @@ const getAuthors = async (req, res, next) => {
 // Getting all users/authors.
 // GET: api/users/authors
 // UNPROTECTED AREA
-const getVerification = async (req, res, next) => {
+const getVerification = async (req, res) => {
   try {
     const user = await userModel.findOne({ _id: req.params.id })
 
     if (!user) {
-      return res.status(400).json({ message: 'Invalid link' })
+      return res.status(400).json({ message: 'Invalid user' })
     }
 
     const token = await tokenModel.findOne({
@@ -263,15 +278,20 @@ const getVerification = async (req, res, next) => {
     })
 
     if (!token) {
-      return res.status(400).json({ message: 'Invalid link' })
+      return res.status(400).json({ message: 'Invalid token' })
+    }
+    // await tokenModel.findByIdAndDelete(token._id);
+    const newUser = await userModel.updateOne({ _id: user._id }, { verified: true });
+
+
+    if (!newUser) {
+      return res.status(500).json({ message: "Not possible verify this user!" });
     }
 
-    await userModel.updateOne({ _id: user._id, verified: true });
-    await tokenModel.findByIdAndDelete(token._id);
 
-    res.status(200).json({ message: "Email verified successfully", user })
+    res.status(200).json({ message: "Email verified successfully!", user })
+
   } catch (error) {
-    // Captura e trata qualquer erro interno
     console.error('Error during email verification:', error);
     res.status(500).json({ message: "An error occurred during email verification" });
   }

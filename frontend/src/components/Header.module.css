@@ -155,12 +155,13 @@
   top: 83px;
   right: 3px;
   z-index: 2;
-  /* animation: remove 3s; */
-  /* transform: translateX(0%); */
+  animation: remove 3s;
+  transform: translateX(0%);
+
 
 }
 
-/* 
+
 @keyframes remove {
 
   from {
@@ -170,4 +171,4 @@
   to {
     transform: translateX(110%);
   }
-} */
+}

@@ -52,6 +52,7 @@ const LoginPage = () => {
       setError(error.response?.data?.message || 'unknown error');
     }
   }
+
   return (
     <section className={classes.login}>
       <div className={classes.mainLogin}>
@@ -80,11 +81,16 @@ const LoginPage = () => {
             onChange={(e) => changeInputHandler('password', e)}
 
           />
+
           <button>Login</button>
         </form>
+        <div className={classes.links}>
 
-        <small>Are you forgot the password? <Link to="/login">Click here!</Link></small>
+          <small >Are you forgot the password? <Link to="/login">Click here!</Link></small>
+          <br />
+          <small cla>Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
 
+        </div>
       </div>
 
     </section>
