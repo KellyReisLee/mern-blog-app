@@ -1,32 +1,21 @@
-import axios from "axios";
-import { createContext, useState } from "react";
+
+import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext({});
-
 
 // const userDataStorage = localStorage.getItem('user-data')
 // const userDataObject = JSON.parse(userDataStorage);
 
-
 export function UserContextProvider({ children }) {
   const [totalData, setTotalData] = useState([]);
-  const [userData, setUserData] = useState({} || userDataObject);
-
-  // useEffect(() => {
-
-  //   const timer = setTimeout(() => {
-
-  //     localStorage.removeItem('user-data');
-  //     window.location.reload(true)
-  //   }, 3600000);
+  const [userData, setUserData] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false)
 
 
-  //   return () => clearTimeout(timer);
-  // }, []);
 
 
   return (
-    <UserContext.Provider value={{ totalData, setTotalData, userData, setUserData }}>
+    <UserContext.Provider value={{ totalData, setTotalData, userData, setUserData, setLoggedIn }}>
       {children}
     </UserContext.Provider>
   )

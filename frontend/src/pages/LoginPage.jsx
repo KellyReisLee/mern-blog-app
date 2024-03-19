@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import classes from './LoginPage.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
@@ -6,8 +6,8 @@ import axios from 'axios'
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { userData, setUserData } = useContext(UserContext)
-
+  const { userData, setUserData, setLoggedIn } = useContext(UserContext)
+  console.log(userData);
   const [userDataLogin, setUserDataLogin] = useState({
     email: '',
     password: '',
@@ -16,6 +16,10 @@ const LoginPage = () => {
   const [error, setError] = useState('')
 
   console.log(userData);
+
+
+
+
   function changeInputHandler(identifier, e) {
     setUserDataLogin((prev) => {
       return { ...prev, [identifier]: e.target.value }
@@ -37,6 +41,7 @@ const LoginPage = () => {
         setError(data.error)
       } else {
         localStorage.setItem("user-data", JSON.stringify(data || []))
+        setLoggedIn(true)
         setUserData(data);
         setUserDataLogin({
           email: '',
@@ -45,12 +50,13 @@ const LoginPage = () => {
         navigate('/')
         window.location.reload(true)
 
-
       }
+
     } catch (error) {
       console.error('Erro ao efetuar login:', error);
       setError(error.response?.data?.message || 'unknown error');
     }
+
   }
 
   return (
@@ -88,7 +94,7 @@ const LoginPage = () => {
 
           <small >Are you forgot the password? <Link to="/login">Click here!</Link></small>
           <br />
-          <small cla>Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
+          <small >Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
 
         </div>
       </div>

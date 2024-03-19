@@ -19,7 +19,7 @@ router.get('/', getAuthors)
 router.post('/change-avatar', changeImgUser)
 router.patch('/edit-user', editUser)
 router.get('/verify/:id/:token', getVerification)
-router.get('/api/users/logout', userLogout)
+router.get('/api/users/logou', userLogout)
 
 
 module.exports = router

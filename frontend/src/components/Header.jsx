@@ -14,7 +14,7 @@ const userDataStorage = localStorage.getItem('user-data')
 const userDataObject = JSON.parse(userDataStorage);
 const Header = () => {
 
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData, setLoggedIn } = useContext(UserContext);
   console.log(userData);
   const navigation = useNavigate();
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
@@ -24,6 +24,24 @@ const Header = () => {
     setUserData(userDataObject)
     console.log(userData);
   }, [userData])
+
+
+  useEffect(() => {
+    const loggedOut = () => {
+      setLoggedIn(false)
+      localStorage.removeItem('user-data')
+      window.location.reload(true)
+    }
+    const loggedInFromStorage = localStorage.getItem('user-data') === 'true';
+    console.log(loggedInFromStorage);
+    if (userData) {
+      const timeoutId = setTimeout(loggedOut, 3600000);
+      return () => clearTimeout(timeoutId);
+    }
+
+
+  }, [userData])
+
 
 
   function handleCloseNav() {
@@ -40,26 +58,21 @@ const Header = () => {
     // Faz a solicitação de logout
     axios.get('/api/users/logout').then((res) => {
 
-      if (res.data.Message === 'Success Logout') {
+      if (res.data.message !== 'Success Logout') {
         console.log(res.data.Message);
         localStorage.clear();
+        setLoggedIn(false)
+        handleCloseNav()
+        setUserData([])
 
-
-      } else {
-        console.log('Error');
+        setTimeout(() => {
+          navigation('/logout')
+          window.location.reload(true)
+        }, 2000);
       }
 
     }
     ).catch(err => console.log(err))
-    localStorage.clear();
-
-    handleCloseNav()
-    setUserData([])
-
-    setTimeout(() => {
-      navigation('/logout')
-      window.location.reload(true)
-    }, 2000);
 
   };
 

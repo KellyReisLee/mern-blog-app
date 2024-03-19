@@ -165,9 +165,6 @@ const changeImgUser = async (req, res) => {
           return res.status(500).json({ message: "User not Authorized!", err });
         }
 
-
-
-
         //find the actual user from database and change data.
         const userData = await userModel.findById(user.userId);
         // Delete the old image.
@@ -178,7 +175,6 @@ const changeImgUser = async (req, res) => {
             }
           })
         }
-
 
 
         // New avatar:
@@ -235,8 +231,20 @@ const changeImgUser = async (req, res) => {
 // Edit user details .
 // POST: api/users/edit-user
 // PROTECTED AREA
-const editUser = async (req, res, next) => {
-  res.json('Edit user details controller')
+const editUser = async (req, res) => {
+  try {
+    const { username, email, currentPassword, newPassword, confirmNewPassword } = req.body;
+    if (!username || !email || !currentPassword || !newPassword || !confirmNewPassword) {
+      return res.status(422).json({ error: 'All fields are required' })
+    }
+
+    // get user to update data:
+    const user = await userModel.findOne({ _id: req.params.id })
+    res.json(user)
+
+  } catch (error) {
+    return res.status(500).json({ message: "It's not possible change the user data.", error, casa });
+  }
 
 }
 
@@ -301,8 +309,12 @@ const getVerification = async (req, res) => {
 // Logout logic
 
 const userLogout = async (req, res) => {
-  res.clearCookie('token')
-  return res.json({ message: 'Success Logout' });
+  try {
+    res.clearCookie('token')
+    return res.json({ message: 'Successfully Logout' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Could not logged out user.', error })
+  }
 
 }
 

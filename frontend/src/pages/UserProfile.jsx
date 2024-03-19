@@ -6,24 +6,27 @@ import { Link } from 'react-router-dom';
 import { MdSaveAlt } from "react-icons/md";
 import { UserContext } from '../../context/userContext'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 
 
 const UserProfile = () => {
-
+  const navigate = useNavigate()
   const { userData, setUserData } = useContext(UserContext);
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('');
   const [imageState, setImageState] = useState(false);
   const [error, setError] = useState('')
   const [user, setUser] = useState({
-    name: '',
+    username: '',
     email: '',
-    password: '',
+    currentPassword: '',
     newPassword: '',
     confirmNewPassword: ''
 
   })
+
+
 
 
   console.log(userData);
@@ -59,6 +62,8 @@ const UserProfile = () => {
           setMessage('')
           localStorage.setItem('user-data', JSON.stringify(response.data.updateUser));
           window.location.reload(true)
+          navigate('/')
+
         }, 3000);
 
       }
@@ -92,13 +97,13 @@ const UserProfile = () => {
             {message && !error && <p className={classes.message}>{message}</p>}
             {error && <p className={classes.error}>{error}</p>}
             {/* Name */}
-            <input name='name' type='text' placeholder='Full Name' value={user.name} onChange={changeInputHandler} />
+            <input name='username' type='text' placeholder='Username' value={user.username} onChange={changeInputHandler} />
 
             {/* Email */}
             <input name='email' type='text' placeholder='Email' value={user.email} onChange={changeInputHandler} />
 
             {/* Current password */}
-            <input name='password' type='password' placeholder='Current Password' value={user.password} onChange={changeInputHandler} />
+            <input name='currentPassword' type='password' placeholder='Current Password' value={user.password} onChange={changeInputHandler} />
 
             {/* New password */}
             <input name='newPassword' type='password' placeholder='New Password' value={user.newPassword} onChange={changeInputHandler} />
