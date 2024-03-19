@@ -1,11 +1,11 @@
 import axios from "axios";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const UserContext = createContext({});
 
 
-const userData = localStorage.getItem('user-data')
-const userDataObject = JSON.parse(userData);
+// const userDataStorage = localStorage.getItem('user-data')
+// const userDataObject = JSON.parse(userDataStorage);
 
 
 export function UserContextProvider({ children }) {

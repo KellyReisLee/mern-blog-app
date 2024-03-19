@@ -75,7 +75,6 @@
 }
 
 .profile h2 {
-  margin-top: 0.6rem;
   color: var(--color-gray-700);
   font-family: "Urbanist", sans-serif;
 }
@@ -128,7 +127,7 @@
   margin-bottom: 0.4rem;
   font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
-  margin-top: 2rem;
+  margin-top: 0.4rem;
 
 }
 

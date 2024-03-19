@@ -20,15 +20,12 @@ const VerificationPage = () => {
         const { data } = await axios.get(`api/users/verify/${id}/${token}`)
         console.log(data);
         if (!data) {
-          setError('Not possible verify data drom the user.')
+          setError('Not possible verify data from the user.')
         }
-        localStorage.setItem("user-data", JSON.stringify(data.user || []))
         setMessage(data.message)
-        setUserData(data.user)
-
 
         setTimeout(() => {
-          navigate('/')
+          navigate('/api/users/login')
         }, 2000);
 
       } catch (error) {

@@ -7,22 +7,24 @@ import classes from './Header.module.css'
 import { UserContext } from '../../context/userContext'
 import axios from 'axios';
 
-const userDataString = localStorage.getItem('user-data');
-const userDataLocal = JSON.parse(userDataString);
 
+
+
+const userDataStorage = localStorage.getItem('user-data')
+const userDataObject = JSON.parse(userDataStorage);
 const Header = () => {
 
   const { userData, setUserData } = useContext(UserContext);
   console.log(userData);
   const navigation = useNavigate();
-
-  useEffect(() => {
-    setUserData(userDataLocal)
-    console.log(userData);
-  }, [])
-
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    setUserData(userDataObject)
+    console.log(userData);
+  }, [userData])
+
 
   function handleCloseNav() {
     if (window.innerWidth < 800) {
@@ -55,8 +57,8 @@ const Header = () => {
     setUserData([])
 
     setTimeout(() => {
-      window.location.reload(true)
       navigation('/logout')
+      window.location.reload(true)
     }, 2000);
 
   };

@@ -13,6 +13,7 @@ const RegisterPage = () => {
 
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const isValid = (password) => {
     // Regular expression for password validation
@@ -32,9 +33,12 @@ const RegisterPage = () => {
       setError('The username must contain at least 4 characters.')
       return false
     } else if (!isValid(password)) {
-      setError('Password must contain minimum 8 characters, including: 1 special character(! # $ % ?) and 1 capital letter.')
+      setError('Password must contain minimum 8 characters, including: 1 lowercase letter, 1 special character(@$!%*?&), 1 capital letter and at least 1 number(0-9)')
       return false
 
+    } else if (password.length > 20 || confirmPassword.length > 20) {
+      setError('Password cannot be longer than 20 characters.')
+      return false
     } else if (password !== confirmPassword) {
       setError('Password and Confirm Password have to match!')
       return false
@@ -44,27 +48,27 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (validation()) {
       const { username, email, password, confirmPassword } = userData;
       try {
         const data = await axios.post("api/users/register", {
           username, email, password, confirmPassword
         })
-
+        setLoading(true)
 
         if (!data) {
           console.log(data.message);
         } else {
           setError('')
-          setSuccess('Register Successful. Check your email!')
+          setSuccess('Register Successfully! Check your email!')
           setUserData({
             username: '',
             email: '',
             password: '',
             confirmPassword: ''
           })
-
-
+          setLoading(false)
         }
 
       } catch (error) {
@@ -94,6 +98,7 @@ const RegisterPage = () => {
           {success && !error && (
             <p className={classes.success}>{success}</p>
           )}
+          {loading && !error && !message && <p>Loading...</p>}
 
           <input
             type='text'
@@ -116,6 +121,7 @@ const RegisterPage = () => {
           {/* password */}
           <input
             type='password'
+
             placeholder='Password'
             name='password'
             value={userData.password}
@@ -125,6 +131,7 @@ const RegisterPage = () => {
           {/* confirm password */}
           <input
             type='password'
+
             placeholder='Confirm Password'
             name='confirmPassword'
             value={userData.confirmPassword}
@@ -138,7 +145,7 @@ const RegisterPage = () => {
 
       </div>
 
-    </section>
+    </section >
   )
 }
 

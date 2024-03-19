@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import classes from './UserProfile.module.css'
 import avatar from '../assets/avatar.png'
 import { FaEdit } from "react-icons/fa";
@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { MdSaveAlt } from "react-icons/md";
 import { UserContext } from '../../context/userContext'
 import axios from 'axios';
-
 
 
 
@@ -26,6 +25,8 @@ const UserProfile = () => {
 
   })
 
+
+  console.log(userData);
 
   function changeInputHandler(e) {
     setUser((prev) => {
@@ -54,6 +55,12 @@ const UserProfile = () => {
         setUserData(response.data.updateUser)
         setImageState(false)
         setMessage(response.data.message)
+        setTimeout(() => {
+          setMessage('')
+          localStorage.setItem('user-data', JSON.stringify(response.data.updateUser));
+          window.location.reload(true)
+        }, 3000);
+
       }
     } catch (error) {
       setError('Error uploading image.');
@@ -65,12 +72,12 @@ const UserProfile = () => {
   return (
     <section>
       <div className={classes.mainContainer}>
-        <Link to={`/myposts/${userData.id}
+        <Link to={`/myposts/${userData._id}
         `}>My Posts</Link>
         <div className={classes.profile}>
           <div className={classes.wrapperImg}>
             <div className={classes.containerImg}>
-              <img src={userData.avatar ? `http://localhost:4000/uploads/${userData.avatar}` : avatar} alt='user image' />
+              <img src={!userData.avatar ? avatar : `http://localhost:4000/uploads/${userData.avatar}`} alt='user image' />
             </div>
             <form className={classes.imageForm}>
               <input onChange={e => setImage(e.target.files[0])} type='file' name="image" id="image" accept='png, jpeg, jpg' />
