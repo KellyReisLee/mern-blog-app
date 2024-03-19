@@ -42,7 +42,8 @@ const registerUser = async (req, res, next) => {
     const user = await userModel.create({
       username,
       email,
-      password: hashedPass
+      password: hashedPass,
+
     })
 
     const token = await tokenModel.create({
@@ -289,13 +290,15 @@ const getVerification = async (req, res) => {
     }
 
 
-    res.status(200).json({ message: "Email verified successfully!", user })
+    res.status(200).json({ message: "Email verified successfully! You will be redirect to the Login Page." })
 
   } catch (error) {
     console.error('Error during email verification:', error);
     res.status(500).json({ message: "An error occurred during email verification" });
   }
 }
+
+// Logout logic
 
 const userLogout = async (req, res) => {
   res.clearCookie('token')
