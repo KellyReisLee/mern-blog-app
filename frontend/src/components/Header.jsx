@@ -8,7 +8,7 @@ import { UserContext } from '../../context/userContext'
 import axios from 'axios';
 
 
-
+const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click', 'load'];
 
 const userDataStorage = localStorage.getItem('user-data')
 const userDataObject = JSON.parse(userDataStorage);
@@ -25,22 +25,42 @@ const Header = () => {
     console.log(userData);
   }, [userData])
 
+  let timer;
+  const resetTimer = () => {
+    if (timer) clearTimeout(timer);
+  };
+
+  const logoutAction = () => {
+    localStorage.clear();
+    navigation('/api/users/login')
+    window.location.reload(true)
+  };
+
+  const handleLogoutTimer = () => {
+    timer = setTimeout(() => {
+      // clears any pending timer.
+      resetTimer();
+      // Listener clean up. Removes the existing event listener from the window
+      Object.values(events).forEach((item) => {
+        window.removeEventListener(item, resetTimer);
+      });
+      // logs out user
+      logoutAction();
+    }, 600000); // 10000ms = 10secs. You can change the time.
+  };
+
 
   useEffect(() => {
-    const loggedOut = () => {
-      setLoggedIn(false)
-      localStorage.removeItem('user-data')
-      window.location.reload(true)
-    }
-    const loggedInFromStorage = localStorage.getItem('user-data') === 'true';
-    console.log(loggedInFromStorage);
-    if (userData) {
-      const timeoutId = setTimeout(loggedOut, 3600000);
-      return () => clearTimeout(timeoutId);
-    }
+    Object.values(events).forEach((item) => {
+      window.addEventListener(item, () => {
+        resetTimer();
+        handleLogoutTimer();
+      });
+    });
+  }, []);
 
 
-  }, [userData])
+
 
 
 
@@ -66,6 +86,7 @@ const Header = () => {
         setUserData([])
 
         setTimeout(() => {
+          setError(false)
           navigation('/logout')
           window.location.reload(true)
         }, 2000);
@@ -150,8 +171,8 @@ const Header = () => {
 
 
       </nav>
-      {error && (
-        <div className={classes.error}>
+      {(
+        <div className={error ? `${classes.error}` : `${classes.displayNone}`}>
           <p>Logout Successfully!</p>
         </div>
       )}

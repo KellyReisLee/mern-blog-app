@@ -88,7 +88,7 @@ const RegisterPage = () => {
   }
 
   return (
-    <section className={classes.register}>
+    <div className={classes.register}>
       <div className={classes.mainRegister}>
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className={classes.form}>
@@ -145,7 +145,7 @@ const RegisterPage = () => {
 
       </div>
 
-    </section >
+    </ div>
   )
 }
 

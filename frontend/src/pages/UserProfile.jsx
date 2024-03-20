@@ -6,12 +6,14 @@ import { Link } from 'react-router-dom';
 import { MdSaveAlt } from "react-icons/md";
 import { UserContext } from '../../context/userContext'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
 
 
+
+
+const userDataStorage = localStorage.getItem('user-data')
+const userDataObject = JSON.parse(userDataStorage);
 
 const UserProfile = () => {
-  const navigate = useNavigate()
   const { userData, setUserData } = useContext(UserContext);
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('');
@@ -26,10 +28,24 @@ const UserProfile = () => {
 
   })
 
+  useEffect(() => {
+    setUserData(userDataObject)
+    console.log(userData);
 
+    if (userData.avatar) {
+      let splitedData = userData.avatar.split('.')
+      let lastPart = splitedData[splitedData.length - 1]
+      let extensions = ['png', 'jpg', 'jpeg']
+      if (extensions.indexOf(lastPart) === -1) {
+        setError('Just these images extensions are allowed: png, jpg, jpeg')
+      }
+      else {
+        setError('')
+      }
+    }
 
+  }, [userData])
 
-  console.log(userData);
 
   function changeInputHandler(e) {
     setUser((prev) => {
@@ -44,6 +60,7 @@ const UserProfile = () => {
 
   const handleSubmitImg = async () => {
     setImageState(false)
+
     try {
       const formData = new FormData();
       formData.append('avatar', image);
@@ -53,25 +70,26 @@ const UserProfile = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response);
+
       if (response) {
         setUserData(response.data.updateUser)
         setImageState(false)
         setMessage(response.data.message)
+        localStorage.setItem('user-data', JSON.stringify(response.data.updateUser));
+        window.location.reload(true)
         setTimeout(() => {
           setMessage('')
-          localStorage.setItem('user-data', JSON.stringify(response.data.updateUser));
-          window.location.reload(true)
-          navigate('/')
-
-        }, 3000);
+        }, 4000);
 
       }
     } catch (error) {
-      setError('Error uploading image.');
+      setError('Error uploading image.', error);
+
 
     }
   };
+
+
 
 
   return (
@@ -82,7 +100,10 @@ const UserProfile = () => {
         <div className={classes.profile}>
           <div className={classes.wrapperImg}>
             <div className={classes.containerImg}>
-              <img src={!userData.avatar ? avatar : `http://localhost:4000/uploads/${userData.avatar}`} alt='user image' />
+              <img src={!userData.avatar ? avatar : `http://localhost:4000/uploads/${userData.avatar}`} alt='user image' onError={(e) => {
+                e.currentTarget.src = avatar,
+                  e.currentTarget.onerror = null
+              }} />
             </div>
             <form className={classes.imageForm}>
               <input onChange={e => setImage(e.target.files[0])} type='file' name="image" id="image" accept='png, jpeg, jpg' />
@@ -95,7 +116,7 @@ const UserProfile = () => {
           <h2 className={classes.username}>{userData.username}</h2>
           <form className={classes.form}>
             {message && !error && <p className={classes.message}>{message}</p>}
-            {error && <p className={classes.error}>{error}</p>}
+            {error && !message && <p className={classes.error}>{error}</p>}
             {/* Name */}
             <input name='username' type='text' placeholder='Username' value={user.username} onChange={changeInputHandler} />
 
@@ -116,7 +137,7 @@ const UserProfile = () => {
 
         </div>
       </div>
-    </section>
+    </section >
   )
 }
 

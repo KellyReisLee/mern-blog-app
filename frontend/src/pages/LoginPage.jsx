@@ -7,7 +7,6 @@ import axios from 'axios'
 const LoginPage = () => {
   const navigate = useNavigate();
   const { userData, setUserData, setLoggedIn } = useContext(UserContext)
-  console.log(userData);
   const [userDataLogin, setUserDataLogin] = useState({
     email: '',
     password: '',
@@ -16,8 +15,6 @@ const LoginPage = () => {
   const [error, setError] = useState('')
 
   console.log(userData);
-
-
 
 
   function changeInputHandler(identifier, e) {
@@ -60,7 +57,7 @@ const LoginPage = () => {
   }
 
   return (
-    <section className={classes.login}>
+    <div className={classes.login}>
       <div className={classes.mainLogin}>
         <h2>Sign In</h2>
         <form onSubmit={handleLoginUser} className={classes.form}>
@@ -99,7 +96,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-    </section>
+    </div>
   )
 }
 
