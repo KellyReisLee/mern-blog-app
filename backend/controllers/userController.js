@@ -220,7 +220,7 @@ const changeImgUser = async (req, res) => {
 
 
   } catch (error) {
-    return res.status(500).json({ message: "It's not possible change user image.", error, casa });
+    return res.status(500).json({ message: "It's not possible change user image.", error });
   }
 
 }
