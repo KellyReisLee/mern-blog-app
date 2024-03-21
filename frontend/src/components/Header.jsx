@@ -10,30 +10,56 @@ import axios from 'axios';
 
 const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click', 'load'];
 
+
+
 const userDataStorage = localStorage.getItem('user-data')
 const userDataObject = JSON.parse(userDataStorage);
+
 const Header = () => {
 
-  const { userData, setUserData, setLoggedIn } = useContext(UserContext);
-  console.log(userData);
+  const { userData, setUserData, setLoggedIn, loggedIn } = useContext(UserContext);
   const navigation = useNavigate();
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
   const [error, setError] = useState(false)
 
-  useEffect(() => {
-    setUserData(userDataObject)
-    console.log(userData);
-  }, [userData])
+  // useEffect(() => {
+  //   setUserData(userDataObject)
+  //   console.log(userData);
+
+  // }, [userData])
+
+  console.log(userData);
+
+  function handleCloseNav() {
+    if (window.innerWidth < 800) {
+      setShow(false)
+    } else {
+      setShow(true)
+    }
+  }
+
+  // console.log(userData);
 
   let timer;
   const resetTimer = () => {
     if (timer) clearTimeout(timer);
   };
 
+  console.log(userData);
+
   const logoutAction = () => {
+    handleCloseNav()
+    if (userData) {
+      setUserData(null)
+    }
     localStorage.clear();
+    setLoggedIn(false)
+    setUserData(userDataObject)
+
     navigation('/api/users/login')
     window.location.reload(true)
+
+
   };
 
   const handleLogoutTimer = () => {
@@ -46,8 +72,8 @@ const Header = () => {
       });
       // logs out user
       logoutAction();
-    }, 600000); // 10000ms = 10secs. You can change the time.
-  };
+    }, 600000);
+  }
 
 
   useEffect(() => {
@@ -55,25 +81,14 @@ const Header = () => {
       window.addEventListener(item, () => {
         resetTimer();
         handleLogoutTimer();
+
       });
     });
   }, []);
 
 
-
-
-
-
-  function handleCloseNav() {
-    if (window.innerWidth < 800) {
-      setShow(false)
-    } else {
-      setShow(true)
-    }
-  }
-
-
   const handleLogout = () => {
+
     setError(true)
     // Faz a solicitação de logout
     axios.get('/api/users/logout').then((res) => {
@@ -83,12 +98,13 @@ const Header = () => {
         localStorage.clear();
         setLoggedIn(false)
         handleCloseNav()
-        setUserData([])
+        setUserData({})
+        setError(false)
 
+        window.location.reload(true)
         setTimeout(() => {
-          setError(false)
-          navigation('/logout')
-          window.location.reload(true)
+          navigation('/api/users/logout')
+
         }, 2000);
       }
 
@@ -111,7 +127,7 @@ const Header = () => {
               {show && (
                 <ul className={classes.navMenu}>
                   <li>
-                    <Link to={`api/users/profile/${userData.id}`} onClick={handleCloseNav}>{userData.username}</Link>
+                    <Link to={`api/users/profile/${userData._id}`} onClick={handleCloseNav}>{userData.username}</Link>
                   </li>
                   <li>
                     <Link to="/create" onClick={handleCloseNav}>Create Post</Link>

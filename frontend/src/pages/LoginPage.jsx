@@ -6,15 +6,13 @@ import axios from 'axios'
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { userData, setUserData, setLoggedIn } = useContext(UserContext)
+  const { setUserData, setLoggedIn } = useContext(UserContext)
   const [userDataLogin, setUserDataLogin] = useState({
     email: '',
     password: '',
 
   })
   const [error, setError] = useState('')
-
-  console.log(userData);
 
 
   function changeInputHandler(identifier, e) {
@@ -33,11 +31,11 @@ const LoginPage = () => {
 
     try {
       const { data } = await axios.post("/api/users/login", { email, password })
-
+      //console.log(data);
       if (data.error) {
         setError(data.error)
       } else {
-        localStorage.setItem("user-data", JSON.stringify(data || []))
+        localStorage.setItem("user-data", JSON.stringify(data))
         setLoggedIn(true)
         setUserData(data);
         setUserDataLogin({
@@ -46,6 +44,7 @@ const LoginPage = () => {
         });
         navigate('/')
         window.location.reload(true)
+
 
       }
 

@@ -3,8 +3,8 @@ import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext({});
 
-// const userDataStorage = localStorage.getItem('user-data')
-// const userDataObject = JSON.parse(userDataStorage);
+const userDataStorage = localStorage.getItem('user-data')
+const userDataObject = JSON.parse(userDataStorage);
 
 export function UserContextProvider({ children }) {
   const [totalData, setTotalData] = useState([]);
@@ -13,9 +13,16 @@ export function UserContextProvider({ children }) {
 
 
 
+  console.log(loggedIn);
+
+  useEffect(() => {
+    setUserData(userDataObject)
+    console.log(userData);
+
+  }, [userData])
 
   return (
-    <UserContext.Provider value={{ totalData, setTotalData, userData, setUserData, setLoggedIn }}>
+    <UserContext.Provider value={{ totalData, setTotalData, userData, setUserData, setLoggedIn, loggedIn }}>
       {children}
     </UserContext.Provider>
   )
