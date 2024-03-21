@@ -23,12 +23,17 @@ const registerUser = async (req, res, next) => {
     if (!username || !email || !password || !confirmPassword) {
       return res.status(422).json({ message: "All fields are required" })
     }
+
+    const existUsername = await userModel.findOne({ username })
+    if (existUsername) {
+      return res.status(422).json({ message: 'This Username already exist. Try a different one.' })
+    }
     if (username.length < 4) {
       return res.status(422).json({ message: 'Username should at least 4 characters. ' })
     }
     const existEmail = await userModel.findOne({ email });
     if (existEmail) {
-      return res.status(422).json({ message: 'This user already exist.' })
+      return res.status(422).json({ message: 'This Email already exist.' })
     }
 
     if ((password.trim()).length < 8) {
@@ -38,6 +43,8 @@ const registerUser = async (req, res, next) => {
     if (password !== confirmPassword) {
       return res.status(422).json({ message: 'Password and Confirm Password should match.' })
     }
+
+
 
     const user = await userModel.create({
       username,
@@ -88,9 +95,9 @@ const loginUser = async (req, res, next) => {
     const id = user._id;
 
     if (passwordMatch) {
-      const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
+      const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '10m' }, (err, token) => {
         if (err) throw err;
-        res.cookie('token', token).json({ token, username, posts, verified, id, avatar });
+        res.cookie('token', token).json({ token, username, posts, verified, _id: id, avatar });
 
       });
 
@@ -150,19 +157,19 @@ const changeImgUser = async (req, res) => {
   try {
 
     if (!req.files.avatar) {
-      return res.status(422).json({ message: 'Please! Add an image.' })
+      return res.status(422).json({ error: 'Please! Add an image.' })
     }
 
 
     // Checking token data
     const token = req.cookies.token;
     if (!token) {
-      return res.status(500).json('User Not Authorized!')
+      return res.status(500).json({ error: 'User Not Authorized!' })
     }
     if (token) {
-      jwt.verify(token, process.env.SECRET, {}, async (err, user) => {
-        if (err) {
-          return res.status(500).json({ message: "User not Authorized!", err });
+      jwt.verify(token, process.env.SECRET, {}, async (error, user) => {
+        if (error) {
+          return res.status(500).json({ error: "User not Authorized!", error });
         }
 
         //find the actual user from database and change data.
@@ -184,19 +191,24 @@ const changeImgUser = async (req, res) => {
         }
 
 
+
         // Changing file's name
-        let fileName;
         fileName = avatar.name;
         let splitName = fileName.split('.')
         let newFileName = splitName[0] + uuidv4() + '.' + splitName[splitName.length - 1]
 
 
 
-        // let splitedData = newFileName[newFileName.length - 1]
-        // let extensions = ['png', 'jpg', 'jpeg']
-        // if (extensions.indexOf(splitedData) === -1) {
-        //   return res.status(422).json({ error: 'Just these extensions are allowed: png, jpg, jpeg' })
+        // if (avatar.name) {
+        //   let splitedData = splitName[splitName.length - 1]
+        //   let extensions = ['png', 'jpg', 'jpeg']
+        //   if (extensions.indexOf(splitedData) === -1) {
+        //     return res.status(422).json({ error: 'Just these extensions are allowed: png, jpg, jpeg' })
+        //   }
+
         // }
+
+
 
         avatar.mv(path.join(__dirname, '..', 'uploads', newFileName), async (err) => {
           if (err) {
@@ -233,17 +245,59 @@ const changeImgUser = async (req, res) => {
 // PROTECTED AREA
 const editUser = async (req, res) => {
   try {
+
+    const id = req.params.id;
     const { username, email, currentPassword, newPassword, confirmNewPassword } = req.body;
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassEdit = await bcrypt.hash(newPassword, salt)
+
+    // All fields are required.
     if (!username || !email || !currentPassword || !newPassword || !confirmNewPassword) {
-      return res.status(422).json({ error: 'All fields are required' })
+      return res.status(422).json({ message: 'All fields are required!' })
     }
 
-    // get user to update data:
-    const user = await userModel.findOne({ _id: req.params.id })
-    res.json(user)
+    // // get user to update data:
+    const user = await userModel.findById(id)
+    if (!user) {
+      return res.status(403).json({ error: 'User not found!' })
+    }
+
+    const userExist = await userModel.findOne({ username: username });
+    if (userExist && (userExist._id != id)) {
+      return res.status(422).json({ error: 'This username already exist. Please! Try another one.' })
+    }
+
+    const emailExist = await userModel.findOne({ email: email });
+    if (emailExist && (emailExist._id != id)) {
+      return res.status(422).json({ error: 'This email already exist. Please! Try another one.' })
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(422).json({ error: 'The New Password and the Confirm New Password have to match.' })
+    }
+
+    if (currentPassword === newPassword) {
+      return res.status(422).json({ error: 'The New Password must be different from the Current Password.' })
+    }
+
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(422).json({ error: 'Please! The Current Password is wrong. Try again.' })
+    }
+
+    const updatedUser = await userModel.findByIdAndUpdate(id, { username: username, email: email, password: hashedPassEdit, id: id }, { new: true })
+
+
+    if (!updatedUser) {
+      return res.status(422).json({ error: 'Could not update user. Trye later!' })
+    }
+
+    let updatedUserInfo = await userModel.findById(id).select('-password').select('-email')
+
+    res.status(200).json({ message: 'User updated!', updatedUserInfo })
 
   } catch (error) {
-    return res.status(500).json({ message: "It's not possible change the user data.", error, casa });
+    return res.json({ error: "It's not possible change the user data.", error });
   }
 
 }
@@ -309,13 +363,8 @@ const getVerification = async (req, res) => {
 // Logout logic
 
 const userLogout = async (req, res) => {
-  try {
-    res.clearCookie('token')
-    return res.json({ message: 'Successfully Logout' });
-  } catch (error) {
-    return res.status(500).json({ message: 'Could not logged out user.', error })
-  }
-
+  res.clearCookie('token')
+  return res.json({ message: 'Successfully Logout' });
 }
 
 module.exports = {

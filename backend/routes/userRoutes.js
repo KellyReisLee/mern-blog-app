@@ -17,9 +17,9 @@ router.post('/login', loginUser)
 router.get('/:id', getUser)
 router.get('/', getAuthors)
 router.post('/change-avatar', changeImgUser)
-router.patch('/edit-user', editUser)
+router.patch('/:id/edit-user', editUser)
 router.get('/verify/:id/:token', getVerification)
-router.get('/api/users/logou', userLogout)
+router.get('/api/users/logout', userLogout)
 
 
 module.exports = router
