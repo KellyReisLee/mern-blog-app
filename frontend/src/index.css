@@ -45,17 +45,17 @@
 html {
   background-color: var(--color-main-box);
 
+
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  /* font-size: 0.9rem;
+  line-height: 1.6; */
   color: var(--color-gray-300);
+
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
 
 
 }
@@ -79,7 +79,7 @@ h6 {
   line-height: 1.1;
 }
 
-h1 {
+/* h1 {
   font-size: 2rem;
 }
 
@@ -100,7 +100,7 @@ h5 {
   font-size: 1.2rem;
   line-height: 1;
 
-}
+} */
 
 p {
   font-size: 0.8rem;
@@ -114,9 +114,19 @@ img {
 
 
 
+
 section {
-  margin-top: 7rem;
+  margin-top: 5rem;
+  /* height: 100vh; */
 }
+
+/* Devices with less than 800px */
+/* @media screen and (max-width: 800px) {
+  section {
+    margin-top: 0rem;
+  }
+
+} */
 
 
 input,

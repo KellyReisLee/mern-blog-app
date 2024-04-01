@@ -6,15 +6,17 @@ import { Link, useParams } from 'react-router-dom';
 import { MdSaveAlt } from "react-icons/md";
 import { UserContext } from '../../context/userContext'
 import axios from 'axios';
+import { BsFillEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
 
 
 
 
-const userDataStorage = localStorage.getItem('user-data')
-const userDataObject = JSON.parse(userDataStorage);
 
 const UserProfile = () => {
-  const userId = useParams();
+  const userDataStorage = localStorage.getItem('user-data')
+  const userDataObject = JSON.parse(userDataStorage);
+  const id = useParams();
   const { userData, setUserData } = useContext(UserContext);
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('');
@@ -29,25 +31,15 @@ const UserProfile = () => {
 
   })
 
+  const [showCurrent, setShowCurrent] = useState(false)
+  const [showNew, setShowNew] = useState(false)
+  const [showConfirmNew, setShowConfirmNew] = useState(false)
+
 
 
   useEffect(() => {
-    setUserData(userDataObject)
-    console.log(userData);
-    // if (userData.avatar) {
-    //   let splitedData = userData.avatar.split('.')
-    //   let lastPart = splitedData[splitedData.length - 1]
-    //   let extensions = ['png', 'jpg', 'jpeg']
-    //   if (extensions.indexOf(lastPart) === -1) {
-    //     //  setImageState(false)
-    //     return setError('Just these image extensions are allowed: png, jpg, jpeg')
-    //   }
-    //   else {
-    //     setError('')
-    //   }
-    // }
-
-  }, [])
+    setUserData(userDataObject);
+  }, []);
 
 
   function changeInputHandler(e) {
@@ -57,17 +49,25 @@ const UserProfile = () => {
 
   }
 
+
   function handleImgChange() {
     setImageState(true)
   }
 
 
-
   const handleSubmitImg = async () => {
+    if (!image) {
+      setError('Please select an image.');
+      return;
+
+    }
+
+    const formData = new FormData();
+    formData.append('avatar', image);
+
 
     try {
-      const formData = new FormData();
-      formData.append('avatar', image);
+
 
       const response = await axios.post('/api/users/change-avatar', formData, {
         headers: {
@@ -75,11 +75,14 @@ const UserProfile = () => {
         },
       });
 
+      console.log(response);
+
       if (!response) {
         setError('Could not update user image.')
       }
 
       if (response) {
+
         console.log(response);
         setUserData(response.data.updateUser)
         setImageState(false)
@@ -88,7 +91,7 @@ const UserProfile = () => {
 
         setTimeout(() => {
           setMessage('')
-          window.location.reload(true)
+          // window.location.reload(true)
 
         }, 3000);
 
@@ -96,10 +99,7 @@ const UserProfile = () => {
       }
     } catch (error) {
       console.log(error);
-      setError(error.response.data.error || error.message);
-
-
-
+      //setError(error.response.data.error || 'Could not Update');
     }
   };
 
@@ -156,7 +156,7 @@ const UserProfile = () => {
     e.preventDefault();
     if (validation()) {
       try {
-        const response = await axios.patch(`/api/users/${userId.id}/edit-user`, user)
+        const response = await axios.patch(`/api/users/${id.id}/edit-user`, user)
 
         if (response) {
           console.log(response);
@@ -183,15 +183,41 @@ const UserProfile = () => {
 
       } catch (error) {
         console.log(error);
-        setError(error.response.data.error || 'Could not Update user data.')
+        setError(error.response.data.error || 'Could not Update');
       }
     }
   }
 
+
+  function showPasswordFunc(name) {
+    // clearTimeout(timer);
+    if (name === 'current') {
+      setShowCurrent(() => !showCurrent)
+    }
+
+    if (name === 'new') {
+      setShowNew(() => !showNew)
+    }
+    if (name === 'confirmNew') {
+      setShowConfirmNew(() => !showConfirmNew)
+    }
+
+    setTimeout(() => {
+      setShowCurrent(false)
+      setShowNew(false)
+      setShowConfirmNew(false)
+
+
+    }, 4000);
+
+  }
+
+
+
   return (
     <section>
       <div className={classes.mainContainer}>
-        <Link to={`/myposts/${userId.id}
+        <Link to={`/myposts/${id.id}
         `}>My Posts</Link>
         <div className={classes.profile}>
           <div className={classes.wrapperImg}>
@@ -201,12 +227,23 @@ const UserProfile = () => {
                   e.currentTarget.onerror = null
               }} />
             </div>
+
+
+
             <form className={classes.imageForm}>
-              <input onChange={e => setImage(e.target.files[0])} type='file' name="image" id="image" accept='png, jpeg, jpg' />
-              <label className={classes.editBtnIcon} onClick={handleImgChange} htmlFor='image'><FaEdit /></label>
-              {imageState && (<label onClick={handleSubmitImg} className={classes.saveBtnIcon}><MdSaveAlt size={26} /></label>
+              <input
+                onChange={(e) => setImage(e.target.files[0])}
+                type='file'
+                name="avatar"
+                id="avatar"
+                accept='png, jpeg, jpg'
+              />
+              <label htmlFor='avatar' onClick={handleImgChange} className={classes.editBtnIcon} ><FaEdit /></label>
+              {imageState && (
+                <label onClick={handleSubmitImg} className={classes.saveBtnIcon}><MdSaveAlt size={19} /></label>
               )}
             </form>
+
 
           </div>
           <h2 className={classes.username}>{userData.username}</h2>
@@ -218,16 +255,30 @@ const UserProfile = () => {
 
             {/* Email */}
             <input name='email' type='email' placeholder='Email' value={user.email} onChange={changeInputHandler} />
-
-            {/* Current password */}
-            <input name='currentPassword' type='password' placeholder='Current Password' value={user.currentPassword} onChange={changeInputHandler} />
-
-            {/* New password */}
-            <input name='newPassword' type='password' placeholder='New Password' value={user.newPassword} onChange={changeInputHandler} />
-
-
-            {/* Confirm New password */}
-            <input name='confirmNewPassword' type='password' placeholder='Confirm Password' value={user.confirmNewPassword} onChange={changeInputHandler} />
+            <div className={classes.password}>
+              {/* Current password */}
+              <input name='currentPassword' type={showCurrent ? 'text' : 'password'} placeholder='Current Password' value={user.currentPassword} onChange={changeInputHandler} />
+              <span onClick={() => showPasswordFunc('current')}>{
+                showCurrent ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }
+              </span>
+            </div>
+            <div className={classes.password}>
+              {/* New password */}
+              <input name='newPassword' type={showNew ? 'text' : 'password'} placeholder='New Password' value={user.newPassword} onChange={changeInputHandler} />
+              <span onClick={() => showPasswordFunc('new')}>{
+                showNew ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }
+              </span>
+            </div>
+            <div className={classes.password}>
+              {/* Confirm New password */}
+              <input name='confirmNewPassword' type={showConfirmNew ? 'text' : 'password'} placeholder='Confirm Password' value={user.confirmNewPassword} onChange={changeInputHandler} />
+              <span onClick={() => showPasswordFunc('confirmNew')}>{
+                showConfirmNew ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }
+              </span>
+            </div>
             <button onClick={handleSubmitForm} type='submit'>Update Profile</button>
           </form>
 

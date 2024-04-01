@@ -2,6 +2,10 @@ import { useState } from 'react'
 import classes from './Register.module.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { BsFillEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
+
+
 
 const RegisterPage = () => {
   const [userData, setUserData] = useState({
@@ -14,6 +18,9 @@ const RegisterPage = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
 
   const isValid = (password) => {
     // Regular expression for password validation
@@ -87,8 +94,28 @@ const RegisterPage = () => {
 
   }
 
+
+  function showPasswordFunc(name) {
+    // clearTimeout(timer);
+    if (name === 'password') {
+      setShowPassword(() => !showPassword)
+    }
+
+    if (name === 'confirmPassword') {
+      setShowConfirmPassword(() => !showConfirmPassword)
+    }
+
+    setTimeout(() => {
+      setShowPassword(false)
+      setShowConfirmPassword(false)
+
+    }, 4000);
+
+  }
+
+
   return (
-    <div className={classes.register}>
+    <section className={classes.register}>
       <div className={classes.mainRegister}>
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit} className={classes.form}>
@@ -119,25 +146,36 @@ const RegisterPage = () => {
 
           />
           {/* password */}
-          <input
-            type='password'
+          <div className={classes.password}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder='Password'
+              name='password'
+              value={userData.password}
+              onChange={(e) => changeInputHandler('password', e)}
 
-            placeholder='Password'
-            name='password'
-            value={userData.password}
-            onChange={(e) => changeInputHandler('password', e)}
+            />
+            <span onClick={() => showPasswordFunc('password')}>{
+              showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+            }
+            </span>
+          </div>
 
-          />
+
           {/* confirm password */}
-          <input
-            type='password'
+          <div className={classes.password}>
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder='Confirm Password'
+              name='confirmPassword'
+              value={userData.confirmPassword}
+              onChange={(e) => changeInputHandler('confirmPassword', e)}
+            />
 
-            placeholder='Confirm Password'
-            name='confirmPassword'
-            value={userData.confirmPassword}
-            onChange={(e) => changeInputHandler('confirmPassword', e)}
-
-          />
+            <span onClick={() => showPasswordFunc('confirmPassword')}>{
+              showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+            }</span>
+          </div>
           <button >Register</button>
         </form>
 
@@ -145,7 +183,7 @@ const RegisterPage = () => {
 
       </div>
 
-    </ div>
+    </ section>
   )
 }
 

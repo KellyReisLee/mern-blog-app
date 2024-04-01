@@ -21,6 +21,8 @@ import Authors from './pages/Authors.jsx'
 import DeletePost from './pages/DeletePost.jsx'
 import VerificationPage from './pages/VerificationPage.jsx'
 import { UserContextProvider } from '../context/userContext'
+import SendEmail from '../src/pages/SendEmail.jsx'
+import ChangePassword from './pages/ChangePassword.jsx'
 
 
 
@@ -46,11 +48,13 @@ const router = createBrowserRouter([
       { path: "create", element: <CreatePosts /> },
       { path: "posts/categories/:category", element: <CategoryPosts /> },
       { path: "posts/users/:id", element: <AuthorPosts /> },
+      { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
       { path: "posts/:id/delete", element: <DeletePost /> },
       { path: "logout", element: <Home /> },
       { path: "authors", element: <Authors /> },
+      { path: "api/users/send-email", element: <SendEmail /> },
 
 
     ]

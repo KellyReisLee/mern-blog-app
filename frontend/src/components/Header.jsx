@@ -12,21 +12,20 @@ const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'c
 
 
 
-const userDataStorage = localStorage.getItem('user-data')
-const userDataObject = JSON.parse(userDataStorage);
-
 const Header = () => {
 
+  const userDataStorage = localStorage.getItem('user-data')
+  const userDataObject = JSON.parse(userDataStorage);
   const { userData, setUserData, setLoggedIn, loggedIn } = useContext(UserContext);
   const navigation = useNavigate();
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
   const [error, setError] = useState(false)
 
-  // useEffect(() => {
-  //   setUserData(userDataObject)
-  //   console.log(userData);
+  useEffect(() => {
+    setUserData(userDataObject)
+    console.log(userData);
 
-  // }, [userData])
+  }, [])
 
   console.log(userData);
 
@@ -48,6 +47,7 @@ const Header = () => {
   console.log(userData);
 
   const logoutAction = () => {
+
     handleCloseNav()
     if (userData) {
       setUserData(null)
@@ -57,7 +57,7 @@ const Header = () => {
     setUserData(userDataObject)
 
     navigation('/api/users/login')
-    window.location.reload(true)
+    // window.location.reload(true)
 
 
   };
@@ -72,7 +72,7 @@ const Header = () => {
       });
       // logs out user
       logoutAction();
-    }, 600000);
+    }, 600000); //600000
   }
 
 
@@ -87,14 +87,16 @@ const Header = () => {
   }, []);
 
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
 
     setError(true)
     // Faz a solicitação de logout
-    axios.get('/api/users/logout').then((res) => {
+    const response = await axios.get('/api/users/logout')
 
-      if (res.data.message !== 'Success Logout') {
-        console.log(res.data.Message);
+
+    try {
+      if (response.data.message !== 'Successfully Logout') {
+
         localStorage.clear();
         setLoggedIn(false)
         handleCloseNav()
@@ -108,9 +110,9 @@ const Header = () => {
         }, 2000);
       }
 
+    } catch (error) {
+      console.log(error)
     }
-    ).catch(err => console.log(err))
-
   };
 
 

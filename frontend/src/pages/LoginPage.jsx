@@ -3,6 +3,8 @@ import classes from './LoginPage.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
 import axios from 'axios'
+import { BsFillEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ const LoginPage = () => {
 
   })
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false);
 
 
   function changeInputHandler(identifier, e) {
@@ -55,8 +58,27 @@ const LoginPage = () => {
 
   }
 
+
+
+
+  function showPasswordFunc(name) {
+    // clearTimeout(timer);
+    if (name === 'password') {
+      setShowPassword(() => !showPassword)
+    }
+
+
+
+    setTimeout(() => {
+      setShowPassword(false)
+      setShowConfirmPassword(false)
+
+    }, 4000);
+
+  }
+
   return (
-    <div className={classes.login}>
+    <section className={classes.login}>
       <div className={classes.mainLogin}>
         <h2>Sign In</h2>
         <form onSubmit={handleLoginUser} className={classes.form}>
@@ -74,28 +96,34 @@ const LoginPage = () => {
             autoFocus
 
           />
+
           {/* password */}
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={userDataLogin.password}
-            onChange={(e) => changeInputHandler('password', e)}
+          <div className={classes.password}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder='Password'
+              name='password'
+              value={userDataLogin.password}
+              onChange={(e) => changeInputHandler('password', e)}
 
-          />
-
+            />
+            <span onClick={() => showPasswordFunc('password')}>{
+              showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+            }
+            </span>
+          </div>
           <button>Login</button>
         </form>
         <div className={classes.links}>
 
-          <small >Are you forgot the password? <Link to="/login">Click here!</Link></small>
+          <small >Are you forgot the password? <Link to="/api/users/send-email">Click here!</Link></small>
           <br />
           <small >Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
 
         </div>
       </div>
 
-    </div>
+    </section>
   )
 }
 
