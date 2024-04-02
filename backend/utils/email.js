@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const Mailgen = require('mailgen');
 
-const sendEmail = async (email, subject, link, username) => {
+const sendEmail = async (email, subject, link, username, intro, instructions, btnColor) => {
   try {
     const transporter = nodemailer.createTransport({
       service: process.env.SERVICE,
@@ -25,14 +25,15 @@ const sendEmail = async (email, subject, link, username) => {
     const emailContent = {
       body: {
         name: `${username} Appleseed`,
-        intro: 'Welcome to our App! We\'re very excited to have you on board.',
+        intro: `${intro}`,
         action: {
-          instructions: 'To get started with us, please click here:',
+          instructions: `${instructions}`,
           button: {
-            color: '#1B9C85',
+            color: `${btnColor}`,
             text: `${subject}`,
             link: `${link}`
           }
+
         },
         outro: [
           'If the button does not work, try this link:',

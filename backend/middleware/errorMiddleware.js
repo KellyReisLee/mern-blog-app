@@ -12,7 +12,7 @@ const errorMiddleware = (err, req, res, next) => {
   if (res.headerSent) {
     return next(err)
   }
-  res.status(err.code || 500).json({ message: err.message || 'An unknow error occured' });
+  res.status(err.code || 500).json({ error: err.message || 'An unknow error occured' });
 };
 
 

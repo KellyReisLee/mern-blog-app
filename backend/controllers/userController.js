@@ -45,7 +45,6 @@ const registerUser = async (req, res, next) => {
     }
 
 
-
     const user = await userModel.create({
       username,
       email,
@@ -53,13 +52,20 @@ const registerUser = async (req, res, next) => {
 
     })
 
+    if (!user) {
+      return res.status(422).json({ error: 'User not found.' })
+    }
+
     const token = await tokenModel.create({
       userId: user._id,
       token: crypto.randomBytes(32).toString("hex"),
     })
 
+
     const link = `${process.env.BASE_URL}/users/verify/${user.id}/${token.token}`
-    await sendEmail(user.email, "Verify Email", link, user.username);
+    await sendEmail(user.email, "Verify Email", link, user.username, 'Welcome to our App! We\'re very excited to have you on board.', 'To get started with us, please click here:', 'green');
+
+    await tokenModel.findByIdAndDelete(token._id);
 
     res.status(201).json({ message: 'You received an email.', user, token })
 
@@ -97,7 +103,7 @@ const loginUser = async (req, res, next) => {
     if (passwordMatch) {
       const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '10m' }, (err, token) => {
         if (err) throw err;
-        res.cookie('token', token).json({ token, username, posts, verified, _id: id, avatar });
+        res.cookie('token', token).json({ token, username, posts, verified, id, avatar });
 
       });
 
@@ -156,9 +162,9 @@ const changeImgUser = async (req, res) => {
 
   try {
 
-    if (!req.files.avatar) {
-      return res.status(422).json({ error: 'Please! Add an image.' })
-    }
+    // if (!req.files.avatar) {
+    //   return res.status(422).json({ error: 'Please! Add an image.' })
+    // }
 
 
     // Checking token data
@@ -210,7 +216,7 @@ const changeImgUser = async (req, res) => {
 
 
 
-        avatar.mv(path.join(__dirname, '..', 'uploads', newFileName), async (err) => {
+        avatar.mv(path.join(__dirname, '..', 'uploadsUserImg', newFileName), async (err) => {
           if (err) {
             return json({ error: err })
           }
@@ -335,9 +341,10 @@ const getVerification = async (req, res) => {
       return res.status(400).json({ message: 'Invalid user' })
     }
 
-    const token = await tokenModel.findOne({
+
+    const token = await tokenModel.create({
       userId: user._id,
-      token: req.params.token,
+      token: crypto.randomBytes(32).toString("hex"),
     })
 
     if (!token) {
@@ -351,8 +358,11 @@ const getVerification = async (req, res) => {
       return res.status(500).json({ message: "Not possible verify this user!" });
     }
 
+    const link = `${process.env.BASE_URL}/users/verify/${user.id}/${token.token}`
+    await sendEmail(user.email, "Verify Email", link, user.username, 'Welcome to our App! We\'re very excited to have you on board.', 'To get started with us, please click here:', '#1B9C85');
 
-    res.status(200).json({ message: "Email verified successfully! You will be redirect to the Login Page." })
+    res.status(200).json({ message: "Email verified successfully! You will be redirect to the Login Page.", newUser })
+
 
   } catch (error) {
     console.error('Error during email verification:', error);
@@ -360,8 +370,106 @@ const getVerification = async (req, res) => {
   }
 }
 
-// Logout logic
 
+
+// Sending user email - Verify to change password
+// GET: api/users/send-email
+// UNPROTECTED AREA
+const userSendEmail = async (req, res) => {
+
+
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(422).json({ error: 'The email field is required!' })
+    }
+    const user = await userModel.findOne({ email })
+    if (!user) {
+      return res.status(422).json({ error: 'User not found.' })
+    }
+
+    const token = await tokenModel.create({
+      userId: user._id,
+      token: crypto.randomBytes(32).toString("hex"),
+    })
+
+    if (!token) {
+      return res.status(422).json({ error: 'Token not found.' })
+    }
+
+    const link = `${process.env.BASE_URL}/users/change-password/${user.id}/${token.token}`
+    await sendEmail(user.email, "Change Password", link, user.username, 'Thank you for use our app. We\'re very excited to have you.', 'To change your password just click here:', 'red');
+
+    const newUser = await userModel.findOneAndUpdate({ _id: user._id }, { changePassword: 0 }).select('-password')
+
+    //await tokenModel.findByIdAndDelete(token._id);
+
+
+    res.status(200).json({ message: "Link sent. Please, check your email.", newUser })
+
+
+  } catch (error) {
+    res.status(500).json({ error: error })
+
+  }
+}
+
+
+const changePassword = async (req, res) => {
+  // console.log(req.body);
+  const { id, token } = req.params;
+  console.log(id);
+
+
+  try {
+    const { email, password, confirmPassword } = req.body;
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassEdit = await bcrypt.hash(password, salt)
+
+
+    if (!email || !password || !confirmPassword) {
+      return res.status(422).json({ error: 'All fields are required!' })
+    }
+
+    const user = await userModel.findById(id)
+
+    if (!user) {
+      return res.status(422).json({ error: 'Could not find user.' })
+    }
+
+    const tokenUser = await tokenModel.findOne({ token })
+    if (!tokenUser) {
+      return res.status(422).json({ error: 'Token not found.' })
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      return res.status(422).json({ error: 'The New Password must be different from the old Password.' })
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(422).json({ error: 'Password and Confirm Password must match!' })
+
+    }
+
+    await userModel.findByIdAndUpdate(id, { password: hashedPassEdit }, { new: true })
+    await tokenModel.findByIdAndDelete(tokenUser._id)
+
+    res.status(200).json({ message: 'Password updated!' })
+
+
+  } catch (error) {
+    res.status(500).json({ error })
+
+  }
+
+}
+
+
+
+// Logout logic
 const userLogout = async (req, res) => {
   res.clearCookie('token')
   return res.json({ message: 'Successfully Logout' });
@@ -375,5 +483,7 @@ module.exports = {
   editUser,
   getAuthors,
   getVerification,
-  userLogout
+  userLogout,
+  userSendEmail,
+  changePassword
 }

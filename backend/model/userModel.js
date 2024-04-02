@@ -7,7 +7,8 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   avatar: { type: String },
   posts: { type: Number, default: 0 },
-  verified: { type: Boolean, default: false }
+  verified: { type: Boolean, default: false },
+  changePassword: { type: Number, default: 0 }
 
 
 })

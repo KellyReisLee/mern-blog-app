@@ -7,7 +7,9 @@ const {
   editUser,
   getAuthors,
   getVerification,
-  userLogout
+  userLogout,
+  userSendEmail,
+  changePassword
 } = require('../controllers/userController')
 
 const router = Router();
@@ -19,7 +21,11 @@ router.get('/', getAuthors)
 router.post('/change-avatar', changeImgUser)
 router.patch('/:id/edit-user', editUser)
 router.get('/verify/:id/:token', getVerification)
-router.get('/api/users/logout', userLogout)
+router.get('/logout', userLogout)
+router.post('/send-email', userSendEmail)
+router.patch('/change-password/:id/:token', changePassword)
+
+
 
 
 module.exports = router
