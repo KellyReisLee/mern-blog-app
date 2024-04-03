@@ -44,8 +44,6 @@
 
 html {
   background-color: var(--color-main-box);
-
-
 }
 
 body {
@@ -114,22 +112,6 @@ img {
 }
 
 
-
-
-section {
-  margin-top: 5rem;
-  /* height: 100vh; */
-}
-
-/* Devices with less than 800px */
-/* @media screen and (max-width: 800px) {
-  section {
-    margin-top: 0rem;
-  }
-
-} */
-
-
 input,
 select,
 textarea {
@@ -139,8 +121,6 @@ textarea {
   resize: none;
   background-color: #ffffff;
 }
-
-
 
 .project-container {
   display: flex;

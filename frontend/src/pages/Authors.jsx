@@ -8,7 +8,7 @@ const Authors = () => {
   const [authors, setAuthors] = useState(authorsData || []);
 
   return (
-    <section>
+    <section className={classes.section}>
 
       {authors.length > 0 ? (
         <div className={classes.container}>
