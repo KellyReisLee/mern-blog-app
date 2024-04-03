@@ -28,7 +28,7 @@ const registerUser = async (req, res, next) => {
     if (existUsername) {
       return res.status(422).json({ message: 'This Username already exist. Try a different one.' })
     }
-    if (username.length < 4) {
+    if ((username.trim()).length < 4) {
       return res.status(422).json({ message: 'Username should at least 4 characters. ' })
     }
     const existEmail = await userModel.findOne({ email });
@@ -98,12 +98,12 @@ const loginUser = async (req, res, next) => {
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     const { username, posts, verified, avatar } = user;
-    const id = user._id;
+    const _id = user._id;
 
     if (passwordMatch) {
       const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '10m' }, (err, token) => {
         if (err) throw err;
-        res.cookie('token', token).json({ token, username, posts, verified, id, avatar });
+        res.cookie('token', token).json({ token, username, posts, verified, _id, avatar });
 
       });
 
@@ -162,9 +162,9 @@ const changeImgUser = async (req, res) => {
 
   try {
 
-    // if (!req.files.avatar) {
-    //   return res.status(422).json({ error: 'Please! Add an image.' })
-    // }
+    if (!req.files.avatar) {
+      return res.status(422).json({ error: 'Please! Add an image.' })
+    }
 
 
     // Checking token data
@@ -182,7 +182,7 @@ const changeImgUser = async (req, res) => {
         const userData = await userModel.findById(user.userId);
         // Delete the old image.
         if (userData.avatar) {
-          fs.unlink(path.join(__dirname, '..', 'uploads', userData.avatar), (err) => {
+          fs.unlink(path.join(__dirname, '..', 'uploads', 'uploadsUserImg', userData.avatar), (err) => {
             if (err) {
               return res.json({ error: err })
             }
@@ -216,9 +216,9 @@ const changeImgUser = async (req, res) => {
 
 
 
-        avatar.mv(path.join(__dirname, '..', 'uploadsUserImg', newFileName), async (err) => {
+        avatar.mv(path.join(__dirname, '..', 'uploads', 'uploadsUserImg', newFileName), async (err) => {
           if (err) {
-            return json({ error: err })
+            return res.json({ error: err })
           }
 
           const updateUser = await userModel.findByIdAndUpdate(user.userId, { avatar: newFileName }, { new: true }).select('-password')
