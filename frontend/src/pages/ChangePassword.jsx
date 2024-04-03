@@ -109,8 +109,8 @@ const ChangePassword = () => {
   }
 
   return (
-    <section className={classes.login}>
-      <div className={classes.mainLogin}>
+    <section className={classes.change}>
+      <div className={classes.mainChange}>
         <h2>Change Password</h2>
         <form onSubmit={handleChangePassword} className={classes.form}>
           {error && (
