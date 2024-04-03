@@ -87,12 +87,12 @@ const loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: 'All fields are required!' })
+      return res.status(400).json({ error: 'All fields are required!' })
     }
     const user = await userModel.findOne({ email }).select(-password, -email).lean()
 
     if (!user) {
-      return res.status(400).json({ message: 'Email not found!' })
+      return res.status(400).json({ error: 'Email not found!' })
     }
 
 
@@ -114,7 +114,7 @@ const loginUser = async (req, res, next) => {
     }
 
     if (verified === false) {
-      return res.status(422).json({ message: 'User not Verified! Check your email and activate the link.' })
+      return res.status(422).json({ error: 'User not Verified! Check your email and click on the link to validate.' })
     }
 
   } catch (error) {
