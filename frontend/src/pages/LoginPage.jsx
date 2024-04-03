@@ -33,8 +33,8 @@ const LoginPage = () => {
     }
 
     try {
-      const { data } = await axios.post("api/users/login", { email, password })
-      console.log(data);
+      const { data } = await axios.post("/api/users/login", { email, password })
+      //console.log(data);
       if (data.error) {
         setError(data.error)
       } else {
@@ -46,14 +46,14 @@ const LoginPage = () => {
           password: '',
         });
         navigate('/')
-        window.location.reload(true)
+        // window.location.reload(true)
 
 
       }
 
     } catch (error) {
       console.error('Erro ao efetuar login:', error);
-      setError(error.response?.data?.message || 'Unknown error');
+      setError(error.response?.data?.message || 'unknown error');
     }
 
   }
@@ -67,8 +67,11 @@ const LoginPage = () => {
       setShowPassword(() => !showPassword)
     }
 
+
+
     setTimeout(() => {
       setShowPassword(false)
+
 
     }, 4000);
 

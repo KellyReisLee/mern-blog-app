@@ -16,19 +16,22 @@ const Header = () => {
 
   const userDataStorage = localStorage.getItem('user-data')
   const userDataObject = JSON.parse(userDataStorage);
-  const { userData, setUserData, setLoggedIn, loggedIn } = useContext(UserContext);
+  const { userData, setUserData, setLoggedIn } = useContext(UserContext);
   const navigation = useNavigate();
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
   const [error, setError] = useState(false)
 
+
   useEffect(() => {
     setUserData(userDataObject)
+
     console.log(userData);
 
   }, [])
 
 
   function handleCloseNav() {
+
     if (window.innerWidth < 800) {
       setShow(false)
     } else {
@@ -46,17 +49,15 @@ const Header = () => {
   console.log(userData);
 
   const logoutAction = () => {
-
     handleCloseNav()
     if (userData) {
       setUserData(null)
     }
     localStorage.clear();
     setLoggedIn(false)
-    setUserData(userDataObject)
-
+    setUserData(null)
     navigation('/api/users/login')
-    // window.location.reload(true)
+
 
 
   };
@@ -90,27 +91,21 @@ const Header = () => {
 
     setError(true)
     // Faz a solicitação de logout
-    const response = await axios.get('/api/users/logout')
+    const response = await axios.get('api/users/logout')
 
 
     try {
       if (response.data.message !== 'Successfully Logout') {
-
         localStorage.clear();
         setLoggedIn(false)
-        handleCloseNav()
-        setUserData({})
-        setError(false)
-
-        window.location.reload(true)
-        setTimeout(() => {
-          navigation('/api/users/logout')
-
-        }, 2000);
+        setUserData(null)
+        // setError(false)
+        // navigation('api/users/logout')
       }
 
+
     } catch (error) {
-      console.log(error)
+      setError(error)
     }
   };
 
@@ -120,7 +115,7 @@ const Header = () => {
     <>
       <nav className={classes.navHeader}>
         <div className={classes.containerHeader}>
-          {Object.keys(userData).length !== 0 && (
+          {userData && (
             <>
               <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
                 <div className={classes.logoDiv}>
@@ -140,7 +135,7 @@ const Header = () => {
                     <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
                   </li>
                   <li>
-                    <Link to="/logout" onClick={handleLogout}>Logout</Link>
+                    <Link to="/api/users/logout" onClick={handleLogout}>Logout</Link>
                   </li>
                 </ul>
               )}
@@ -156,7 +151,7 @@ const Header = () => {
             </>
           )}
 
-          {Object.keys(userData).length === 0 && (
+          {!userData && (
             <>
               <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
                 <div className={classes.logoDiv}>
@@ -195,11 +190,7 @@ const Header = () => {
 
 
       </nav>
-      {(
-        <div className={error ? `${classes.error}` : `${classes.displayNone}`}>
-          <p>Logout Successfully!</p>
-        </div>
-      )}
+
 
     </>
 

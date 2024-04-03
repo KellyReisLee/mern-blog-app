@@ -4,7 +4,7 @@ import Header from './Header'
 
 const Layout = () => {
   return (
-    <div className='project-container'>
+    <div >
       <Header />
 
       <main>

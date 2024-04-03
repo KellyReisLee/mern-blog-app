@@ -1,7 +1,7 @@
 .post {
   width: 100%;
-  background-color: #dddcdb;
-  padding: 1rem;
+  background-color: #e3e7f0;
+  padding: 1.5rem;
   border-radius: 2rem;
   transition: var(--transition);
   cursor: pointer;
@@ -10,14 +10,15 @@
 }
 
 .post:hover {
-  box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1.5rem 2rem rgba(0, 0, 0, 0.2);
+  transform: scale(1.03);
 }
 
 
 .imagePost {
   width: 100%;
   overflow: hidden;
-  height: 10rem;
+  height: 12rem;
   border-radius: 2rem;
   background-size: cover;
   position: relative;
@@ -26,7 +27,7 @@
 
 .imagePost img {
   width: 100%;
-  height: 14rem;
+  height: 15rem;
   position: absolute;
   top: 0;
   left: 0;
@@ -34,13 +35,13 @@
 
 
 .post h3 {
-  margin: 1rem 0 0 0.6rem;
+  margin: 1rem;
   color: var(--color-gray-500);
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .post p {
-  margin-top: 0.7rem;
+  margin-top: 5px;
   padding: 0 1rem;
 
 
@@ -50,15 +51,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .category {
   background-color: var(--color-primary);
   color: var(--color-white);
-  padding: 0.5rem 1.4rem;
+  padding: 0.5rem 1.3rem;
   border-radius: 2rem;
   transition: var(--transition);
+  font-size: 0.8rem;
 }
 
 .category:hover {

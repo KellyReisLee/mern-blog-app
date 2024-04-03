@@ -18,8 +18,8 @@
 }
 
 .containerHeader {
-  width: 85%;
-  margin-inline: auto;
+  width: 92%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,12 +41,13 @@
 }
 
 .logoDiv h1 {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
 }
 
 .logoImg {
   width: 2rem;
   display: block;
+  margin-left: 2.6rem;
 
 }
 
@@ -95,7 +96,7 @@
     position: absolute;
     border: none;
     gap: 0;
-    top: 4.6rem;
+    top: 4.3rem;
     right: 0%;
     width: 100%;
     flex-direction: column;
@@ -107,11 +108,10 @@
   .logoImg {
     width: 2.3rem;
     display: block;
-
+    margin-left: 4rem;
   }
 
   .navHeader li {
-
     width: 100%;
     box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: -2rem 4rem 4rem rgba(0, 0, 0, 0.3);
@@ -172,19 +172,23 @@
 .error p {
   font-family: "Roboto", sans-serif;
   text-align: center;
-  background-color: var(--color-gray-700);
+  background-color: rgb(65, 60, 60);
   padding: 0.7rem;
   width: 100%;
-  color: rgb(11, 199, 11);
+  height: 3.8rem;
+  color: rgb(17, 169, 17);
   font-weight: 700;
   letter-spacing: 1px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   position: absolute;
-  top: 80px;
+  top: 70px;
   right: 0px;
   z-index: 2;
   opacity: 0;
-  animation: remove 3s ease-in;
+  animation: remove 4s ease-in;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes remove {

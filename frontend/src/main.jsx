@@ -43,6 +43,7 @@ const router = createBrowserRouter([
       { path: "posts/:id", element: <PostDetail /> },
       { path: "api/users/register", element: <RegisterPage /> },
       { path: "api/users/login", element: <LoginPage /> },
+      { path: "api/users/logout", element: <Home /> },
       { path: "api/users/verify/:id/:token", element: <VerificationPage /> },
       { path: "api/users/profile/:id", element: <UserProfile /> },
       { path: "create", element: <CreatePosts /> },
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
       { path: "posts/:id/delete", element: <DeletePost /> },
-      { path: "logout", element: <Home /> },
+
       { path: "authors", element: <Authors /> },
       { path: "api/users/send-email", element: <SendEmail /> },
       { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },
