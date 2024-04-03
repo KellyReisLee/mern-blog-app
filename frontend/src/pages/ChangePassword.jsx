@@ -1,8 +1,10 @@
 import { useState, useContext } from 'react'
 import classes from './ChangePassword.module.css'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
 import axios from 'axios'
+import { BsFillEyeFill } from "react-icons/bs";
+import { RiEyeCloseLine } from "react-icons/ri";
 
 const ChangePassword = () => {
   const { id, token } = useParams();
@@ -17,6 +19,9 @@ const ChangePassword = () => {
     confirmPassword: ''
 
   })
+
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
 
   const isValid = (password) => {
@@ -100,11 +105,26 @@ const ChangePassword = () => {
         // console.error('Could not change password!', error);
         setError(error.response?.data?.error || 'unknown error');
       }
-
-
-
     }
 
+  }
+
+
+  function showPasswordFunc(name) {
+    // clearTimeout(timer);
+    if (name === 'password') {
+      setShowPassword(() => !showPassword)
+    }
+
+    if (name === 'confirmPassword') {
+      setShowConfirmPassword(() => !showConfirmPassword)
+    }
+
+    setTimeout(() => {
+      setShowPassword(false)
+      setShowConfirmPassword(false)
+
+    }, 4000);
 
   }
 
@@ -129,24 +149,36 @@ const ChangePassword = () => {
 
           />
           {/* password */}
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={userChangePass.password}
-            onChange={(e) => changeInputHandler('password', e)}
+          <div className={classes.password}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder='Password'
+              name='password'
+              value={userChangePass.password}
+              onChange={(e) => changeInputHandler('password', e)}
 
-          />
+            />
+            <span onClick={() => showPasswordFunc('password')}>{
+              showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+            }
+            </span>
+          </div>
 
-          {/* Confirm Password */}
-          <input
-            type='password'
-            placeholder='Confirm Password'
-            name='confirmPassword'
-            value={userChangePass.confirmPassword}
-            onChange={(e) => changeInputHandler('confirmPassword', e)}
 
-          />
+          {/* confirm password */}
+          <div className={classes.password}>
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder='Confirm Password'
+              name='confirmPassword'
+              value={userChangePass.confirmPassword}
+              onChange={(e) => changeInputHandler('confirmPassword', e)}
+            />
+
+            <span onClick={() => showPasswordFunc('confirmPassword')}>{
+              showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+            }</span>
+          </div>
 
           <button>Send</button>
         </form>
