@@ -124,7 +124,10 @@ const Header = () => {
           {userData && (
             <>
               <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
-                <img src={Logo} alt='logo-computer' />
+                <div className={classes.logoDiv}>
+                  <img src={Logo} alt='logo-computer' />
+                  <h1>CodeBlog</h1>
+                </div>
               </Link>
               {show && (
                 <ul className={classes.navMenu}>
@@ -157,17 +160,21 @@ const Header = () => {
           {!userData && (
             <>
               <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
-                <img src={Logo} alt='logo-computer' />
+                <div className={classes.logoDiv}>
+                  <img src={Logo} alt='logo-computer' />
+                  <h1>CodeBlog</h1>
+                </div>
               </Link>
               {show && (
                 <ul className={classes.navMenu}>
+                  <li>
+                    <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
+                  </li>
 
                   <li>
                     <Link to="/api/users/login" onClick={handleCloseNav}>Login</Link>
                   </li>
-                  <li>
-                    <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
-                  </li>
+
 
                 </ul>
               )}
