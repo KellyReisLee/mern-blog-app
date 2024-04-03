@@ -3,8 +3,6 @@ const User = require('../model/userModel')
 const path = require('path')
 const fs = require('fs')
 const { v4: uuid } = require('uuid')
-const userModel = require('../model/userModel')
-const postModel = require('../model/postsModel')
 
 
 
@@ -51,7 +49,7 @@ const createPost = async (req, res, next) => {
     })
 
   } catch (error) {
-    res.status(500).json({ error: error })
+    res.status(500).json({ error: 'Could not create post', error })
   }
 
 
@@ -73,7 +71,7 @@ const getPosts = async (req, res, next) => {
     res.status(200).json(allPosts)
 
   } catch (error) {
-    return res.status(500).json({ error: error })
+    return res.status(500).json({ error: 'Could not find posts', error })
   }
 
 
@@ -96,7 +94,7 @@ const getSinglePost = async (req, res, next) => {
 
 
   } catch (error) {
-    return res.status(500).json({ error: error })
+    return res.status(500).json({ error: 'Could not in post.', error })
   }
 
 }
@@ -110,13 +108,13 @@ const getPostsCategory = async (req, res, next) => {
     const category = req.params.category;
     const catPosts = await Post.find({ category }).sort({ createdAt: 1 })
     if (!catPosts) {
-      return res.status(404).json({ error: 'Could not find posts.' })
+      return res.status(404).json({ error: 'Could not find posts.', error })
     }
 
     res.status(200).json(catPosts)
 
   } catch (error) {
-    return res.status(500).json({ error: error })
+    return res.status(500).json({ error: 'Could not find posts from this category.' })
   }
 
 }
@@ -139,7 +137,7 @@ const getAuthorPosts = async (req, res, next) => {
 
     res.status(200).json(posts)
   } catch (error) {
-    return res.status(500).json({ error: error })
+    return res.status(500).json({ error: 'Could not find posts from this author.', error })
   }
 }
 
@@ -158,41 +156,49 @@ const editPost = async (req, res, next) => {
     if (!title || !description || !category) {
       return res.status(422).json({ error: 'All fields are required!' })
     }
-    if (!req.files) {
-      updatePost = await Post.findByIdAndUpdate(id, { title, category, description }, { new: true })
+
+    //get old post
+    const oldPost = await Post.findById(id);
+
+    if (req.user.userId == oldPost.creator) {
 
 
-    } else {
-      //get old post
-      const oldPost = await Post.findById(id);
-      // delete an old image from uploadsPostImg.
-      fs.unlink(path.join(__dirname, '..', 'uploadsPostImg', oldPost.image), async (err) => {
-        if (err) {
-          return res.status(422).json({ error: 'Could not find image.' })
+
+      if (!req.files) {
+        updatePost = await Post.findByIdAndUpdate(id, { title, category, description }, { new: true })
+
+
+      } else {
+
+        // delete an old image from uploadsPostImg.
+        fs.unlink(path.join(__dirname, '..', 'uploadsPostImg', oldPost.image), async (err) => {
+          if (err) {
+            return res.status(422).json({ error: 'Could not find image.' })
+          }
+
+        })
+
+        // upload new image.
+        const { image } = req.files;
+        // Check the size:
+        if (image.size > 5000000) {
+          return res.status(422).json({ error: 'This image is too big. Should be less than 500kb' })
         }
 
-      })
+        fileName = image.name;
+        let splittedImage = fileName.split('.')
+        newFileName = splittedImage[0] + uuid() + '.' + splittedImage[splittedImage.length - 1]
 
-      // upload new image.
-      const { image } = req.files;
-      // Check the size:
-      if (image.size > 5000000) {
-        return res.status(422).json({ error: 'This image is too big. Should be less than 500kb' })
+        // Move the image file to the uploadsPostImg
+        image.mv(path.join(__dirname, '..', 'uploadsPostImg', newFileName), async (err) => {
+          if (err) {
+            return res.json({ error: err || 'Could not move image to the specified folder.' })
+          }
+
+        })
+
+        updatePost = await Post.findByIdAndUpdate(id, { title, category, description, image: newFileName }, { new: true })
       }
-
-      fileName = image.name;
-      let splittedImage = fileName.split('.')
-      newFileName = splittedImage[0] + uuid() + '.' + splittedImage[splittedImage.length - 1]
-
-      // Move the image file to the uploadsPostImg
-      image.mv(path.join(__dirname, '..', 'uploadsPostImg', newFileName), async (err) => {
-        if (err) {
-          return res.json({ error: err || 'Could not move image to the specified folder.' })
-        }
-
-      })
-
-      updatePost = await Post.findByIdAndUpdate(id, { title, category, description, image: newFileName }, { new: true })
     }
 
     if (!updatePost) {
@@ -201,7 +207,7 @@ const editPost = async (req, res, next) => {
 
     res.status(200).json({ message: 'Post updated successfully!', updatePost })
   } catch (error) {
-    return res.status(500).json({ error: error })
+    return res.status(500).json({ error: 'Could not edit the post.', error })
   }
 }
 
@@ -221,26 +227,34 @@ const deletePost = async (req, res, next) => {
     const post = await Post.findById(id)
     const fileName = post?.image;
 
-    // Delete image from uploads folder.
-    fs.unlink(path.join(__dirname, '..', 'uploadsPostImg', fileName), async (err) => {
-      if (err) {
-        return res.status(400).json({ error: 'Could not delete image.', err })
-      } else {
-        await Post.findByIdAndDelete(id)
 
-        // Find user and reduce the posts count by 1:
-        const userData = await User.findById(post.creator)
-        const userPostsCount = userData?.posts - 1;
-        await User.findByIdAndUpdate(id, { posts: userPostsCount }, { new: true })
-      }
-    })
+    if (req.user.userId == post.creator) {
+      // Delete image from uploads folder.
+      fs.unlink(path.join(__dirname, '..', 'uploadsPostImg', fileName), async (err) => {
+        if (err) {
+          return res.status(400).json({ error: 'Could not delete image.', err })
+        } else {
 
-    res.status(200).json({
-      message: `Post ${id} deleted successfully!
+          await Post.findByIdAndDelete(id)
+          // Find user and reduce the posts count by 1:
+          const userData = await User.findById(req.user.userId)
+          const userPostsCount = userData.posts - 1;
+          await User.findByIdAndUpdate(req.user.userId, { posts: userPostsCount }, { new: true })
+
+        }
+      })
+
+
+      res.status(200).json({
+        message: `Post ${id} deleted successfully!
   ` })
 
+    } else {
+      return res.status(403).json({ error: 'You are not authorized to delete this post.' })
+    }
+
   } catch (error) {
-    return res.status(500).json({ error: error })
+    return res.status(500).json({ error: 'Could not delete the post.', error })
   }
 
 }
