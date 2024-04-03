@@ -27,7 +27,7 @@ import ChangePassword from './pages/ChangePassword.jsx'
 
 
 // Define a URL base para todas as requisições dentro do axios.
-axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = 'http://localhost:4000/';
 //Esta linha configura o Axios para enviar cookies junto com as requisições feitas para o servidor.
 axios.defaults.withCredentials = true
 
@@ -48,14 +48,13 @@ const router = createBrowserRouter([
       { path: "create", element: <CreatePosts /> },
       { path: "posts/categories/:category", element: <CategoryPosts /> },
       { path: "posts/users/:id", element: <AuthorPosts /> },
-      { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
       { path: "posts/:id/delete", element: <DeletePost /> },
       { path: "logout", element: <Home /> },
       { path: "authors", element: <Authors /> },
       { path: "api/users/send-email", element: <SendEmail /> },
-
+      { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },
 
     ]
 

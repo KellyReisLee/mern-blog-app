@@ -56,6 +56,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     if (validation()) {
       const { username, email, password, confirmPassword } = userData;
       try {
@@ -79,7 +80,7 @@ const RegisterPage = () => {
         }
 
       } catch (error) {
-        setError(error.response.data.message)
+        setError(error.response?.data.message || error)
       }
     }
 

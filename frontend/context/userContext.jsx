@@ -8,18 +8,19 @@ export const UserContext = createContext({});
 
 export function UserContextProvider({ children }) {
   const [totalData, setTotalData] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user-data')));
   const [loggedIn, setLoggedIn] = useState(false)
 
 
 
-  // console.log(loggedIn);
 
-  // useEffect(() => {
-  //   setUserData(userDataObject)
-  //   console.log(userData);
 
-  // }, [])
+  useEffect(() => {
+    localStorage.setItem('user-data', JSON.stringify(userData))
+    // setUserData(userDataObject)
+    // console.log(userData);
+
+  }, [userData])
 
   return (
     <UserContext.Provider value={{ totalData, setTotalData, userData, setUserData, setLoggedIn, loggedIn }}>

@@ -27,7 +27,6 @@ const Header = () => {
 
   }, [])
 
-  console.log(userData);
 
   function handleCloseNav() {
     if (window.innerWidth < 800) {
@@ -121,7 +120,7 @@ const Header = () => {
     <>
       <nav className={classes.navHeader}>
         <div className={classes.containerHeader}>
-          {userData && (
+          {Object.keys(userData).length !== 0 && (
             <>
               <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
                 <div className={classes.logoDiv}>
@@ -157,7 +156,7 @@ const Header = () => {
             </>
           )}
 
-          {!userData && (
+          {Object.keys(userData).length === 0 && (
             <>
               <Link to='/' className={classes.logoImg} onClick={handleCloseNav}>
                 <div className={classes.logoDiv}>

@@ -99,7 +99,7 @@ const UserProfile = () => {
       }
     } catch (error) {
       console.log(error);
-      //setError(error.response.data.error || 'Could not Update');
+      setError(error.response.data.error || 'Could not Update');
     }
   };
 
@@ -156,7 +156,7 @@ const UserProfile = () => {
     e.preventDefault();
     if (validation()) {
       try {
-        const response = await axios.patch(`/api/users/${id.id}/edit-user`, user)
+        const response = await axios.patch(`/api/users/${userData._id}/edit-user`, user)
 
         if (response) {
           console.log(response);
@@ -174,7 +174,7 @@ const UserProfile = () => {
 
           setTimeout(() => {
             setMessage('')
-            window.location.reload(true)
+            //window.location.reload(true)
 
           }, 5000);
 
@@ -183,7 +183,7 @@ const UserProfile = () => {
 
       } catch (error) {
         console.log(error);
-        setError(error.response.data.error || 'Could not Update');
+        setError(error.response.data.error);
       }
     }
   }
@@ -208,7 +208,7 @@ const UserProfile = () => {
       setShowConfirmNew(false)
 
 
-    }, 4000);
+    }, 7000);
 
   }
 
@@ -217,12 +217,11 @@ const UserProfile = () => {
   return (
     <section>
       <div className={classes.mainContainer}>
-        <Link to={`/myposts/${id.id}
-        `}>My Posts</Link>
+        <Link to={`/myposts/${userData._id}`}>My Posts</Link>
         <div className={classes.profile}>
           <div className={classes.wrapperImg}>
             <div className={classes.containerImg}>
-              <img src={`http://localhost:4000/uploads/${userData.avatar}`} alt='user image' onError={(e) => {
+              <img src={`http://localhost:4000/uploads/uploadsUserImg/${userData.avatar}`} alt='user image' onError={(e) => {
                 e.currentTarget.src = avatar,
                   e.currentTarget.onerror = null
               }} />
