@@ -44,6 +44,7 @@ hr {
   color: var(--color-primary);
   margin-top: 1rem;
   padding: 1.5rem;
+  font-size: 2rem;
 }
 
 .message {
