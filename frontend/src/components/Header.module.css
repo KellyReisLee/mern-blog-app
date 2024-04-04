@@ -19,7 +19,6 @@
 
 .containerHeader {
   width: 92%;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -201,4 +200,19 @@
   to {
     opacity: 0;
   }
+}
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+  .containerHeader {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 1.2rem;
+
+  }
+
+
 }

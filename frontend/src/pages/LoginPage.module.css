@@ -94,24 +94,52 @@
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
+  .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
   .mainLogin {
-    width: 70%;
-    height: 70%;
-    margin-top: 6rem;
+    width: 80%;
+    padding: 2rem;
+    margin-top: 0rem;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.5rem;
 
   }
 
   .mainLogin h2 {
     text-align: center;
     font-size: 2.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
 
   }
+
+  .mainLogin small {
+    text-align: center;
+    font-size: 0.6rem;
+  }
+
+  .mainLogin a {
+    color: var(--color-primary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 0.2rem;
+  }
+
+  .form p {
+    color: aliceblue;
+    font-size: 0.8rem;
+    padding: 0.9rem;
+  }
+
+
+
 
 }

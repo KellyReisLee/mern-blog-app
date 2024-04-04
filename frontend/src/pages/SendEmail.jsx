@@ -55,7 +55,7 @@ const SendEmail = () => {
 
 
   return (
-    <section>
+    <section className={classes.section}>
       <div className={classes.container}>
         {!sended && (<>
           <form className={classes.form}>

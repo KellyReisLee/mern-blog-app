@@ -7,7 +7,7 @@ import { dummy_Data } from '../helpers/dataPost'
 const Posts = () => {
   const [posts, setPosts] = useState(dummy_Data);
   return (
-    <section >
+    <section className={classes.section}>
       <div className={classes.posts}>
         {
           posts.map((post) => (

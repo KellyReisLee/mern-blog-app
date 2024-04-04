@@ -99,26 +99,56 @@
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
-  .mainRegister {
-    width: 70%;
-    height: 86%;
-    margin-top: 5rem;
+
+  /* Mobile */
+  /* Devices with less than 800px */
+  @media screen and (max-width: 800px) {
+    .register {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+
+    .mainRegister {
+      width: 85%;
+      padding: 2rem;
+      margin-top: 0rem;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+    }
+
+    .mainRegister h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+
+    }
+
+    .mainRegister small {
+      text-align: center;
+      font-size: 0.6rem;
+    }
+
+    .mainRegister a {
+      color: var(--color-primary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-left: 0.2rem;
+    }
+
+    .form p {
+      color: aliceblue;
+      font-size: 0.8rem;
+      padding: 0.9rem;
+
+
+    }
+
   }
-
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-
-  }
-
-  .mainRegister h2 {
-    text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-
-  }
-
-
 }

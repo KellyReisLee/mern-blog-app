@@ -2,7 +2,7 @@
   width: 100vw;
   background-color: var(--color-gray-900);
   padding-top: 1.5rem;
-  position: static;
+  position: fixed;
   bottom: 0;
   z-index: 1;
   margin-top: 0rem;

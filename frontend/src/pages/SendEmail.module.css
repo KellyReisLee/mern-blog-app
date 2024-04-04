@@ -19,7 +19,7 @@
   justify-content: center;
   border-radius: 10px;
   box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.2);
-  ;
+
 }
 
 hr {
@@ -110,22 +110,38 @@ hr {
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
+  .section {
+    margin-top: 1.7rem;
+  }
 
   .form {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    width: 70%;
-    margin-top: 2rem;
+    gap: 0.3rem;
+    width: 90%;
+    margin-top: 0rem;
   }
 
+  .form h1 {
+    color: var(--color-primary);
+    margin-top: 0.6rem;
+    padding: 1.3rem;
+    font-size: 1.6rem;
+  }
+
+  .form h3 {
+
+    margin-top: 0rem;
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
 
   .btns {
     width: 100%;
     display: flex;
     justify-content: end;
     align-items: end;
-    gap: 1rem;
+    gap: 0.7rem;
     padding: 1rem 1rem;
 
 
@@ -133,7 +149,7 @@ hr {
 
   .btn {
     width: 100%;
-    padding: 1rem;
+    padding: 0.6rem;
     border-radius: 10px;
     cursor: pointer;
     color: aliceblue;

@@ -122,13 +122,13 @@ textarea {
   background-color: #ffffff;
 }
 
-.project-container {
+/* .project-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
 
-}
+} */
 
 @media screen and (max-width: 800px) {
 
