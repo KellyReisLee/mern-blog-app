@@ -111,7 +111,7 @@ hr {
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
   .section {
-    margin-top: 1.7rem;
+    margin-top: 3rem;
   }
 
   .form {

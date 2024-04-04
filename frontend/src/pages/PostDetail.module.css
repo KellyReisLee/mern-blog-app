@@ -3,13 +3,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
-  margin-top: 8rem;
+  margin-bottom: 8rem;
+  margin-top: 4rem;
 
 }
 
 .mainContainer {
-  width: var(--form-width);
+  width: 60%;
   background-color: var(--color-box);
   padding: 2rem;
   border-radius: var(--radius-1);
@@ -40,6 +40,7 @@
 
 .header {
   display: flex;
+  justify-content: space-between;
 }
 
 .btns {
@@ -71,9 +72,44 @@
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
 
+  .container {
+    margin-top: 2rem;
+    margin-bottom: 7rem;
+  }
+
   .mainContainer {
-    width: 80%;
+    width: 85%;
+    margin-top: 0;
+    padding: 1rem;
 
 
   }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btns a {
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--radius-1);
+    color: aliceblue;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .btns {
+    text-align: center;
+    gap: 0.3rem;
+    width: 100%;
+
+
+  }
+
+  .authorContainer {
+    width: 100%;
+  }
+
 }

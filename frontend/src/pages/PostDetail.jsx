@@ -8,7 +8,9 @@ const PostDetail = () => {
     <section className={classes.container}>
       <div className={classes.mainContainer}>
         <div className={classes.header}>
-          <PostAuthor />
+          <div className={classes.authorContainer}>
+            <PostAuthor />
+          </div>
           <div className={classes.btns}>
             <Link to={`/posts/werwer/edit`} className={classes.edit}>Edit</Link>
             <Link to={`/posts/werwer/delete`}

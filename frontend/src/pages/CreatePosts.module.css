@@ -1,10 +1,6 @@
 .createPost {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
-
-
 }
 
 .container {
@@ -61,12 +57,25 @@
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
+  .createPost {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.2rem;
+  }
 
   .container {
-    width: 80%;
+    width: 95%;
+    margin-top: 0;
   }
 
   .container h2 {
-    font-size: 2rem;
+    font-size: 1.7rem;
+  }
+
+
+  .error {
+    padding: 0.7rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
   }
 }

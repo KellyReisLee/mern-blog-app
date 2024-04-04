@@ -2,7 +2,7 @@
   display: grid;
   text-align: center;
   place-items: center;
-  margin-top: 6.5rem;
+  margin-top: 5rem;
 
 }
 
@@ -24,7 +24,7 @@
 }
 
 .wrapperImg {
-  width: 8rem;
+  width: 9rem;
   aspect-ratio: 1/1;
   position: relative;
   margin-inline: auto;
@@ -90,7 +90,7 @@
   color: var(--color-gray-400);
   font-family: "Urbanist", sans-serif;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
@@ -153,8 +153,63 @@
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
   .profile {
-    width: 80%;
+    width: 100%;
     padding: 1.5rem 3rem;
+  }
+
+
+  .mainContainer {
+    display: grid;
+    text-align: center;
+    place-items: center;
+    margin-top: 2rem;
+
+  }
+
+  .mainContainer a {
+
+    padding: 0.4rem 1rem;
+    color: var(--color-gray-300);
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: "Urbanist", sans-serif;
+    border: 2px solid var(--color-primary);
+
+  }
+
+  .containerImg {
+    height: 100%;
+    border-radius: 50%;
+    border: 7px solid var(--color-white);
+    overflow: hidden;
+  }
+
+  .mainContainer h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .wrapperImg {
+    width: 7rem;
+    aspect-ratio: 1/1;
+    position: relative;
+    margin-inline: auto;
+
+  }
+
+
+  .profile button {
+    width: 100%;
+    background-color: var(--color-primary);
+    padding: 0.8rem;
+    border-radius: var(--radius-1);
+    color: aliceblue;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    font-family: "Urbanist", sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: 0rem;
+    cursor: pointer;
   }
 
 

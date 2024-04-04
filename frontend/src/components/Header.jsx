@@ -92,16 +92,14 @@ const Header = () => {
     setError(true)
     // Faz a solicitação de logout
     const response = await axios.get('api/users/logout')
-
+    console.log(response);
 
     try {
-      if (response.data.message !== 'Successfully Logout') {
-        localStorage.clear();
-        setLoggedIn(false)
-        setUserData(null)
-        // setError(false)
-        // navigation('api/users/logout')
-      }
+      localStorage.clear();
+      setLoggedIn(false)
+      setUserData(null)
+      setError(false)
+      navigation('api/users/logout')
 
 
     } catch (error) {
