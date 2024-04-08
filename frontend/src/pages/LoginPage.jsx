@@ -15,6 +15,7 @@ const LoginPage = () => {
 
   })
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
 
@@ -27,6 +28,8 @@ const LoginPage = () => {
 
   const handleLoginUser = async (e) => {
     e.preventDefault();
+
+    setLoading(true)
     const { email, password } = userDataLogin;
     if (!email || !password) {
       return setError('All fields are required.')
@@ -34,7 +37,7 @@ const LoginPage = () => {
 
     try {
       const { data } = await axios.post("/api/users/login", { email, password })
-      //console.log(data);
+      console.log(data);
       if (data.error) {
         setError(data.error)
       } else {
@@ -48,13 +51,14 @@ const LoginPage = () => {
         navigate('/')
         // window.location.reload(true)
 
-
       }
 
     } catch (error) {
       console.error('Erro ao efetuar login:', error);
       setError(error.response?.data?.message || 'unknown error');
     }
+
+    setLoading(false)
 
   }
 
@@ -66,8 +70,6 @@ const LoginPage = () => {
     if (name === 'password') {
       setShowPassword(() => !showPassword)
     }
-
-
 
     setTimeout(() => {
       setShowPassword(false)
@@ -83,8 +85,10 @@ const LoginPage = () => {
         <h2>Sign In</h2>
         <form onSubmit={handleLoginUser} className={classes.form}>
           {error && (
-            <p>{error}</p>
+            <p className={classes.error}>{error}</p>
           )}
+
+          {loading && !error && <p className={classes.loading}>Loding...</p>}
 
           {/* email */}
           <input
