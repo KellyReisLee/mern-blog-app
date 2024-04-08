@@ -1,39 +1,37 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import classes from './VerificationPage.module.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { UserContext } from '../../context/userContext'
+
 
 
 const VerificationPage = () => {
   const navigate = useNavigate();
-  const { userData, setUserData } = useContext(UserContext);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('')
   const { id, token } = useParams();
   console.log(id, token);
 
   useEffect(() => {
-    // console.log(userData);
-    // const verifyEmail = async () => {
-    //   try {
-    //     const { data } = await axios.get(`api/users/verify/${id}/${token}`)
-    //     console.log(data);
-    //     if (!data) {
-    //       setError('Not possible verify data from the user.')
-    //     }
-    //     setMessage(data.message)
 
-    //     setTimeout(() => {
-    //       navigate('/api/users/login')
-    //     }, 2000);
+    const verifyEmail = async () => {
+      try {
+        const { data } = await axios.get(`api/users/verify/${id}/${token}`)
 
-    //   } catch (error) {
-    //     setError({ error: 'Not possible validate user.' })
-    //   }
+        if (!data) {
+          setError('Not possible verify data from the user.')
+        }
+        setMessage(data.message)
+        setTimeout(() => {
+          navigate('/api/users/login')
+        }, 2000);
 
-    // }
-    // verifyEmail()
+      } catch (error) {
+        setError({ error: 'Not possible validate user.' })
+      }
+
+    }
+    verifyEmail()
   }, [])
 
   return (
@@ -47,17 +45,15 @@ const VerificationPage = () => {
             <span></span>
           </div>
         </div>
-        {/* {error && !message && <p className={classes.error}>{error}</p>}
-      {message && !error && <>
-        <p className={classes.message}>
-          {message}
-        </p>
+        {error && !message && <p className={classes.error}>{error}</p>}
+        {message && !error && <>
+          <p className={classes.message}>
+            {message}
+          </p>
 
-      </>} */}
+        </>}
 
-        <p className={classes.error}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas maecenas.
-        </p>
+
 
       </div>
 

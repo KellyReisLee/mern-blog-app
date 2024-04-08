@@ -1,15 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import classes from './EditPost.module.css'
 import { categories } from '../helpers/dataPost';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { formats, modules } from '../helpers/textBox'
+import { UserContext } from '../../context/userContext'
+import { useNavigate } from 'react-router-dom';
+
 
 const EditPost = () => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('Uncategorized')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
+
+
+
+  const { userData } = useContext(UserContext)
+  const navigate = useNavigate();
+
+  const token = userData?.token;
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/api/users/login')
+    }
+
+  }, [])
   return (
     <section className={classes.editPost}>
       <div className={classes.container}>

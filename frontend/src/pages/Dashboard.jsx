@@ -1,10 +1,27 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import classes from './Dashboard.module.css'
 import { dummy_Data } from '../helpers/dataPost';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../context/userContext'
+import { useNavigate } from 'react-router-dom';
+
 
 const Dashboard = () => {
   const [posts, setPosts] = useState(dummy_Data || []);
+  const { userData } = useContext(UserContext)
+  const navigate = useNavigate();
+
+  const token = userData?.token;
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/api/users/login')
+    }
+
+  }, [])
+
+
+
   return (
     <section>
       {posts.length > 0 ? (<>
