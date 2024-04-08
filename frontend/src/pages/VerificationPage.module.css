@@ -1,22 +1,35 @@
 .container {
-  margin-top: 10rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.box {
+  background-color: rgb(218, 217, 217);
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  border-radius: var(--radius-1);
+  padding: 2rem;
 }
 
 .container h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  text-align: center;
+
 }
 
 .container p {
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: aliceblue;
-  padding: 0.7rem 5rem;
-  width: 40%;
+  padding: 1rem;
   border-radius: var(--radius-1);
 }
 
@@ -34,6 +47,8 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 2rem;
+  padding-top: 2.5rem;
+
 }
 
 /* Loading animation */
@@ -44,11 +59,11 @@
 }
 
 .boucingLoader span {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   margin: 3px 6px;
   border-radius: 50%;
-  background-color: var(--color-gray-100);
+  background-color: var(--color-primary);
   opacity: 1;
   animation: bouncing-loader 0.6s infinite alternate;
 }
@@ -56,14 +71,54 @@
 @keyframes bouncing-loader {
   to {
     opacity: 1;
-    transform: translateY(-7px);
+    transform: translateY(-3px);
   }
 }
 
 .bouncing-loader>span:nth-child(2) {
-  animation-delay: 1s;
+  animation-delay: 2s;
 }
 
 .bouncing-loader>span:nth-child(3) {
   animation-delay: 2s;
+}
+
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+
+  .container {
+    margin-top: 3rem;
+
+  }
+
+  .box {
+    width: 85%;
+    padding: 0.9rem;
+
+  }
+
+  .container h1 {
+    font-size: 1.5rem;
+
+  }
+
+
+  .container p {
+    font-size: 0.7rem;
+    color: aliceblue;
+    padding: 1rem;
+    border-radius: var(--radius-1);
+
+  }
+
+  .loadingMessage {
+    gap: 0.5rem;
+  }
+
+  .loadingMessage {
+    margin-bottom: 1.7rem;
+  }
+
 }
