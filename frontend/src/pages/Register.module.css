@@ -58,6 +58,19 @@
 }
 
 
+.loading {
+  color: rgb(220, 220, 220);
+  font-size: 0.9rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-1);
+  margin-bottom: 0.4rem;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 1px;
+  background-color: rgb(88, 87, 87);
+  text-align: center;
+}
+
+
 .mainRegister button {
   width: 100%;
   background-color: var(--color-primary);

@@ -55,7 +55,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
 
     if (validation()) {
       const { username, email, password, confirmPassword } = userData;
@@ -63,10 +63,9 @@ const RegisterPage = () => {
         const data = await axios.post("api/users/register", {
           username, email, password, confirmPassword
         })
-        setLoading(true)
 
-        if (!data) {
-          console.log(data.message);
+        if (data.error) {
+          setError(data.error)
         } else {
           setError('')
           setSuccess('Register Successfully! Check your email!')
@@ -76,7 +75,7 @@ const RegisterPage = () => {
             password: '',
             confirmPassword: ''
           })
-          setLoading(false)
+
         }
 
       } catch (error) {
@@ -84,6 +83,7 @@ const RegisterPage = () => {
       }
     }
 
+    setLoading(false)
   }
 
 
@@ -126,7 +126,7 @@ const RegisterPage = () => {
           {success && !error && (
             <p className={classes.success}>{success}</p>
           )}
-          {loading && !error && !message && <p>Loading...</p>}
+          {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
 
           <input
             type='text'
