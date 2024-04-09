@@ -39,19 +39,19 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "api/users/verify", element: <VerificationPage /> },
-      { path: "posts/:id", element: <PostDetail /> },
+
       { path: "api/users/register", element: <RegisterPage /> },
       { path: "api/users/login", element: <LoginPage /> },
       { path: "api/users/logout", element: <Home /> },
       { path: "api/users/verify/:id/:token", element: <VerificationPage /> },
       { path: "api/users/profile/:id", element: <UserProfile /> },
+      { path: "api/posts/user/:id", element: <AuthorPosts /> },
+      { path: "api/posts/:id", element: <PostDetail /> },
       { path: "create", element: <CreatePosts /> },
       { path: "posts/categories/:category", element: <CategoryPosts /> },
-      { path: "posts/users/:id", element: <AuthorPosts /> },
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
       { path: "posts/:id/delete", element: <DeletePost /> },
-
       { path: "authors", element: <Authors /> },
       { path: "api/users/send-email", element: <SendEmail /> },
       { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },

@@ -1,35 +1,76 @@
-import React from 'react'
+import { useState, useEffect, useContext } from 'react'
 import PostAuthor from '../components/PostAuthor'
-import { Link } from 'react-router-dom'
-import image1 from '../assets/avatar.png'
+import { Link, useParams } from 'react-router-dom'
+import Avatar from '../assets/avatar.png'
 import classes from './PostDetail.module.css'
+import { UserContext } from '../../context/userContext'
+import axios from 'axios'
+import DeletePost from './DeletePost'
+
+
+
 const PostDetail = () => {
+  const { userData, setLoggedIn } = useContext(UserContext)
+  const [post, setPost] = useState({});
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const { id } = useParams();
+
+  console.log(userData);
+
+  useEffect(() => {
+    async function fetchPost() {
+      setLoading(true)
+      try {
+        const { data } = await axios.get(`api/posts/${id}`)
+        console.log(data);
+
+        if (!data) {
+          setError('Could not fetch data from database.')
+        }
+        setPost(data)
+
+      } catch (error) {
+        setError(error)
+
+      }
+      setLoading(false)
+    }
+
+    fetchPost()
+  }, [])
+  console.log(post);
+
+
+
   return (
     <section className={classes.container}>
       <div className={classes.mainContainer}>
         <div className={classes.header}>
           <div className={classes.authorContainer}>
-            <PostAuthor />
+
+            <PostAuthor creatorData={post?.creator} createdAt={post.createdAt} />
           </div>
-          <div className={classes.btns}>
-            <Link to={`/posts/werwer/edit`} className={classes.edit}>Edit</Link>
-            <Link to={`/posts/werwer/delete`}
-              className={classes.delete}>Delete</Link>
-          </div>
+          {
+            userData?._id === post?.creator?._id && (
+              <div className={classes.btns}>
+                <Link to={`/posts/${id}/edit`} className={classes.edit}>Edit</Link>
+                <Link to={`/posts/${id}/delete`}
+                  className={classes.delete}>Delete</Link>
+                {/* <DeletePost postId={post._id} className={classes.delete} /> */}
+              </div>
+            )
+          }
         </div>
-        <h1>Post title</h1>
+        <h1>{post.title}</h1>
         <div className={classes.containerImg}>
-          <img src={image1} />
+          <img src={`http://localhost:4000/uploads/uploadsPostImg/${post.image}`} onError={(e) => {
+            e.currentTarget.src = Avatar,
+              e.currentTarget.onerror = null
+          }} alt={post.title} />
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p dangerouslySetInnerHTML={{ __html: post.description }}>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.p
-        </p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.p
-        </p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.p
         </p>
 
       </div>

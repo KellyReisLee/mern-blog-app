@@ -19,7 +19,6 @@ const CreatePosts = () => {
 
 
   useEffect(() => {
-
     if (!token) {
       navigate('/api/users/login')
     }
