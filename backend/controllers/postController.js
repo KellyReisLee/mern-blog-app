@@ -27,7 +27,7 @@ const createPost = async (req, res, next) => {
     let splittedImage = fileName.split('.')
     let newFileName = splittedImage[0] + uuid() + '.' + splittedImage[splittedImage.length - 1]
 
-    image.mv(path.join(__dirname, '..', 'uploadsPostImg', newFileName), async (err) => {
+    image.mv(path.join(__dirname, '..', 'uploads', 'uploadsPostImg', newFileName), async (err) => {
       if (err) {
         return res.json({ error: err })
       } else {
@@ -62,7 +62,7 @@ const createPost = async (req, res, next) => {
 const getPosts = async (req, res, next) => {
 
   try {
-    const allPosts = await Post.find().sort({ createdAt: -1 }).limit(2)
+    const allPosts = await Post.find().populate('creator', 'username avatar verified posts');
 
     if (!allPosts) {
       return res.status(404).json({ error: 'Could not find posts. Try later' })
@@ -84,15 +84,14 @@ const getPosts = async (req, res, next) => {
 const getSinglePost = async (req, res, next) => {
   //res.json('Get Single Post')
   try {
-    const postId = req.params.id
-    const singlePost = await Post.findById(postId);
+    const { id } = req.params
+
+    const singlePost = await Post.findById(id).populate('creator', 'username avatar verified posts')
     if (!singlePost) {
       return res.status(404).json({ error: 'Could not find post.' })
     }
 
     res.status(200).json(singlePost)
-
-
   } catch (error) {
     return res.status(500).json({ error: 'Could not in post.', error })
   }
@@ -121,15 +120,15 @@ const getPostsCategory = async (req, res, next) => {
 
 
 
-// ____________GET USER/AUTHOR POSTS
+// ____________GET USER/AUTHOR POSTs
 // GET: api/posts/users/:id
 // Unprotected area.
-const getAuthorPosts = async (req, res, next) => {
-  //res.json('Get all posts from specific users.')
-
+const getAuthorPosts = async (req, res) => {
+  // Get all posts from a specific author.
   try {
     const { id } = req.params;
-    const posts = await Post.find({ creator: id }).sort({ createdAt: 1 })
+    const posts = await Post.find({ creator: id }).populate('creator', 'username avatar verified posts');
+
 
     if (!posts) {
       return res.status(404).json({ error: 'Could not find posts.' })

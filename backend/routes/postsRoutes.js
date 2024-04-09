@@ -18,8 +18,8 @@ const router = Router();
 router.post('/', authMiddleware, createPost)
 router.get('/', getPosts)
 router.get('/:id', getSinglePost)
+router.get('/user/:id', getAuthorPosts)
 router.get('/categories/:category', getPostsCategory)
-router.get('/users/:id', getAuthorPosts)
 router.patch('/:id', authMiddleware, editPost)
 router.delete('/:id', authMiddleware, deletePost)
 

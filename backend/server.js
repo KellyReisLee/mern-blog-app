@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes)
 app.use('/api/posts', postsRoutes)
 
-// leading with errors:
+// handling with errors:
 app.use(notFound)
 app.use(errorMiddleware)
 
