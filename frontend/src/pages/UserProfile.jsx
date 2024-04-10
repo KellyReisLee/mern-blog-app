@@ -253,7 +253,7 @@ const UserProfile = () => {
             {message && !error && <p className={classes.message}>{message}</p>}
             {error && !message && <p className={classes.error}>{error}</p>}
             {/* Name */}
-            {!loading && !error && !message && <p className={classes.loading}>Loading...</p>}
+            {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
             {/* Name */}
             <input name='username' type='text' placeholder='Username' value={user.username} onChange={changeInputHandler} />
             {/* Email */}

@@ -16,13 +16,27 @@
   color: var(--color-gray-500);
 }
 
-.error {
-  background-color: var(--color-red);
-  padding: 0.4rem 0.8rem;
+.container p {
+  padding: 0.5rem 0.8rem;
   color: var(--color-white);
   border-radius: var(--radius-1);
-  font-size: 1rem;
+  font-size: 0.7rem;
   margin-top: 0.7rem;
+  text-align: center;
+}
+
+.error {
+  background-color: var(--color-red);
+}
+
+.message {
+  background-color: var(--color-green);
+}
+
+.loading {
+  background-color: gray;
+
+
 }
 
 .form {

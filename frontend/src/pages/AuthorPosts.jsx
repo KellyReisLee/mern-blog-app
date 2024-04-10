@@ -31,8 +31,7 @@ const AuthorPosts = () => {
 
 
       } catch (error) {
-        setError(error || 'Could not fetch data.')
-
+        setError(error || 'Could not Create Post.')
       }
       setLoading(false)
     }

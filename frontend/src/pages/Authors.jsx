@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import classes from './Authors.module.css'
-import { authorsData } from '../helpers/dataPost'
 import axios from 'axios'
 import Avatar from '../assets/avatar.png'
 import SkeletonAuthors from '../components/SkeletonAuthors'
@@ -31,7 +30,7 @@ const Authors = () => {
         setAuthors(data)
 
       } catch (error) {
-        setError(error)
+        setError(error || 'Could not fetch data.')
 
       }
       setLoading(false)
@@ -47,13 +46,12 @@ const Authors = () => {
     <section className={classes.section}>
       <div className={classes.container}>
         {loading && (<>{skeleton}</>)}
-        {!loading && authors.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
-
+        {!loading && authors.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
 
         {authors.length > 0 &&
           (
             authors.map((author) => {
-              return <Link className={classes.author} key={author._id} to={`/posts/users/${author._id}`}>
+              return <Link className={classes.author} key={author._id} to={`/api/posts/user/${author._id}`}>
                 <div className={classes.authorsImage}>
                   <img src={`http://localhost:4000/uploads/uploadsUserImg/${author.avatar}`} onError={(e) => {
                     e.currentTarget.src = Avatar,

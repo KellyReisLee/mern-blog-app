@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import { formats, modules } from '../helpers/textBox'
 import { UserContext } from '../../context/userContext'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const CreatePosts = () => {
   const [title, setTitle] = useState('');
@@ -14,26 +15,76 @@ const CreatePosts = () => {
   const [image, setImage] = useState('')
   const { userData } = useContext(UserContext)
   const navigate = useNavigate();
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('');
 
   const token = userData?.token;
-
-
+  // Protecting Page
   useEffect(() => {
     if (!token) {
       navigate('/api/users/login')
     }
-
   }, [])
 
+  function validation() {
 
+    if (!title || !category || !description || !image) {
+      setError('All fields are required!')
+      return false
+    }
+    return true
+  }
+
+
+  const handleCreatePost = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    const postData = new FormData();
+    postData.set('title', title)
+    postData.set('category', category)
+    postData.set('description', description)
+    postData.set('image', image)
+    if (validation()) {
+      try {
+        const response = await axios.post('api/posts', postData, {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
+        })
+
+        if (response.status == 201) {
+          setError('')
+          setMessage(response.data.message)
+
+        }
+        setTimeout(() => {
+          navigate('/')
+        }, 4000);
+
+
+      } catch (error) {
+        setError(error.response.data.error || 'Could not Create Post.')
+        console.log(error.response.data.error);
+      }
+
+
+
+    }
+
+
+    setLoading(false)
+  }
 
   return (
     <section className={classes.createPost}>
       <div className={classes.container}>
         <h2>Create Post</h2>
-        <p className={classes.error}>This is an error</p>
-        <form className={classes.form}>
-          <input name='title' type='text' placeholder='Title' value={title} onChange={e => setCategory(e.target.event)} autoFocus />
+        {error && <p className={classes.error}>{error}</p>}
+        {message && !error && <p className={classes.message}>{message}</p>}
+        {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
+
+        <form onSubmit={handleCreatePost} className={classes.form}>
+          <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
           <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
             {categories.map((item) => (
               <option key={item}>{item}</option>
@@ -45,7 +96,7 @@ const CreatePosts = () => {
           <button type='submit' className={classes.btn}>Create</button>
         </form>
       </div>
-    </section>
+    </section >
   )
 }
 

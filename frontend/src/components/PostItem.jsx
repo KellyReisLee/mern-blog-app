@@ -15,7 +15,7 @@ const PostItem = ({ id, image, title, category, description, creatorData, create
       <div >
         <Link to={`/api/posts/${id}`}>
           <h3>{title}</h3>
-          <p>{shortDescription}</p>
+          <p dangerouslySetInnerHTML={{ __html: shortDescription }}></p>
         </Link>
       </div>
       <div className={classes.postFooter}>
