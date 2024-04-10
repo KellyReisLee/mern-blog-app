@@ -96,10 +96,9 @@
 
 .form p {
   color: aliceblue;
-  font-size: 0.5rem;
-  padding: 0.2rem 0.7rem;
+  font-size: 0.6rem;
+  padding: 0.4rem 0.7rem;
   border-radius: var(--radius-1);
-  margin-bottom: 0.4rem;
   font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
   margin-top: 0.2rem;
@@ -145,6 +144,11 @@
   top: 7px;
   right: 16px;
   cursor: pointer;
+}
+
+.loading {
+  background-color: gray;
+
 }
 
 

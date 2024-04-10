@@ -52,7 +52,7 @@ const router = createBrowserRouter([
       { path: "myposts/:id", element: <Dashboard /> },
       { path: "posts/:id/edit", element: <EditPost /> },
       { path: "posts/:id/delete", element: <DeletePost /> },
-      { path: "authors", element: <Authors /> },
+      { path: "posts/authors", element: <Authors /> },
       { path: "api/users/send-email", element: <SendEmail /> },
       { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },
 

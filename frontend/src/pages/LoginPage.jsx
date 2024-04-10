@@ -28,7 +28,6 @@ const LoginPage = () => {
 
   const handleLoginUser = async (e) => {
     e.preventDefault();
-
     setLoading(true)
     const { email, password } = userDataLogin;
     if (!email || !password) {
@@ -49,10 +48,11 @@ const LoginPage = () => {
           password: '',
         });
         navigate('/')
-        // window.location.reload(true)
+
 
       }
 
+      setLoading(false)
     } catch (error) {
       console.error('Erro ao efetuar login:', error);
       setError(error.response?.data?.message || 'unknown error');
@@ -61,8 +61,6 @@ const LoginPage = () => {
     setLoading(false)
 
   }
-
-
 
 
   function showPasswordFunc(name) {

@@ -21,6 +21,7 @@ const UserProfile = () => {
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('');
   const [imageState, setImageState] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [user, setUser] = useState({
     username: '',
@@ -154,6 +155,7 @@ const UserProfile = () => {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (validation()) {
       try {
         const response = await axios.patch(`/api/users/${userData._id}/edit-user`, user)
@@ -186,6 +188,7 @@ const UserProfile = () => {
         setError(error.response.data.error);
       }
     }
+    setLoading(false)
   }
 
 
@@ -250,8 +253,9 @@ const UserProfile = () => {
             {message && !error && <p className={classes.message}>{message}</p>}
             {error && !message && <p className={classes.error}>{error}</p>}
             {/* Name */}
+            {!loading && !error && !message && <p className={classes.loading}>Loading...</p>}
+            {/* Name */}
             <input name='username' type='text' placeholder='Username' value={user.username} onChange={changeInputHandler} />
-
             {/* Email */}
             <input name='email' type='email' placeholder='Email' value={user.email} onChange={changeInputHandler} />
             <div className={classes.password}>

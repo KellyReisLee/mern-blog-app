@@ -25,28 +25,7 @@ const PostAuthor = ({ createdAt, creatorData }) => {
   const isValidDate = !isNaN(date.getTime());
 
 
-  useEffect(() => {
-    async function fetchAuthor() {
-      setLoading(true)
-      try {
-        const { data } = await axios.get(`api/posts/user/${creatorData._id}`)
 
-        console.log(data);
-        if (!data?.posts) {
-          setError('Could not fetch data from database.')
-        }
-        setAuthorPosts(data)
-
-
-      } catch (error) {
-        setError(error || 'Could not fetch data.')
-
-      }
-      setLoading(false)
-    }
-
-    fetchAuthor()
-  }, [])
 
   return (
     <Link to={`/api/posts/user/${creatorData?._id}`}>

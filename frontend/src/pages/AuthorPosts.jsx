@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import PostItem from '../components/PostItem'
-import { useParams } from 'react-router-dom'
 import classes from './AuthorPosts.module.css'
 import axios from 'axios'
+import SkeletonPost from '../components/SkeletonPost'
+import { useParams } from 'react-router-dom'
 
 const AuthorPosts = () => {
 
@@ -11,15 +12,19 @@ const AuthorPosts = () => {
   const [error, setError] = useState(false)
   const { id } = useParams();
 
-  console.log(id);
 
+  const skeleton = [];
+  for (let i = 1; i <= 6; i++) {
+    skeleton.push(<SkeletonPost key={i} />)
+  }
   useEffect(() => {
     async function fetchAuthor() {
       setLoading(true)
       try {
         const { data } = await axios.get(`api/posts/user/${id}`)
+
         console.log(data);
-        if (!data) {
+        if (!data?.posts) {
           setError('Could not fetch data from database.')
         }
         setAuthorPosts(data)
@@ -34,13 +39,18 @@ const AuthorPosts = () => {
 
     fetchAuthor()
   }, [])
-
-
   return (
     <section className={classes.container}>
       {
-        authorPosts?.map((post) => (
-          <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} />
+        loading && (
+          <>
+            {skeleton}
+          </>
+        )
+      }
+      {
+        authorPosts.map((post) => (
+          <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
         ))
       }
     </section>

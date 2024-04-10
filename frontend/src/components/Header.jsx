@@ -130,7 +130,7 @@ const Header = () => {
                     <Link to="/create" onClick={handleCloseNav}>Create Post</Link>
                   </li>
                   <li>
-                    <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
+                    <Link to="/posts/authors" onClick={handleCloseNav}>Authors</Link>
                   </li>
                   <li>
                     <Link to="/api/users/logout" onClick={handleLogout}>Logout</Link>
@@ -160,7 +160,7 @@ const Header = () => {
               {show && (
                 <ul className={classes.navMenu}>
                   <li>
-                    <Link to="/authors" onClick={handleCloseNav}>Authors</Link>
+                    <Link to="/posts/authors" onClick={handleCloseNav}>Authors</Link>
                   </li>
 
                   <li>

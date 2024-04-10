@@ -46,6 +46,19 @@
 @media screen and (max-width: 800px) {
 
   .authorContainer {
-    width: var(--container-width-md);
+    width: 100%;
+  }
+
+  .authorDetail i {
+    font-size: 0.8rem;
+
+  }
+
+
+  .authorDetail h5 {
+    font-style: italic;
+    font-size: 0.8rem;
+    color: rgb(94, 94, 94);
+
   }
 }
