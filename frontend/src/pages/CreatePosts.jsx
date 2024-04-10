@@ -28,7 +28,6 @@ const CreatePosts = () => {
   }, [])
 
   function validation() {
-
     if (!title || !category || !description || !image) {
       setError('All fields are required!')
       return false

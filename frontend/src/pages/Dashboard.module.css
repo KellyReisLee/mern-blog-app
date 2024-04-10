@@ -1,8 +1,9 @@
 .dashboard {
   display: flex;
   flex-direction: column;
+
+  margin: 2rem 2rem 8.5rem 2rem;
   gap: 1rem;
-  margin-top: 1rem;
 
 }
 
@@ -40,6 +41,11 @@
   justify-content: center;
   align-items: center;
 
+
+}
+
+.view {
+  cursor: pointer;
 }
 
 .edit {
@@ -47,6 +53,7 @@
   padding: 0.5rem 1rem;
   color: var(--color-white);
   border-radius: var(--radius-1);
+  cursor: pointer;
 }
 
 .delete {
@@ -54,6 +61,7 @@
   padding: 0.5rem 1rem;
   color: var(--color-white);
   border-radius: var(--radius-1);
+  cursor: pointer;
 }
 
 .noDataFound {

@@ -43,12 +43,11 @@ const Posts = () => {
 
   return (
     <section className={classes.section}>
-
+      {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
+      {
+        loading && (<>{skeleton}</>)
+      }
       <div className={classes.posts}>
-        {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
-        {
-          loading && (<>{skeleton}</>)
-        }
 
         {
           posts.map((post) => (

@@ -24,14 +24,14 @@ const AuthorPosts = () => {
         const { data } = await axios.get(`api/posts/user/${id}`)
 
         console.log(data);
-        if (!data?.posts) {
+        if (!data) {
           setError('Could not fetch data from database.')
         }
         setAuthorPosts(data)
 
 
       } catch (error) {
-        setError(error || 'Could not Create Post.')
+        setError(error || 'Could not fetch Posts.')
       }
       setLoading(false)
     }
@@ -40,7 +40,7 @@ const AuthorPosts = () => {
   }, [])
   return (
     <section className={classes.container}>
-      {!loading && authorPosts.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
+      {!loading && authorPosts.length === 0 && <p className={classes.noDataFound}>You don't have posts yet.</p>}
       {
         loading && (
           <>

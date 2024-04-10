@@ -15,7 +15,7 @@ const PostDetail = () => {
   const { userData } = useContext(UserContext)
   const [post, setPost] = useState({});
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('')
   const { id } = useParams();
 
   console.log(userData);
@@ -57,8 +57,8 @@ const PostDetail = () => {
           {
             userData?._id === post?.creator?._id && (
               <div className={classes.btns}>
-                <Link to={`/posts/${post?.id}/edit`} className={classes.edit}>Edit</Link>
-                <Link to={`/posts/${post?.id}/delete`}
+                <Link to={`/posts/${id}/edit`} className={classes.edit}>Edit</Link>
+                <Link to={`/posts/${id}/delete`}
                   className={classes.delete}>Delete</Link>
                 {/* <DeletePost postId={post._id} className={classes.delete} /> */}
               </div>

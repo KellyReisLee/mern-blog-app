@@ -6,7 +6,7 @@ import classes from './SkeletonPost.module.css'
 
 const SkeletonPost = () => {
   return (
-    <div >
+    <div className={classes.main}>
       <Stack sx={{ width: '100%', bgcolor: 'white', padding: '2rem', borderRadius: '2rem' }} spacing={1}>
         {/* For variant="text", adjust the height via font-size */}
         <Skeleton animation="wave" variant="rectangular" sx={{ height: '20vh', bgcolor: 'grey.300' }} />
