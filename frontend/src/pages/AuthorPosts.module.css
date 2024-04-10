@@ -5,6 +5,13 @@
   gap: 2rem;
 }
 
+.noDataFound {
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 600;
+
+}
+
 
 /* Mobile */
 /* Devices with less than 800px */
@@ -16,5 +23,11 @@
 
     margin: 2rem 2rem 6rem 2rem;
     gap: 2rem;
+  }
+
+  .noDataFound {
+    font-size: 0.8rem;
+
+
   }
 }

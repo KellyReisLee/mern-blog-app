@@ -43,6 +43,12 @@ section {
 
 }
 
+.noDataFound {
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
 
 /* Mobile */
 /* Devices with less than 800px */
@@ -53,6 +59,13 @@ section {
     gap: 1rem;
     padding: 1rem 3rem;
     margin-bottom: 6rem;
+
+  }
+
+  .noDataFound {
+    font-size: 0.8rem;
+
+
   }
 
 }

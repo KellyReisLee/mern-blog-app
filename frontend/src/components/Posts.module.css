@@ -10,6 +10,12 @@
   margin-top: 2rem;
 }
 
+.noDataFound {
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
@@ -27,6 +33,11 @@
     gap: 2rem;
     padding: 0rem 2rem;
     margin-bottom: 0rem;
+
+  }
+
+  .noDataFound {
+    font-size: 0.8rem;
 
   }
 }

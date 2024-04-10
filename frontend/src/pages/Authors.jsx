@@ -7,7 +7,7 @@ import Avatar from '../assets/avatar.png'
 import SkeletonAuthors from '../components/SkeletonAuthors'
 const Authors = () => {
 
-  const [authors, setAuthors] = useState(authorsData || []);
+  const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -45,19 +45,13 @@ const Authors = () => {
 
   return (
     <section className={classes.section}>
+      <div className={classes.container}>
+        {loading && (<>{skeleton}</>)}
+        {!loading && authors.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
 
 
-      {authors.length > 0 ? (
-        <div className={classes.container}>
-
-          {
-            loading && (
-              <>
-                {skeleton}
-              </>
-            )
-          }
-          {
+        {authors.length > 0 &&
+          (
             authors.map((author) => {
               return <Link className={classes.author} key={author._id} to={`/posts/users/${author._id}`}>
                 <div className={classes.authorsImage}>
@@ -72,10 +66,10 @@ const Authors = () => {
                 </div>
               </Link>
             })
-          }
-        </div>
-      ) : (<h2>No Authors found!</h2>)}
+          )
+        }
 
+      </div>
     </section>
   )
 }

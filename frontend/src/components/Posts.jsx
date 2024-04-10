@@ -9,7 +9,7 @@ import SkeletonPost from './SkeletonPost'
 
 const Posts = () => {
 
-  const [posts, setPosts] = useState(dummy_Data);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -45,13 +45,9 @@ const Posts = () => {
     <section className={classes.section}>
 
       <div className={classes.posts}>
+        {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
         {
-          loading && (
-            <>
-
-              {skeleton}
-            </>
-          )
+          loading && (<>{skeleton}</>)
         }
 
         {

@@ -41,6 +41,7 @@ const AuthorPosts = () => {
   }, [])
   return (
     <section className={classes.container}>
+      {!loading && authorPosts.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
       {
         loading && (
           <>

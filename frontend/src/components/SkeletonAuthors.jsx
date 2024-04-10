@@ -5,12 +5,12 @@ import Stack from '@mui/material/Stack';
 
 const SkeletonAuthors = () => {
   return (
-    <Stack sx={{ width: '100%' }} spacing={1}>
+    <Stack sx={{ width: '100%', bgcolor: 'white', padding: '1rem', borderRadius: '0.7rem' }} spacing={1}>
       <div className={classes.main}>
-        <Skeleton variant="circular" width={65} height={60} />
+        <Skeleton animation="wave" variant="circular" width={65} height={60} />
         <div className={classes.text}>
-          <Skeleton variant="text" sx={{ width: '100%' }} />
-          <Skeleton variant="text" sx={{ width: '100%' }} />
+          <Skeleton animation="wave" variant="text" sx={{ width: '100%' }} />
+          <Skeleton animation="wave" variant="text" sx={{ width: '100%' }} />
         </div>
       </div>
     </Stack>
