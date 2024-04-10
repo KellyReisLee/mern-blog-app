@@ -62,7 +62,7 @@ const createPost = async (req, res, next) => {
 const getPosts = async (req, res, next) => {
 
   try {
-    const allPosts = await Post.find().populate('creator', 'username avatar verified posts');
+    const allPosts = await Post.find().populate('creator', 'username avatar verified posts').sort({ createdAt: -1 })
 
     if (!allPosts) {
       return res.status(404).json({ error: 'Could not find posts. Try later' })
@@ -120,14 +120,14 @@ const getPostsCategory = async (req, res, next) => {
 
 
 
-// ____________GET USER/AUTHOR POSTs
+// ____________GET USER/AUTHOR POSTS
 // GET: api/posts/users/:id
 // Unprotected area.
 const getAuthorPosts = async (req, res) => {
   // Get all posts from a specific author.
   try {
     const { id } = req.params;
-    const posts = await Post.find({ creator: id }).populate('creator', 'username avatar verified posts');
+    const posts = await Post.find({ creator: id }).populate('creator', 'username avatar verified posts').sort({ createdAt: -1 })
 
 
     if (!posts) {
