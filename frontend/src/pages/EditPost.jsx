@@ -100,26 +100,30 @@ const EditPost = () => {
   }
 
   return (
-    <section className={classes.editPost}>
-      <div className={classes.container}>
-        <h2>Edit Post</h2>
-        {loading && !error && <p className={classes.loading}>Loading...</p>}
-        {error && <p className={classes.error}>{error}</p>}
-        {message && !error && <p className={classes.message}>{message}</p>}
-        <form onSubmit={handleEditPost} className={classes.form}>
-          <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
-          <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
-            {categories.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-          <ReactQuill className={classes.quill} formats={formats} modules={modules} theme="snow" value={description} onChange={setDescription} />
-          <input name='image' type='file' onChange={e => setImage(e.target.files[0])} accept='png, jpg, jpeg' />
+    <>
+     
 
-          <button type='submit' className={classes.btn}>Update</button>
-        </form>
-      </div>
-    </section>
+      <section className={classes.editPost}>
+        <div className={classes.container}>
+          <h2>Edit Post</h2>
+          {loading && !error && <p className={classes.loading}>Loading...</p>}
+          {error && <p className={classes.error}>{error}</p>}
+          {message && !error && <p className={classes.message}>{message}</p>}
+          <form onSubmit={handleEditPost} className={classes.form}>
+            <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
+            <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
+              {categories.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+            <ReactQuill className={classes.quill} formats={formats} modules={modules} theme="snow" value={description} onChange={setDescription} />
+            <input name='image' type='file' onChange={e => setImage(e.target.files[0])} accept='png, jpg, jpeg' />
+
+            <button type='submit' className={classes.btn}>Update</button>
+          </form>
+        </div>
+      </section>
+    </>
   )
 }
 

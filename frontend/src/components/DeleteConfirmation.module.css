@@ -1,0 +1,114 @@
+.deleteConfirmation {
+  padding: 1rem;
+  font-family: "Poppins", sans-serif;
+
+
+}
+
+.deleteConfirmation h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.2rem;
+  margin-bottom: 0.4rem;
+  padding: 0;
+  color: var(--color-primary)
+}
+
+.deleteConfirmation p {
+  margin: 0 auto;
+  font-size: 1rem;
+  max-width: 38ch;
+  color: var(--color-gray-500);
+
+
+}
+
+.confirmationActions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.3rem;
+  margin-bottom: 1rem
+}
+
+.button {
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--color-red);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.button:hover,
+.button:focus {
+  background-color: var(--color-red);
+}
+
+.buttonText {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  color: var(--color-red);
+  cursor: pointer;
+}
+
+
+@media screen and (max-width: 800px) {
+  .deleteConfirmation {
+    padding: 0.7rem;
+  }
+
+  .deleteConfirmation h2 {
+    font-size: 2rem;
+    margin-bottom: 0.7rem;
+
+  }
+
+  .deleteConfirmation p {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+
+  }
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .confirmationActions {
+    width: 70%;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  button {
+    width: 100%;
+
+
+  }
+
+  .buttonText,
+  .button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .buttonText {
+    background-color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    border: 2px solid #5d0909;
+  }
+
+}

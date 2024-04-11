@@ -51,21 +51,17 @@
 
 }
 
-.btns a {
+
+
+.edit {
+  background-color: var(--color-primary);
   padding: 0.4rem 0.9rem;
   border-radius: var(--radius-1);
   color: aliceblue;
   font-size: 0.9rem;
-}
-
-.edit {
-  background-color: var(--color-primary);
 
 }
 
-.delete {
-  background-color: var(--color-red);
-}
 
 
 /* Mobile */
@@ -92,20 +88,24 @@
     align-items: center;
   }
 
-  .btns a {
+  .btns {
+    text-align: center;
+    gap: 0.3rem;
+    width: 100%;
     padding: 0.5rem 0.8rem;
     border-radius: var(--radius-1);
     color: aliceblue;
     width: 100%;
     margin-top: 1rem;
+
   }
 
-  .btns {
-    text-align: center;
-    gap: 0.3rem;
+  .edit {
     width: 100%;
+  }
 
-
+  .delete {
+    width: 100%;
   }
 
   .authorContainer {
