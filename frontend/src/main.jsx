@@ -22,6 +22,7 @@ import VerificationPage from './pages/VerificationPage.jsx'
 import { UserContextProvider } from '../context/userContext'
 import SendEmail from '../src/pages/SendEmail.jsx'
 import ChangePassword from './pages/ChangePassword.jsx'
+import Header from './components/Header.jsx'
 
 
 
@@ -34,7 +35,7 @@ axios.defaults.withCredentials = true
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },

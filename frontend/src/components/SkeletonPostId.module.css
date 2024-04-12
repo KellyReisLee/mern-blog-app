@@ -1,0 +1,26 @@
+.footer {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+
+}
+
+
+
+/* Mobile */
+/* Devices with less than 800px */
+@media screen and (max-width: 800px) {
+  .main {
+    width: 100%;
+
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+  }
+
+}

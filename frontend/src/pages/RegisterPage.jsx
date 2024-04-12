@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { BsFillEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
-
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 
 const RegisterPage = () => {
@@ -64,11 +65,13 @@ const RegisterPage = () => {
           username, email, password, confirmPassword
         })
 
-        if (data.error) {
-          setError(data.error)
+        console.log(data);
+        if (!data) {
+          setError('Could not find data')
+
         } else {
           setError('')
-          setSuccess('Register Successfully! Check your email!')
+          setSuccess(data.data.message || 'Register Successfully! Check your email!')
           setUserData({
             username: '',
             email: '',
@@ -116,75 +119,80 @@ const RegisterPage = () => {
 
 
   return (
-    <section className={classes.register}>
-      <div className={classes.mainRegister}>
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit} className={classes.form}>
-          {error && (
-            <p className={classes.error}>{error}</p>
-          )}
-          {success && !error && (
-            <p className={classes.success}>{success}</p>
-          )}
-          {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
+    <>
+      <Header />
 
-          <input
-            type='text'
-            placeholder='Username'
-            name='username'
-            value={userData.username}
-            onChange={(e) => changeInputHandler('username', e)}
-            autoFocus
+      <section className={classes.register}>
+        <div className={classes.mainRegister}>
+          <h2>Sign Up</h2>
+          <form onSubmit={handleSubmit} className={classes.form}>
+            {error && (
+              <p className={classes.error}>{error}</p>
+            )}
+            {success && !error && (
+              <p className={classes.success}>{success}</p>
+            )}
+            {loading && !error && !success && <p className={classes.loading}>Loading...</p>}
 
-          />
-          {/* email */}
-          <input
-            type='email'
-            placeholder='Email'
-            name='email'
-            value={userData.email}
-            onChange={(e) => changeInputHandler('email', e)}
-
-          />
-          {/* password */}
-          <div className={classes.password}>
             <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder='Password'
-              name='password'
-              value={userData.password}
-              onChange={(e) => changeInputHandler('password', e)}
+              type='text'
+              placeholder='Username'
+              name='username'
+              value={userData.username}
+              onChange={(e) => changeInputHandler('username', e)}
+              autoFocus
 
             />
-            <span onClick={() => showPasswordFunc('password')}>{
-              showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-            }
-            </span>
-          </div>
-
-
-          {/* confirm password */}
-          <div className={classes.password}>
+            {/* email */}
             <input
-              type={showConfirmPassword ? 'text' : 'password'}
-              placeholder='Confirm Password'
-              name='confirmPassword'
-              value={userData.confirmPassword}
-              onChange={(e) => changeInputHandler('confirmPassword', e)}
+              type='email'
+              placeholder='Email'
+              name='email'
+              value={userData.email}
+              onChange={(e) => changeInputHandler('email', e)}
+
             />
+            {/* password */}
+            <div className={classes.password}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder='Password'
+                name='password'
+                value={userData.password}
+                onChange={(e) => changeInputHandler('password', e)}
 
-            <span onClick={() => showPasswordFunc('confirmPassword')}>{
-              showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-            }</span>
-          </div>
-          <button >Register</button>
-        </form>
+              />
+              <span onClick={() => showPasswordFunc('password')}>{
+                showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }
+              </span>
+            </div>
 
-        <small>Already have an account? <Link to="/api/users/login">Sign in</Link></small>
 
-      </div>
+            {/* confirm password */}
+            <div className={classes.password}>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder='Confirm Password'
+                name='confirmPassword'
+                value={userData.confirmPassword}
+                onChange={(e) => changeInputHandler('confirmPassword', e)}
+              />
 
-    </ section>
+              <span onClick={() => showPasswordFunc('confirmPassword')}>{
+                showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }</span>
+            </div>
+            <button >Register</button>
+          </form>
+
+          <small>Already have an account? <Link to="/api/users/login">Sign in</Link></small>
+
+        </div>
+
+      </ section>
+      <Footer />
+    </>
   )
 }
 

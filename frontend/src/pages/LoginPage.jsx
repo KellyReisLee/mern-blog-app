@@ -5,6 +5,8 @@ import { UserContext } from '../../context/userContext'
 import axios from 'axios'
 import { BsFillEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -37,8 +39,8 @@ const LoginPage = () => {
     try {
       const { data } = await axios.post("/api/users/login", { email, password })
       console.log(data);
-      if (data.error) {
-        setError(data.error)
+      if (!data) {
+        setError(data?.response?.data?.error || 'Could not sign in.')
       } else {
         localStorage.setItem("user-data", JSON.stringify(data))
         setLoggedIn(true)
@@ -52,10 +54,10 @@ const LoginPage = () => {
 
       }
 
-      setLoading(false)
+
     } catch (error) {
       console.error('Erro ao efetuar login:', error);
-      setError(error.response?.data?.message || 'unknown error');
+      setError(error.response?.data?.error || 'unknown error');
     }
 
     setLoading(false)
@@ -72,60 +74,64 @@ const LoginPage = () => {
     setTimeout(() => {
       setShowPassword(false)
 
-
     }, 4000);
 
   }
 
   return (
-    <section className={classes.login}>
-      <div className={classes.mainLogin}>
-        <h2>Sign In</h2>
-        <form onSubmit={handleLoginUser} className={classes.form}>
-          {error && (
-            <p className={classes.error}>{error}</p>
-          )}
+    <>
 
-          {loading && !error && <p className={classes.loading}>Loding...</p>}
+      <Header />
+      <section className={classes.login}>
+        <div className={classes.mainLogin}>
+          <h2>Sign In</h2>
+          <form onSubmit={handleLoginUser} className={classes.form}>
+            {error && (
+              <p className={classes.error}>{error}</p>
+            )}
 
-          {/* email */}
-          <input
-            type='email'
-            placeholder='Email'
-            name='email'
-            value={userDataLogin.email}
-            onChange={(e) => changeInputHandler('email', e)}
-            autoFocus
+            {loading && !error && <p className={classes.loading}>Loding...</p>}
 
-          />
-
-          {/* password */}
-          <div className={classes.password}>
+            {/* email */}
             <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder='Password'
-              name='password'
-              value={userDataLogin.password}
-              onChange={(e) => changeInputHandler('password', e)}
+              type='email'
+              placeholder='Email'
+              name='email'
+              value={userDataLogin.email}
+              onChange={(e) => changeInputHandler('email', e)}
+              autoFocus
 
             />
-            <span onClick={() => showPasswordFunc('password')}>{
-              showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-            }
-            </span>
+
+            {/* password */}
+            <div className={classes.password}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder='Password'
+                name='password'
+                value={userDataLogin.password}
+                onChange={(e) => changeInputHandler('password', e)}
+
+              />
+              <span onClick={() => showPasswordFunc('password')}>{
+                showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }
+              </span>
+            </div>
+            <button>Login</button>
+          </form>
+          <div className={classes.links}>
+
+            <small >Are you forgot the password? <Link to="/api/users/send-email">Click here!</Link></small>
+            <br />
+            <small >Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
+
           </div>
-          <button>Login</button>
-        </form>
-        <div className={classes.links}>
-
-          <small >Are you forgot the password? <Link to="/api/users/send-email">Click here!</Link></small>
-          <br />
-          <small >Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
-
         </div>
-      </div>
 
-    </section>
+      </section>
+      <Footer />
+    </>
   )
 }
 

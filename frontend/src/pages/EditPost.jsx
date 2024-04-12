@@ -7,6 +7,8 @@ import { formats, modules } from '../helpers/textBox'
 import { UserContext } from '../../context/userContext'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const EditPost = () => {
   const [title, setTitle] = useState('');
@@ -93,7 +95,7 @@ const EditPost = () => {
 
       } catch (error) {
         console.log(error.response.data.error);
-        setError(error.response.data.error)
+        setError(error.response.data.error || 'Could not update post.')
       }
     }
     setLoading(false)
@@ -101,8 +103,8 @@ const EditPost = () => {
 
   return (
     <>
-     
 
+      <Header />
       <section className={classes.editPost}>
         <div className={classes.container}>
           <h2>Edit Post</h2>
@@ -123,7 +125,9 @@ const EditPost = () => {
           </form>
         </div>
       </section>
+      <Footer />
     </>
+
   )
 }
 

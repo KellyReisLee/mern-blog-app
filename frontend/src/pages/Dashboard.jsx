@@ -6,6 +6,11 @@ import { UserContext } from '../../context/userContext'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import SkeletonAuthors from '../components/SkeletonAuthors';
+import DeletePost from './DeletePost'
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
@@ -14,7 +19,7 @@ const Dashboard = () => {
   const [error, setError] = useState(false)
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
 
   const skeleton = [];
@@ -58,39 +63,58 @@ const Dashboard = () => {
 
 
 
+
+  function handleStartRemovePlace() {
+    setModalIsOpen(true);
+
+  }
+
+  function handleStopRemovePlace() {
+    setModalIsOpen(false);
+  }
+
+
+
+
   return (
-    <section>
-      <div className={classes.dashboard}>
-        {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
-        {loading && posts.length === 0 && (<>{skeleton}</>)}
-        {posts.length > 0 && (<>
-          {
-            posts.map((item) => {
-              return <article key={item.id} className={classes.dashboardPost}>
-                <div className={classes.imgContainer}>
-                  <img src={`http://localhost:4000/uploads/uploadsPostImg/${item.image}`} alt='user image' onError={(e) => {
-                    e.currentTarget.src = avatar,
-                      e.currentTarget.onerror = null
-                  }} />
-                </div>
-                <div className={classes.title}>
-                  <h3>{item.title.length > 20 ? `${item.title.slice(0, 20)}...` : `${item.title}`}</h3>
-                </div>
-                <div className={classes.btns}>
-                  <Link className={classes.view} to={`/api/posts/${item._id}`}>View</Link>
-                  <Link className={classes.edit} to={`/posts/${item._id}/edit`}>Edit</Link>
-                  <Link className={classes.delete} to={`/posts/${item._id}/delete`}>Delete</Link>
-                </div>
+    <>
+      <Header />
+      <section className={classes.section}>
+        <div className={classes.dashboard}>
+          {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
+          {loading && posts.length === 0 && (<>{skeleton}</>)}
+          {posts.length > 0 && (<>
+            {
+              posts.map((item) => {
+                return <article key={item.id} className={classes.dashboardPost}>
+                  <div className={classes.imgContainer}>
+                    <img src={`http://localhost:4000/uploads/uploadsPostImg/${item.image}`} alt='user image' onError={(e) => {
+                      e.currentTarget.src = avatar,
+                        e.currentTarget.onerror = null
+                    }} />
+                  </div>
+                  <div className={classes.title}>
+                    <h3>{item.title.length > 40 ? `${item.title.slice(0, 40)}...` : `${item.title}`}</h3>
+                  </div>
+                  <div className={classes.btns}>
+                    <Link className={classes.view} to={`/api/posts/${item._id}`}>View</Link>
+                    <Link className={classes.edit} to={`/posts/${item._id}/edit`}><FaEdit size={20} /></Link>
+                    <DeletePost modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={item._id} >
+                      <MdDelete size={21} />
+                    </DeletePost>
+                  </div>
 
-              </article>
-            })
-          }
+                </article>
+              })
+            }
 
-        </>
+          </>
 
-        )}
-      </div>
-    </section >
+          )}
+        </div>
+      </section >
+      <Footer />
+    </>
   )
 }
 

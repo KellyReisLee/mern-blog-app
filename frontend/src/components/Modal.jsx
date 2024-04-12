@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import classes from './Modal.module.css'
 
+// Props comes from the DeletePost page.
 function Modal({ open, children, onClose }) {
   const dialog = useRef();
 

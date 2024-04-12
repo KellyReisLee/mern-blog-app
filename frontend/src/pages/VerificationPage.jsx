@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import classes from './VerificationPage.module.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 
 
@@ -35,29 +37,33 @@ const VerificationPage = () => {
   }, [])
 
   return (
-    <section className={classes.container}>
-      <div className={classes.box}>
-        <div className={classes.loadingMessage}>
-          <h1>Verifying User </h1>
-          <div className={classes.boucingLoader}>
-            <span></span>
-            <span></span>
-            <span></span>
+    <>
+      <Header />
+      <section className={classes.container}>
+        <div className={classes.box}>
+          <div className={classes.loadingMessage}>
+            <h1>Verifying User </h1>
+            <div className={classes.boucingLoader}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
+          {error && !message && <p className={classes.error}>{error}</p>}
+          {message && !error && <>
+            <p className={classes.message}>
+              {message}
+            </p>
+
+          </>}
+
+
+
         </div>
-        {error && !message && <p className={classes.error}>{error}</p>}
-        {message && !error && <>
-          <p className={classes.message}>
-            {message}
-          </p>
 
-        </>}
-
-
-
-      </div>
-
-    </section>
+      </section>
+      <Footer />
+    </>
   )
 }
 

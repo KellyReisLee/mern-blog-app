@@ -7,6 +7,8 @@ import { formats, modules } from '../helpers/textBox'
 import { UserContext } from '../../context/userContext'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const CreatePosts = () => {
   const [title, setTitle] = useState('');
@@ -27,6 +29,7 @@ const CreatePosts = () => {
     }
   }, [])
 
+  console.log(userData);
   function validation() {
     if (!title || !category || !description || !image) {
       setError('All fields are required!')
@@ -51,7 +54,9 @@ const CreatePosts = () => {
           headers: { Authorization: `Bearer ${token}` }
         })
 
-        if (response.status == 201) {
+
+
+        if (response) {
           setError('')
           setMessage(response.data.message)
 
@@ -62,8 +67,8 @@ const CreatePosts = () => {
 
 
       } catch (error) {
-        setError(error.response.data.error || 'Could not Create Post.')
-        console.log(error.response.data.error);
+        console.log(error);
+        setError(error?.response?.data?.error || 'Could not Create Post.')
       }
 
 
@@ -75,27 +80,31 @@ const CreatePosts = () => {
   }
 
   return (
-    <section className={classes.createPost}>
-      <div className={classes.container}>
-        <h2>Create Post</h2>
-        {error && <p className={classes.error}>{error}</p>}
-        {message && !error && <p className={classes.message}>{message}</p>}
-        {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
+    <>
+      <Header />
+      <section className={classes.createPost}>
+        <div className={classes.container}>
+          <h2>Create Post</h2>
+          {error && <p className={classes.error}>{error}</p>}
+          {message && !error && <p className={classes.message}>{message}</p>}
+          {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
 
-        <form onSubmit={handleCreatePost} className={classes.form}>
-          <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
-          <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
-            {categories.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-          <ReactQuill className={classes.quill} formats={formats} modules={modules} theme="snow" value={description} onChange={setDescription} />
-          <input name='image' type='file' onChange={e => setImage(e.target.files[0])} accept='png, jpg, jpeg' />
+          <form onSubmit={handleCreatePost} className={classes.form}>
+            <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
+            <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
+              {categories.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+            <ReactQuill className={classes.quill} formats={formats} modules={modules} theme="snow" value={description} onChange={setDescription} />
+            <input name='image' type='file' onChange={e => setImage(e.target.files[0])} accept='png, jpg, jpeg' />
 
-          <button type='submit' className={classes.btn}>Create</button>
-        </form>
-      </div>
-    </section >
+            <button type='submit' className={classes.btn}>Create</button>
+          </form>
+        </div>
+      </section >
+      <Footer />
+    </>
   )
 }
 

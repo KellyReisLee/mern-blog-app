@@ -31,7 +31,7 @@ const Posts = () => {
         setPosts(response.data)
 
       } catch (error) {
-        setError(error)
+        setError(error.response.data.error)
 
       }
       setLoading(false)
@@ -42,20 +42,26 @@ const Posts = () => {
   console.log(posts);
 
   return (
-    <section className={classes.section}>
-      {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data. Please try later.</p>}
-      {
-        loading && (<>{skeleton}</>)
-      }
-      <div className={classes.posts}>
+    <>
+      {!loading && posts.length === 0 && <div className={classes.noDataFound}><p>
+        No posts available
+      </p></div>}
+      <section className={classes.section}>
 
-        {
-          posts.map((post) => (
-            <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
-          ))
-        }
-      </div>
-    </section>
+
+        <div className={classes.posts}>
+          {
+            loading && (<>{skeleton}</>)
+          }
+
+          {
+            posts.map((post) => (
+              <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
+            ))
+          }
+        </div>
+      </section>
+    </>
   )
 }
 

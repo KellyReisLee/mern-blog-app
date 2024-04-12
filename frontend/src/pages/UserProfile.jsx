@@ -8,7 +8,8 @@ import { UserContext } from '../../context/userContext'
 import axios from 'axios';
 import { BsFillEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
-
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 
 
@@ -16,7 +17,6 @@ import { RiEyeCloseLine } from "react-icons/ri";
 const UserProfile = () => {
   const userDataStorage = localStorage.getItem('user-data')
   const userDataObject = JSON.parse(userDataStorage);
-  const id = useParams();
   const { userData, setUserData } = useContext(UserContext);
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('');
@@ -37,7 +37,7 @@ const UserProfile = () => {
   const [showConfirmNew, setShowConfirmNew] = useState(false)
 
 
-
+  //console.log(userData);
   useEffect(() => {
     setUserData(userDataObject);
   }, []);
@@ -56,6 +56,7 @@ const UserProfile = () => {
   }
 
 
+
   const handleSubmitImg = async () => {
     if (!image) {
       setError('Please select an image.');
@@ -68,8 +69,6 @@ const UserProfile = () => {
 
 
     try {
-
-
       const response = await axios.post('/api/users/change-avatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -80,15 +79,11 @@ const UserProfile = () => {
 
       if (!response) {
         setError('Could not update user image.')
-      }
-
-      if (response) {
-
-        console.log(response);
-        setUserData(response.data.updateUser)
+      } else {
+        setUserData(response.data)
         setImageState(false)
         setMessage(response.data.message)
-        localStorage.setItem('user-data', JSON.stringify(response.data.updateUser));
+        localStorage.setItem('user-data', JSON.stringify(response.data));
 
         setTimeout(() => {
           setMessage('')
@@ -158,7 +153,7 @@ const UserProfile = () => {
     setLoading(true)
     if (validation()) {
       try {
-        const response = await axios.patch(`/api/users/${userData._id}/edit-user`, user)
+        const response = await axios.patch(`/api/users/${userData?._id}/edit-user`, user)
 
         if (response) {
           console.log(response);
@@ -218,76 +213,81 @@ const UserProfile = () => {
 
 
   return (
-    <section>
-      <div className={classes.mainContainer}>
-        <Link to={`/myposts/${userData._id}`}>My Posts</Link>
-        <div className={classes.profile}>
-          <div className={classes.wrapperImg}>
-            <div className={classes.containerImg}>
-              <img src={`http://localhost:4000/uploads/uploadsUserImg/${userData.avatar}`} alt='user image' onError={(e) => {
-                e.currentTarget.src = avatar,
-                  e.currentTarget.onerror = null
-              }} />
+    <>
+
+      <Header />
+      <section>
+        <div className={classes.mainContainer}>
+          <Link to={`/myposts/${userData?._id}`}>My Posts</Link>
+          <div className={classes.profile}>
+            <div className={classes.wrapperImg}>
+              <div className={classes.containerImg}>
+                <img src={`http://localhost:4000/uploads/uploadsUserImg/${userData?.avatar}`} alt='user image' onError={(e) => {
+                  e.currentTarget.src = avatar,
+                    e.currentTarget.onerror = null
+                }} />
+              </div>
+
+
+
+              <form className={classes.imageForm}>
+                <input
+                  onChange={(e) => setImage(e.target.files[0])}
+                  type='file'
+                  name="avatar"
+                  id="avatar"
+                  accept='png, jpeg, jpg'
+                />
+                <label htmlFor='avatar' onClick={handleImgChange} className={classes.editBtnIcon} ><FaEdit /></label>
+                {imageState && (
+                  <label onClick={handleSubmitImg} className={classes.saveBtnIcon}><MdSaveAlt size={19} /></label>
+                )}
+              </form>
+
+
             </div>
-
-
-
-            <form className={classes.imageForm}>
-              <input
-                onChange={(e) => setImage(e.target.files[0])}
-                type='file'
-                name="avatar"
-                id="avatar"
-                accept='png, jpeg, jpg'
-              />
-              <label htmlFor='avatar' onClick={handleImgChange} className={classes.editBtnIcon} ><FaEdit /></label>
-              {imageState && (
-                <label onClick={handleSubmitImg} className={classes.saveBtnIcon}><MdSaveAlt size={19} /></label>
-              )}
+            <h2 className={classes.username}>{userData?.username}</h2>
+            <form className={classes.form}>
+              {message && !error && <p className={classes.message}>{message}</p>}
+              {error && !message && <p className={classes.error}>{error}</p>}
+              {/* Name */}
+              {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
+              {/* Name */}
+              <input name='username' type='text' placeholder='Username' value={user.username} onChange={changeInputHandler} />
+              {/* Email */}
+              <input name='email' type='email' placeholder='Email' value={user.email} onChange={changeInputHandler} />
+              <div className={classes.password}>
+                {/* Current password */}
+                <input name='currentPassword' type={showCurrent ? 'text' : 'password'} placeholder='Current Password' value={user.currentPassword} onChange={changeInputHandler} />
+                <span onClick={() => showPasswordFunc('current')}>{
+                  showCurrent ? <BsFillEyeFill /> : <RiEyeCloseLine />
+                }
+                </span>
+              </div>
+              <div className={classes.password}>
+                {/* New password */}
+                <input name='newPassword' type={showNew ? 'text' : 'password'} placeholder='New Password' value={user.newPassword} onChange={changeInputHandler} />
+                <span onClick={() => showPasswordFunc('new')}>{
+                  showNew ? <BsFillEyeFill /> : <RiEyeCloseLine />
+                }
+                </span>
+              </div>
+              <div className={classes.password}>
+                {/* Confirm New password */}
+                <input name='confirmNewPassword' type={showConfirmNew ? 'text' : 'password'} placeholder='Confirm Password' value={user.confirmNewPassword} onChange={changeInputHandler} />
+                <span onClick={() => showPasswordFunc('confirmNew')}>{
+                  showConfirmNew ? <BsFillEyeFill /> : <RiEyeCloseLine />
+                }
+                </span>
+              </div>
+              <button onClick={handleSubmitForm} type='submit'>Update Profile</button>
             </form>
 
-
           </div>
-          <h2 className={classes.username}>{userData.username}</h2>
-          <form className={classes.form}>
-            {message && !error && <p className={classes.message}>{message}</p>}
-            {error && !message && <p className={classes.error}>{error}</p>}
-            {/* Name */}
-            {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
-            {/* Name */}
-            <input name='username' type='text' placeholder='Username' value={user.username} onChange={changeInputHandler} />
-            {/* Email */}
-            <input name='email' type='email' placeholder='Email' value={user.email} onChange={changeInputHandler} />
-            <div className={classes.password}>
-              {/* Current password */}
-              <input name='currentPassword' type={showCurrent ? 'text' : 'password'} placeholder='Current Password' value={user.currentPassword} onChange={changeInputHandler} />
-              <span onClick={() => showPasswordFunc('current')}>{
-                showCurrent ? <BsFillEyeFill /> : <RiEyeCloseLine />
-              }
-              </span>
-            </div>
-            <div className={classes.password}>
-              {/* New password */}
-              <input name='newPassword' type={showNew ? 'text' : 'password'} placeholder='New Password' value={user.newPassword} onChange={changeInputHandler} />
-              <span onClick={() => showPasswordFunc('new')}>{
-                showNew ? <BsFillEyeFill /> : <RiEyeCloseLine />
-              }
-              </span>
-            </div>
-            <div className={classes.password}>
-              {/* Confirm New password */}
-              <input name='confirmNewPassword' type={showConfirmNew ? 'text' : 'password'} placeholder='Confirm Password' value={user.confirmNewPassword} onChange={changeInputHandler} />
-              <span onClick={() => showPasswordFunc('confirmNew')}>{
-                showConfirmNew ? <BsFillEyeFill /> : <RiEyeCloseLine />
-              }
-              </span>
-            </div>
-            <button onClick={handleSubmitForm} type='submit'>Update Profile</button>
-          </form>
-
         </div>
-      </div>
-    </section >
+      </section >
+      <Footer />
+    </>
   )
 }
 

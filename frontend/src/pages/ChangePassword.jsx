@@ -5,6 +5,8 @@ import { UserContext } from '../../context/userContext'
 import axios from 'axios'
 import { BsFillEyeFill } from "react-icons/bs";
 import { RiEyeCloseLine } from "react-icons/ri";
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const ChangePassword = () => {
   const { id, token } = useParams();
@@ -129,63 +131,67 @@ const ChangePassword = () => {
   }
 
   return (
-    <section className={classes.change}>
-      <div className={classes.mainChange}>
-        <h2>Change Password</h2>
-        <form onSubmit={handleChangePassword} className={classes.form}>
-          {error && (
-            <p className={classes.error}>{error}</p>
-          )}
-          {message && !error && <p className={classes.message}>{message}</p>}
+    <>
+      <Header />
+      <section className={classes.change}>
+        <div className={classes.mainChange}>
+          <h2>Change Password</h2>
+          <form onSubmit={handleChangePassword} className={classes.form}>
+            {error && (
+              <p className={classes.error}>{error}</p>
+            )}
+            {message && !error && <p className={classes.message}>{message}</p>}
 
-          {/* email */}
-          <input
-            type='email'
-            placeholder='Email'
-            name='email'
-            value={userChangePass.email}
-            onChange={(e) => changeInputHandler('email', e)}
-            autoFocus
-
-          />
-          {/* password */}
-          <div className={classes.password}>
+            {/* email */}
             <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder='Password'
-              name='password'
-              value={userChangePass.password}
-              onChange={(e) => changeInputHandler('password', e)}
+              type='email'
+              placeholder='Email'
+              name='email'
+              value={userChangePass.email}
+              onChange={(e) => changeInputHandler('email', e)}
+              autoFocus
 
             />
-            <span onClick={() => showPasswordFunc('password')}>{
-              showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-            }
-            </span>
-          </div>
+            {/* password */}
+            <div className={classes.password}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder='Password'
+                name='password'
+                value={userChangePass.password}
+                onChange={(e) => changeInputHandler('password', e)}
+
+              />
+              <span onClick={() => showPasswordFunc('password')}>{
+                showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }
+              </span>
+            </div>
 
 
-          {/* confirm password */}
-          <div className={classes.password}>
-            <input
-              type={showConfirmPassword ? 'text' : 'password'}
-              placeholder='Confirm Password'
-              name='confirmPassword'
-              value={userChangePass.confirmPassword}
-              onChange={(e) => changeInputHandler('confirmPassword', e)}
-            />
+            {/* confirm password */}
+            <div className={classes.password}>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                placeholder='Confirm Password'
+                name='confirmPassword'
+                value={userChangePass.confirmPassword}
+                onChange={(e) => changeInputHandler('confirmPassword', e)}
+              />
 
-            <span onClick={() => showPasswordFunc('confirmPassword')}>{
-              showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-            }</span>
-          </div>
+              <span onClick={() => showPasswordFunc('confirmPassword')}>{
+                showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+              }</span>
+            </div>
 
-          <button>Send</button>
-        </form>
+            <button>Send</button>
+          </form>
 
-      </div>
+        </div>
 
-    </section>
+      </section>
+      <Footer />
+    </>
   )
 }
 

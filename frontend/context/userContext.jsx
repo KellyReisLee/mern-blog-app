@@ -8,7 +8,7 @@ export const UserContext = createContext({});
 
 export function UserContextProvider({ children }) {
   const [totalData, setTotalData] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false)
 
 

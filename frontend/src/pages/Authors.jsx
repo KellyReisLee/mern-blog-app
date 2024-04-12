@@ -4,11 +4,14 @@ import classes from './Authors.module.css'
 import axios from 'axios'
 import Avatar from '../assets/avatar.png'
 import SkeletonAuthors from '../components/SkeletonAuthors'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
 const Authors = () => {
 
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('')
 
 
   const skeleton = [];
@@ -43,32 +46,36 @@ const Authors = () => {
 
 
   return (
-    <section className={classes.section}>
-      <div className={classes.container}>
-        {loading && (<>{skeleton}</>)}
-        {!loading && authors.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
+    <>
+      <Header />
+      <section className={classes.section}>
+        <div className={classes.container}>
+          {loading && (<>{skeleton}</>)}
+          {!loading && authors.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
 
-        {authors.length > 0 &&
-          (
-            authors.map((author) => {
-              return <Link className={classes.author} key={author._id} to={`/api/posts/user/${author._id}`}>
-                <div className={classes.authorsImage}>
-                  <img src={`http://localhost:4000/uploads/uploadsUserImg/${author.avatar}`} onError={(e) => {
-                    e.currentTarget.src = Avatar,
-                      e.currentTarget.onerror = null
-                  }} alt={author.title} />
-                </div>
-                <div className={classes.info}>
-                  <h4>{author.username}</h4>
-                  <p>Posts: {author.posts}</p>
-                </div>
-              </Link>
-            })
-          )
-        }
+          {authors.length > 0 &&
+            (
+              authors.map((author) => {
+                return <Link className={classes.author} key={author._id} to={`/api/posts/user/${author._id}`}>
+                  <div className={classes.authorsImage}>
+                    <img src={`http://localhost:4000/uploads/uploadsUserImg/${author.avatar}`} onError={(e) => {
+                      e.currentTarget.src = Avatar,
+                        e.currentTarget.onerror = null
+                    }} alt={author.title} />
+                  </div>
+                  <div className={classes.info}>
+                    <h4>{author.username}</h4>
+                    <p>Posts: {author.posts}</p>
+                  </div>
+                </Link>
+              })
+            )
+          }
 
-      </div>
-    </section>
+        </div>
+      </section>
+      <Footer />
+    </>
   )
 }
 

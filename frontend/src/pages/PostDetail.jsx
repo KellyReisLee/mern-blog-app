@@ -6,23 +6,22 @@ import classes from './PostDetail.module.css'
 import { UserContext } from '../../context/userContext'
 import axios from 'axios'
 import DeletePost from './DeletePost'
-
-
-
-
+import SkeletonPostId from '../components/SkeletonPostId'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const PostDetail = () => {
   const { userData } = useContext(UserContext)
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { id } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  console.log(userData);
 
-  function handleStartRemovePlace(place) {
+
+  function handleStartRemovePlace() {
     setModalIsOpen(true);
-    selectedPlace.current = place;
+
   }
 
   function handleStopRemovePlace() {
@@ -43,7 +42,7 @@ const PostDetail = () => {
         setPost(data)
 
       } catch (error) {
-        setError(error)
+        setError(error.data.error || 'Could not fetch post data.')
 
       }
       setLoading(false)
@@ -51,30 +50,40 @@ const PostDetail = () => {
 
     fetchPost()
   }, [])
-  console.log(post);
+
 
 
 
   return (
     <>
+      <Header />
       <section className={classes.container}>
         <div className={classes.mainContainer}>
+
+          {loading && post.length === 0 && (
+            <SkeletonPostId />
+
+          )}
+          {!loading && post.length === 0 && <p className={classes.noDataFound}>Could not fetch post data. Please try later.</p>}
+
+
+
           <div className={classes.header}>
             <div className={classes.authorContainer}>
-
               <PostAuthor creatorData={post?.creator} createdAt={post.createdAt} />
             </div>
-            {/* userData?._id === post?.creator?._id && */}
 
-            <div className={classes.btns}>
-              <Link to={`/posts/${id}/edit`} className={classes.edit}>Edit</Link>
-              {/* <Link to={`/posts/${id}/delete`}
-                className={classes.delete}>Delete</Link> */}
-              <DeletePost modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={post._id} />
-            </div>
+            {userData?._id == post?.creator?._id && (
+              <div className={classes.btns}>
+                <Link to={`/posts/${id}/edit`} className={classes.edit}>Edit</Link>
 
+                <DeletePost modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={post._id} >Delete</DeletePost>
+              </div>
+            )
+            }
 
           </div>
+
           <h1>{post.title}</h1>
           <div className={classes.containerImg}>
             <img src={`http://localhost:4000/uploads/uploadsPostImg/${post.image}`} onError={(e) => {
@@ -88,7 +97,9 @@ const PostDetail = () => {
 
         </div>
       </section>
+      <Footer />
     </>
+
   )
 }
 

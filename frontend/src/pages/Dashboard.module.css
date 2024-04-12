@@ -1,7 +1,6 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-
   margin: 2rem 2rem 8.5rem 2rem;
   gap: 1rem;
 
@@ -31,13 +30,14 @@
 }
 
 .title h3 {
-  font-size: 1rem;
+  font-size: 1.4rem;
   color: var(--color-gray-300);
+  width: 100%;
 }
 
 .btns {
   display: flex;
-  gap: 1rem;
+  gap: 0.6rem;
   justify-content: center;
   align-items: center;
 
@@ -46,6 +46,7 @@
 
 .view {
   cursor: pointer;
+  margin-right: 0.7rem;
 }
 
 .edit {
@@ -74,13 +75,19 @@
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
 
+
   .dashboard {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
     padding: 0 1rem;
     margin-bottom: 6rem;
+    margin: 0;
 
+  }
+
+  .dashboardPost {
+    width: 100%;
   }
 
   .title h3 {
@@ -90,7 +97,9 @@
   }
 
   .btns {
-    gap: 0.5rem;
+    gap: 0.3rem;
+    letter-spacing: 0.8px;
+
   }
 
 
@@ -102,23 +111,23 @@
 
   .edit {
     background-color: var(--color-primary);
-    padding: 0.5rem 0.4rem;
-    color: var(--color-white);
-    border-radius: var(--radius-1);
-    font-size: 0.7rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-2);
+    color: aliceblue;
+    font-size: 0.9rem;
+    width: 100%;
+
+
+
+
   }
 
-  .delete {
-    background-color: var(--color-red);
-    padding: 0.5rem 0.7rem;
-    color: var(--color-white);
-    border-radius: var(--radius-1);
-    font-size: 0.7rem;
-  }
 
 
   .noDataFound {
     font-size: 0.9rem;
     margin-top: 1rem;
   }
+
+
 }

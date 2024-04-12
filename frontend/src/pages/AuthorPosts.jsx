@@ -4,6 +4,8 @@ import classes from './AuthorPosts.module.css'
 import axios from 'axios'
 import SkeletonPost from '../components/SkeletonPost'
 import { useParams } from 'react-router-dom'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const AuthorPosts = () => {
 
@@ -23,7 +25,6 @@ const AuthorPosts = () => {
       try {
         const { data } = await axios.get(`api/posts/user/${id}`)
 
-        console.log(data);
         if (!data) {
           setError('Could not fetch data from database.')
         }
@@ -39,21 +40,27 @@ const AuthorPosts = () => {
     fetchAuthor()
   }, [])
   return (
-    <section className={classes.container}>
-      {!loading && authorPosts.length === 0 && <p className={classes.noDataFound}>You don't have posts yet.</p>}
-      {
-        loading && (
-          <>
-            {skeleton}
-          </>
-        )
-      }
-      {
-        authorPosts.map((post) => (
-          <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
-        ))
-      }
-    </section>
+    <>
+      <Header />
+      {!loading && authorPosts.length === 0 && <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>}
+      <section className={classes.container}>
+
+        {
+          loading && (
+            <>
+              {skeleton}
+            </>
+          )
+        }
+        {
+          authorPosts.map((post) => (
+            <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
+          ))
+        }
+      </section>
+
+      <Footer />
+    </>
   )
 }
 

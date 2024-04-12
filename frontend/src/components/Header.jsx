@@ -46,7 +46,7 @@ const Header = () => {
     if (timer) clearTimeout(timer);
   };
 
-  console.log(userData);
+
 
   const logoutAction = () => {
     handleCloseNav()
@@ -88,7 +88,7 @@ const Header = () => {
 
 
   const handleLogout = async () => {
-
+    resetTimer();
     setError(true)
     // Faz a solicitação de logout
     await axios.get('api/users/logout')
@@ -99,7 +99,7 @@ const Header = () => {
       setLoggedIn(false)
       setUserData(null)
       setError(false)
-      navigation('api/users/logout')
+      navigation('/api/users/logout')
 
 
     } catch (error) {
@@ -124,7 +124,7 @@ const Header = () => {
               {show && (
                 <ul className={classes.navMenu}>
                   <li>
-                    <Link to={`api/users/profile/${userData._id}`} onClick={handleCloseNav}>{userData.username}</Link>
+                    <Link to={`/api/users/profile/${userData._id}`} onClick={handleCloseNav}>{userData.username}</Link>
                   </li>
                   <li>
                     <Link to="/create" onClick={handleCloseNav}>Create Post</Link>
