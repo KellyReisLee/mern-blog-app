@@ -4,13 +4,13 @@
   justify-content: center;
 }
 
-
-
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
+
   .main {
     width: 100%;
+    margin: 0;
   }
 
 }

@@ -67,18 +67,22 @@ const CategoryPosts = () => {
       }
       <section className={classes.container}>
 
-        {
-          loading && dataCategory.length === 0 && (
-            <>
-              {skeleton}
-            </>
-          )
-        }
-        {
-          dataCategory.map((post) => (
-            <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
-          ))
-        }
+        <div className={classes.posts}>
+
+          {
+            loading && dataCategory.length === 0 && (
+              <>
+                {skeleton}
+              </>
+            )
+          }
+          {
+            dataCategory.map((post) => (
+              <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
+            ))
+          }
+
+        </div>
       </section>
       <Footer />
     </>

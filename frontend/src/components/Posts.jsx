@@ -39,7 +39,6 @@ const Posts = () => {
 
     fetchPosts()
   }, [])
-  console.log(posts);
 
   return (
     <>

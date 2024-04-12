@@ -5,7 +5,6 @@
   gap: 2rem;
 }
 
-
 .noDataFound {
   padding: 2rem;
   border-radius: var(--radius-1);
@@ -29,14 +28,7 @@
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
-  .section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 8rem;
 
-  }
 
   .posts {
     display: grid;
@@ -45,6 +37,7 @@
     padding: 0;
     margin-bottom: 0rem;
     margin: 0 3rem;
+    margin: 2rem 2rem 6rem 2rem;
 
   }
 
@@ -57,10 +50,16 @@
 
 
 
-
+/* Tablet device */
+/* Devices with less than 1200px */
 @media (min-width: 800px) and (max-width: 1200px) {
+
   .posts {
-    gap: 1.5rem;
-    margin: 2rem 3rem 13rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 0;
+    margin: 2rem 3rem 6rem 3rem;
+
   }
 }
