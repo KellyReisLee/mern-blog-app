@@ -103,7 +103,7 @@ const loginUser = async (req, res, next) => {
     if (passwordMatch) {
       const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '10m' }, (err, token) => {
         if (err) throw err;
-        res.cookie('token', token).json({ token, username, posts, verified, _id, avatar });
+        res.cookie('token', token).json({ token: token, username, posts, verified, _id, avatar });
 
       });
 
@@ -205,17 +205,6 @@ const changeImgUser = async (req, res) => {
 
 
 
-        // if (avatar.name) {
-        //   let splitedData = splitName[splitName.length - 1]
-        //   let extensions = ['png', 'jpg', 'jpeg']
-        //   if (extensions.indexOf(splitedData) === -1) {
-        //     return res.status(422).json({ error: 'Just these extensions are allowed: png, jpg, jpeg' })
-        //   }
-
-        // }
-
-
-
         avatar.mv(path.join(__dirname, '..', 'uploads', 'uploadsUserImg', newFileName), async (err) => {
           if (err) {
             return res.json({ error: err })
@@ -227,7 +216,11 @@ const changeImgUser = async (req, res) => {
             return res.status(422).json({ error: 'Could not update user image.' })
           }
 
-          res.status(200).json({ message: 'Image Updated!', updateUser })
+          const { _doc } = updateUser;
+
+
+
+          res.status(200).json({ message: 'Image Updated!', ..._doc, token: token })
 
         })
 

@@ -105,7 +105,7 @@ const getSinglePost = async (req, res, next) => {
 const getPostsCategory = async (req, res, next) => {
   try {
     const category = req.params.category;
-    const catPosts = await Post.find({ category }).sort({ createdAt: 1 })
+    const catPosts = await Post.find({ category }).populate('creator', 'username avatar verified posts').sort({ createdAt: -1 })
     if (!catPosts) {
       return res.status(404).json({ error: 'Could not find posts.', error })
     }
@@ -204,7 +204,7 @@ const editPost = async (req, res, next) => {
       return res.status(500).json({ error: 'Could not update this post.' })
     }
 
-    res.status(200).json({ message: 'Post updated successfully!', updatePost })
+    res.status(200).json({ message: 'Post updated successfully!' })
   } catch (error) {
     return res.status(500).json({ error: 'Could not edit the post.', error })
   }
@@ -220,6 +220,7 @@ const deletePost = async (req, res, next) => {
   try {
     const id = req.params.id
 
+
     if (!id) {
       return res.status(400).json({ error: 'Post Unavailable.' })
     }
@@ -227,9 +228,9 @@ const deletePost = async (req, res, next) => {
     const fileName = post?.image;
 
 
-    if (req.user.userId == post.creator) {
+    if (req.user.userId == post.creator._id) {
       // Delete image from uploads folder.
-      fs.unlink(path.join(__dirname, '..', 'uploadsPostImg', fileName), async (err) => {
+      fs.unlink(path.join(__dirname, '..', 'uploads', 'uploadsPostImg', fileName), async (err) => {
         if (err) {
           return res.status(400).json({ error: 'Could not delete image.', err })
         } else {
@@ -246,7 +247,7 @@ const deletePost = async (req, res, next) => {
 
       res.status(200).json({
         message: `Post ${id} deleted successfully!
-  ` })
+      ` })
 
     } else {
       return res.status(403).json({ error: 'You are not authorized to delete this post.' })
