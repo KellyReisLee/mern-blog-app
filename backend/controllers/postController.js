@@ -16,6 +16,9 @@ const createPost = async (req, res, next) => {
     if (!title || !category || !description || !req.files) {
       return res.status(422).json({ error: 'All fields are required.' })
     }
+    if (category === 'Uncategorized') {
+      return res.status(422).json({ error: 'Please, select a valid category.' })
+    }
 
     const { image } = req.files
 

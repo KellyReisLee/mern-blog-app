@@ -99,7 +99,14 @@ const loginUser = async (req, res, next) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     const { username, posts, verified, avatar } = user;
     const _id = user._id;
+    if (!passwordMatch) {
+      return res.json({ error: 'Incorrect password' });
+    }
 
+
+    if (verified === false) {
+      return res.status(422).json({ error: 'User not Verified! Check your email and click on the link to validate.' })
+    }
     if (passwordMatch) {
       const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '10m' }, (err, token) => {
         if (err) throw err;
@@ -107,16 +114,10 @@ const loginUser = async (req, res, next) => {
 
       });
 
-      // res.status(200).json({ token });
-    }
-    if (!passwordMatch) {
-      return res.json({ error: 'Incorrect password' });
+
     }
 
-    if (verified === false) {
-      return res.status(422).json({ error: 'User not Verified! Check your email and click on the link to validate.' })
-    }
-
+    //res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: "Login failed. Please check your credentials.", error });
   }
@@ -217,9 +218,6 @@ const changeImgUser = async (req, res) => {
           }
 
           const { _doc } = updateUser;
-
-
-
           res.status(200).json({ message: 'Image Updated!', ..._doc, token: token })
 
         })
@@ -227,7 +225,6 @@ const changeImgUser = async (req, res) => {
       })
 
     }
-
 
 
   } catch (error) {
@@ -284,25 +281,36 @@ const editUser = async (req, res) => {
       return res.status(422).json({ error: 'Please! The Current Password is wrong. Try again.' })
     }
 
-    const updatedUser = await userModel.findByIdAndUpdate(id, { username: username, email: email, password: hashedPassEdit, id: id }, { new: true })
 
-
-    if (!updatedUser) {
-      return res.status(422).json({ error: 'Could not update user. Trye later!' })
+    // Checking token data
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(500).json({ error: 'User Not Authorized!' })
     }
+    if (token) {
+      jwt.verify(token, process.env.SECRET, {}, async (error, user) => {
+        if (error) {
+          return res.status(500).json({ error: "User not Authorized!", error });
+        }
+        const updatedUser = await userModel.findByIdAndUpdate(user.userId, { username: username, email: email, password: hashedPassEdit, id: id }, { new: true })
 
-    let updatedUserInfo = await userModel.findById(id).select('-password').select('-email')
 
-    res.status(200).json({ message: 'User updated!', updatedUserInfo })
+        if (!updatedUser) {
+          return res.status(422).json({ error: 'Could not update user. Try later!' })
+        }
+
+        let updatedUserInfo = await userModel.findById(user.userId).select('-password').select('-email')
+        const { _doc } = updatedUserInfo;
+
+        res.status(200).json({ message: 'User information updated!', ..._doc, token: token })
+      })
+    }
 
   } catch (error) {
     return res.json({ error: "It's not possible change the user data.", error });
   }
 
 }
-
-
-
 
 
 // Getting all users/authors.
@@ -410,11 +418,8 @@ const userSendEmail = async (req, res) => {
 
 
 const changePassword = async (req, res) => {
-  // console.log(req.body);
+
   const { id, token } = req.params;
-  console.log(id);
-
-
   try {
     const { email, password, confirmPassword } = req.body;
     const salt = await bcrypt.genSalt(10)
@@ -446,8 +451,11 @@ const changePassword = async (req, res) => {
       return res.status(422).json({ error: 'Password and Confirm Password must match!' })
 
     }
+    // Find user and increase count by one.
+    const currentUser = await userModel.findById(id)
+    const userChangePassword = currentUser.changePassword + 1;
 
-    await userModel.findByIdAndUpdate(id, { password: hashedPassEdit }, { new: true })
+    await userModel.findByIdAndUpdate(id, { password: hashedPassEdit, changePassword: userChangePassword }, { new: true })
     await tokenModel.findByIdAndDelete(tokenUser._id)
 
     res.status(200).json({ message: 'Password updated!' })
@@ -464,8 +472,12 @@ const changePassword = async (req, res) => {
 
 // Logout logic
 const userLogout = async (req, res) => {
-  res.clearCookie('token')
-  return res.json({ message: 'Successfully Logout' });
+  try {
+    res.clearCookie('token')
+    return res.status(200).json({ message: 'Successfully Logout' });
+  } catch (error) {
+    res.status(500).json({ error: 'Could not logout.' })
+  }
 }
 
 module.exports = {
