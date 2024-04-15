@@ -148,70 +148,64 @@ const getAuthorPosts = async (req, res) => {
 // PATH: api/posts/:id
 // Protected area.
 const editPost = async (req, res, next) => {
-
   try {
     let fileName;
-    let newFileName
+    let newFileName;
     let updatePost;
-    const id = req.params.id
+    const id = req.params.id;
     const { title, description, category } = req.body;
+
     if (!title || !description || !category) {
-      return res.status(422).json({ error: 'All fields are required!' })
+      return res.status(422).json({ error: 'All fields are required!' });
     }
 
-    //get old post
+    // get old post
     const oldPost = await Post.findById(id);
 
     if (req.user.userId == oldPost.creator) {
-
-
-
       if (!req.files) {
-        updatePost = await Post.findByIdAndUpdate(id, { title, category, description }, { new: true })
-
-
+        updatePost = await Post.findByIdAndUpdate(id, { title, category, description }, { new: true });
       } else {
-
-        // delete an old image from uploadsPostImg.
-        fs.unlink(path.join(__dirname, '..', 'uploadsPostImg', oldPost.image), async (err) => {
+        // delete old image from uploadsPostImg
+        fs.unlink(path.join(__dirname, '..', 'uploads', 'uploadsPostImg', oldPost.image), async (err) => {
           if (err) {
-            return res.status(422).json({ error: 'Could not find image.' })
+            return res.status(422).json({ error: 'Could not find image.' });
           }
 
-        })
+          // upload new image
+          const { image } = req.files;
 
-        // upload new image.
-        const { image } = req.files;
-        // Check the size:
-        if (image.size > 5000000) {
-          return res.status(422).json({ error: 'This image is too big. Should be less than 500kb' })
-        }
-
-        fileName = image.name;
-        let splittedImage = fileName.split('.')
-        newFileName = splittedImage[0] + uuid() + '.' + splittedImage[splittedImage.length - 1]
-
-        // Move the image file to the uploadsPostImg
-        image.mv(path.join(__dirname, '..', 'uploadsPostImg', newFileName), async (err) => {
-          if (err) {
-            return res.json({ error: err || 'Could not move image to the specified folder.' })
+          // check image size
+          if (image.size > 5000000) {
+            return res.status(422).json({ error: 'This image is too big. Should be less than 500kb' });
           }
 
-        })
+          fileName = image.name;
+          let splittedImage = fileName.split('.');
+          newFileName = splittedImage[0] + uuid() + '.' + splittedImage[splittedImage.length - 1];
 
-        updatePost = await Post.findByIdAndUpdate(id, { title, category, description, image: newFileName }, { new: true })
+          // move the image file to uploadsPostImg
+          image.mv(path.join(__dirname, '..', 'uploads', 'uploadsPostImg', newFileName), async (err) => {
+            if (err) {
+              return res.json({ error: err || 'Could not move image to the specified folder.' });
+            }
+
+            // update post with new image
+            updatePost = await Post.findByIdAndUpdate(id, { title, category, description, image: newFileName }, { new: true });
+
+            if (!updatePost) {
+              return res.status(500).json({ error: 'Could not update this post.' });
+            }
+
+            res.status(200).json({ message: 'Post updated successfully!' });
+          });
+        });
       }
     }
-
-    if (!updatePost) {
-      return res.status(500).json({ error: 'Could not update this post.' })
-    }
-
-    res.status(200).json({ message: 'Post updated successfully!' })
   } catch (error) {
-    return res.status(500).json({ error: 'Could not edit the post.', error })
+    return res.status(500).json({ error: 'Could not edit the post.', error });
   }
-}
+};
 
 
 
