@@ -1,30 +1,18 @@
 import { Link } from 'react-router-dom'
 import avatar from '../assets/avatar.png'
 import classes from './PostAuthor.module.css'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 import ReactTimeAgo from 'react-time-ago';
 import javascriptTimeAgo from 'javascript-time-ago';
 
 import en from 'javascript-time-ago/locale/en.json';
-
-
-
 javascriptTimeAgo.addLocale(en);
 
 
 const PostAuthor = ({ createdAt, creatorData }) => {
 
-  const [authorPosts, setAuthorPosts] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-
-  // Verifica se createdAt é uma data válida
   const date = new Date(createdAt);
-  // Verifica se a data é válida
+  // Verify if createdAt is a valid date.
   const isValidDate = !isNaN(date.getTime());
-
-
 
 
   return (

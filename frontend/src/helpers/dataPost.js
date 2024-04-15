@@ -77,5 +77,5 @@ export const authorsData = [
   { id: 9, image: face9, name: 'Iris Silva', posts: 5 },
 ]
 
-export const categories = ["Javascript", "CSS", "HTML", "Node.js", "Bootstrap", "Tailwind", "React.js", , "TypeScript.js", "MongoDB", "MySQL", 'Uncategorized']
+export const categories = ["Javascript", "CSS", "HTML", "Node.js", "Bootstrap", "Tailwind", "React.js", "TypeScript.js", "MongoDB", "MySQL"]
 

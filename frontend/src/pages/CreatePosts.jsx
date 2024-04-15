@@ -21,15 +21,15 @@ const CreatePosts = () => {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('');
 
-  const token = userData?.token;
   // Protecting Page
+  const token = userData?.token;
   useEffect(() => {
     if (!token) {
       navigate('/api/users/login')
     }
   }, [])
 
-  console.log(userData);
+
   function validation() {
     if (!title || !category || !description || !image) {
       setError('All fields are required!')
@@ -54,9 +54,9 @@ const CreatePosts = () => {
           headers: { Authorization: `Bearer ${token}` }
         })
 
-
-
-        if (response) {
+        if (!response) {
+          setError('Could not create post.')
+        } else {
           setError('')
           setMessage(response.data.message)
 
@@ -70,12 +70,7 @@ const CreatePosts = () => {
         console.log(error);
         setError(error?.response?.data?.error || 'Could not Create Post.')
       }
-
-
-
     }
-
-
     setLoading(false)
   }
 
@@ -92,6 +87,7 @@ const CreatePosts = () => {
           <form onSubmit={handleCreatePost} className={classes.form}>
             <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
             <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
+              <option disabled>Uncategorized</option>
               {categories.map((item) => (
                 <option key={item}>{item}</option>
               ))}

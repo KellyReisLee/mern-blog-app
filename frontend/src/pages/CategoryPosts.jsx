@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react'
 import PostItem from '../components/PostItem'
-import { dummy_Data } from '../helpers/dataPost'
 import classes from './CategoryPosts.module.css'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import SkeletonPost from '../components/SkeletonPost'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { useFetch } from '../hooks/useFetch'
 
 const CategoryPosts = () => {
-  const [dataCategory, setDataCategory] = useState([])
   const { category } = useParams()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
 
   const skeleton = [];
@@ -21,43 +18,23 @@ const CategoryPosts = () => {
   }
 
 
-  useEffect(() => {
-
-    async function fetchCategory() {
-      setLoading(true)
-      try {
-        const response = await axios.get(`api/posts/categories/${category}`)
-        console.log(response);
-        if (!response) {
-          setError('Could not find data.')
-        }
-        setDataCategory(response.data)
-
-      } catch (error) {
-        setError(error.response.data.error || 'Could not find data.')
-      }
-      setLoading(false)
-    }
-
-    fetchCategory()
-
-  }, [])
+  const { data, loading, error } = useFetch(axios.get(`api/posts/categories/${category}`), 'Could not find posts.')
 
 
   return (
     <>
       <Header />
       {
-        error && (
+        !loading && data.length === 0 && error && (
           <div className={classes.noDataFound}>
-            <p >
+            <p>
               {error}
             </p>
           </div>
         )
       }
       {
-        !loading && dataCategory.length === 0 && (
+        !loading && data.length === 0 && !error && (
           <div className={classes.noDataFound}>
             <p >
               This category don't have posts yet.
@@ -66,18 +43,17 @@ const CategoryPosts = () => {
         )
       }
       <section className={classes.container}>
-
         <div className={classes.posts}>
 
           {
-            loading && dataCategory.length === 0 && (
+            loading && data.length === 0 && (
               <>
                 {skeleton}
               </>
             )
           }
           {
-            dataCategory.map((post) => (
+            data.map((post) => (
               <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
             ))
           }

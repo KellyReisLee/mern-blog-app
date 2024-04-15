@@ -77,7 +77,7 @@ const PostDetail = () => {
               <div className={classes.btns}>
                 <Link to={`/posts/${id}/edit`} className={classes.edit}>Edit</Link>
 
-                <DeletePost modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={post._id} >Delete</DeletePost>
+                <DeletePost setError={setError} modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={id} >Delete</DeletePost>
               </div>
             )
             }

@@ -49,6 +49,11 @@
 
   }
 
+  .noDataFound p {
+    width: 100%;
+
+  }
+
 }
 
 

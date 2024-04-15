@@ -10,6 +10,7 @@ const SendEmail = () => {
   const [sended, setSended] = useState(false);
   const [emailData, setEmailData] = useState({ email: '' });
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
 
@@ -20,6 +21,7 @@ const SendEmail = () => {
   }
   const handleSendEmail = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const { email } = emailData;
 
     if (!email) {
@@ -31,19 +33,17 @@ const SendEmail = () => {
     }
 
     try {
-      const response = await axios.post('/api/users/send-email', { email }); // Corrigido: Passando um objeto com email
+      const response = await axios.post('/api/users/send-email', { email });
       if (!response) {
         console.log('Could not send the email. Please, try later.');
       }
-      console.log(response);
-      setMessage(response.data.message)
-      setTimeout(() => {
-        setSended(true);
-      }, 3000)
+      setMessage(response.data?.message)
+      setSended(true);
+
     } catch (error) {
-      console.log(error);
-      setError(error.response.data.error || error.message); // Corrigido: Definindo o estado de erro com a mensagem de erro
+      setError(error.response?.data?.error || 'Could not send email.');
     }
+    setLoading(false)
   };
 
 
@@ -67,8 +67,7 @@ const SendEmail = () => {
               <p className={classes.message}> Please enter you email. If you have an account with us you will receive a link to change your password.</p>
 
               {error && (<p className={classes.error}>{error}</p>)}
-
-
+              {loading && !error && <p className={classes.loading}>Loading...</p>}
               <input
                 value={emailData.email}
                 onChange={(e) => changeInputHandler('email', e)}

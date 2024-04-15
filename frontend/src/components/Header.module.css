@@ -95,7 +95,7 @@
     position: absolute;
     border: none;
     gap: 0;
-    top: 4.3rem;
+    top: 4.8rem;
     right: 0%;
     width: 100%;
     flex-direction: column;
@@ -145,7 +145,8 @@
 
   .navHeader li a {
     display: block;
-    background-color: rgb(226, 224, 224);
+    background-color: rgba(223, 223, 223, 0.935);
+    ;
     padding: 0.85rem 2.5rem;
     cursor: pointer;
     z-index: 10;

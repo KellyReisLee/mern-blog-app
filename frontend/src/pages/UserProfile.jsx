@@ -154,29 +154,28 @@ const UserProfile = () => {
     if (validation()) {
       try {
         const response = await axios.patch(`/api/users/${userData?._id}/edit-user`, user)
+        console.log(response.data);
 
-        if (response) {
-          console.log(response);
-          setMessage(response.data.message)
-          setUserData(response.data.updatedUserInfo)
-          localStorage.setItem('user-data', JSON.stringify(response.data.updatedUserInfo));
-
-          setUser({
-            username: '',
-            email: '',
-            currentPassword: '',
-            newPassword: '',
-            confirmNewPassword: ''
-          })
-
-          setTimeout(() => {
-            setMessage('')
-            //window.location.reload(true)
-
-          }, 5000);
-
-
+        if (!response) {
+          setError('Could not update user.')
         }
+
+        setMessage(response.data.message)
+        setUserData(response.data)
+        localStorage.setItem('user-data', JSON.stringify(response.data));
+
+        setUser({
+          username: '',
+          email: '',
+          currentPassword: '',
+          newPassword: '',
+          confirmNewPassword: ''
+        })
+
+        setTimeout(() => {
+          setMessage('')
+
+        }, 5000);
 
       } catch (error) {
         console.log(error);

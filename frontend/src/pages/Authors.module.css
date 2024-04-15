@@ -44,9 +44,22 @@ section {
 }
 
 .noDataFound {
+  padding: 2rem;
+  border-radius: var(--radius-1);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.noDataFound p {
   font-size: 1rem;
   text-align: center;
   font-weight: 600;
+  background-color: white;
+  width: 70%;
+  padding: 2rem;
+
 }
 
 
@@ -63,6 +76,11 @@ section {
   }
 
   .noDataFound {
+    width: 100%;
+
+  }
+
+  .noDataFound p {
     font-size: 0.8rem;
   }
 }

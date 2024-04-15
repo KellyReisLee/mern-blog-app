@@ -100,21 +100,13 @@ const RegisterPage = () => {
 
 
   function showPasswordFunc(name) {
-    // clearTimeout(timer);
+
     if (name === 'password') {
       setShowPassword(() => !showPassword)
     }
-
     if (name === 'confirmPassword') {
       setShowConfirmPassword(() => !showConfirmPassword)
     }
-
-    setTimeout(() => {
-      setShowPassword(false)
-      setShowConfirmPassword(false)
-
-    }, 4000);
-
   }
 
 

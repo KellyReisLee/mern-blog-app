@@ -1,61 +1,41 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import classes from './Authors.module.css'
-import axios from 'axios'
 import Avatar from '../assets/avatar.png'
 import SkeletonAuthors from '../components/SkeletonAuthors'
+import axios from 'axios'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { useFetch } from '../hooks/useFetch'
+
 
 const Authors = () => {
-
-  const [authors, setAuthors] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-
 
   const skeleton = [];
   for (let i = 1; i <= 6; i++) {
     skeleton.push(<SkeletonAuthors key={i} />)
   }
 
-
-  useEffect(() => {
-    async function fetchAllAuthors() {
-      setLoading(true)
-      try {
-        const { data } = await axios.get(`api/users`)
-        console.log(data);
-
-        if (!data) {
-          setError('Could not fetch data from database.')
-        }
-        setAuthors(data)
-
-      } catch (error) {
-        setError(error || 'Could not fetch data.')
-
-      }
-      setLoading(false)
-    }
-
-    fetchAllAuthors()
-  }, [])
-
-
+  const { data, loading, error } = useFetch(axios.get(`api/users`), 'Could not find authors.')
 
 
   return (
     <>
       <Header />
       <section className={classes.section}>
+        {!loading && data.length === 0 && error && (
+          <div className={classes.noDataFound}><p>{error}</p></div>
+        )}
+        {!loading && !error && data.length === 0 && (
+          <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
+        )}
         <div className={classes.container}>
-          {loading && (<>{skeleton}</>)}
-          {!loading && authors.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
 
-          {authors.length > 0 &&
+          {loading && (<>{skeleton}</>)}
+
+          {data.length > 0 &&
             (
-              authors.map((author) => {
+              data.map((author) => {
                 return <Link className={classes.author} key={author._id} to={`/api/posts/user/${author._id}`}>
                   <div className={classes.authorsImage}>
                     <img src={`http://localhost:4000/uploads/uploadsUserImg/${author.avatar}`} onError={(e) => {

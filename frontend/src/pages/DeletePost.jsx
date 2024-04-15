@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import { UserContext } from '../../context/userContext'
 import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './DeletePost.module.css'
@@ -7,17 +7,16 @@ import Modal from '../components/Modal'
 import DeleteConfirmation from '../components/DeleteConfirmation'
 
 
-const Delete = ({ postId, modalIsOpen, handleStopRemovePlace, handleStartRemovePlace, children }) => {
+
+const Delete = ({ modalIsOpen, postId, setError, handleStopRemovePlace, handleStartRemovePlace, children }) => {
   const { userData } = useContext(UserContext)
   const navigate = useNavigate();
   const location = useLocation();
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
 
-  console.log(userData);
 
+
+  // Protecting page.
   const token = userData?.token;
-
   useEffect(() => {
     if (!token) {
       navigate('/api/users/login')
@@ -25,9 +24,7 @@ const Delete = ({ postId, modalIsOpen, handleStopRemovePlace, handleStartRemoveP
 
   }, [])
 
-  console.log(postId);
-
-
+  console.log(userData);
   const handleRemovePlace = async (e) => {
     e.preventDefault()
     try {
@@ -44,19 +41,14 @@ const Delete = ({ postId, modalIsOpen, handleStopRemovePlace, handleStartRemoveP
         }
       }
 
-      console.log(response.data.message);
-
     } catch (error) {
-      console.log(error);
       setError(error.response.data.error || 'Could not delete this post.')
-
     }
 
   }
 
   return (
     <>
-
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}

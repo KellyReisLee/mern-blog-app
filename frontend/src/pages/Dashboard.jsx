@@ -11,17 +11,17 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { useFetch } from '../hooks/useFetch'
 
 const Dashboard = () => {
-  const [posts, setPosts] = useState([]);
+
   const { userData } = useContext(UserContext)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
   const navigate = useNavigate();
   const { id } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
 
+  console.log(userData);
   const skeleton = [];
   for (let i = 1; i <= 6; i++) {
     skeleton.push(<SkeletonAuthors key={i} />)
@@ -36,44 +36,18 @@ const Dashboard = () => {
 
   }, [])
 
-  useEffect(() => {
-
-    async function fetchMyPosts() {
-      setLoading(true)
-      try {
-        const { data } = await axios.get(`api/posts/user/${id}`)
-
-
-        if (!data) {
-          setError('Could not fetch data from database.')
-        }
-        setPosts(data)
-
-
-      } catch (error) {
-        setError(error.response.data.error || 'Could not fetch data.')
-        console.log(error);
-      }
-      setLoading(false)
-    }
-    fetchMyPosts()
-
-  }, [])
-
-
-
+  const { data, loading, error, setError } = useFetch(axios.get(`api/posts/user/${id}`), 'Could not find data.')
 
 
   function handleStartRemovePlace() {
     setModalIsOpen(true);
-
   }
 
   function handleStopRemovePlace() {
     setModalIsOpen(false);
   }
 
-
+  console.log(data);
 
 
   return (
@@ -81,29 +55,29 @@ const Dashboard = () => {
       <Header />
       <section className={classes.section}>
         <div className={classes.dashboard}>
-          {!loading && posts.length === 0 && <p className={classes.noDataFound}>Could not fetch data.</p>}
-          {loading && posts.length === 0 && (<>{skeleton}</>)}
-          {posts.length > 0 && (<>
+          {!loading && data.length === 0 && error && <p className={classes.noDataFound}>Could not find data. || {error}</p>}
+          {loading && data.length === 0 && !error && (<>{skeleton}</>)}
+          {data.length > 0 && (<>
             {
-              posts.map((item) => {
-                return <article key={item.id} className={classes.dashboardPost}>
+              data.map((item) => {
+                return <article key={item._id} className={classes.dashboardPost}>
                   <div className={classes.imgContainer}>
                     <img src={`http://localhost:4000/uploads/uploadsPostImg/${item.image}`} alt='user image' onError={(e) => {
-                      e.currentTarget.src = avatar,
+                      e.currentTarget.src = NoImage,
                         e.currentTarget.onerror = null
                     }} />
                   </div>
                   <div className={classes.title}>
-                    <h3>{item.title.length > 40 ? `${item.title.slice(0, 40)}...` : `${item.title}`}</h3>
+                    <h3>{item.title.length > 10 ? `${item.title.slice(0, 10)}...` : `${item.title}`}</h3>
                   </div>
                   <div className={classes.btns}>
                     <Link className={classes.view} to={`/api/posts/${item._id}`}>View</Link>
-                    <Link className={classes.edit} to={`/posts/${item._id}/edit`}><FaEdit size={20} /></Link>
-                    <DeletePost modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={item._id} >
-                      <MdDelete size={21} />
+                    <Link className={classes.edit} to={`/posts/${item._id}/edit`}><FaEdit size={15} /></Link>
+                    <DeletePost setError={setError} modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={item._id} >
+                      <MdDelete size={17} />
                     </DeletePost>
-                  </div>
 
+                  </div>
                 </article>
               })
             }

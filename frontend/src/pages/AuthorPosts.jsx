@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
 import PostItem from '../components/PostItem'
 import classes from './AuthorPosts.module.css'
-import axios from 'axios'
 import SkeletonPost from '../components/SkeletonPost'
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import { useFetch } from '../hooks/useFetch'
 
 const AuthorPosts = () => {
-
-  const [authorPosts, setAuthorPosts] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
   const { id } = useParams();
 
 
@@ -19,32 +16,20 @@ const AuthorPosts = () => {
   for (let i = 1; i <= 6; i++) {
     skeleton.push(<SkeletonPost key={i} />)
   }
-  useEffect(() => {
-    async function fetchAuthor() {
-      setLoading(true)
-      try {
-        const { data } = await axios.get(`api/posts/user/${id}`)
 
-        if (!data) {
-          setError('Could not fetch data from database.')
-        }
-        setAuthorPosts(data)
+  const { data, loading, error } = useFetch(axios.get(`api/posts/user/${id}`), 'Could not find post.')
 
 
-      } catch (error) {
-        setError(error || 'Could not fetch Posts.')
-      }
-      setLoading(false)
-    }
-
-    fetchAuthor()
-  }, [])
   return (
     <>
       <Header />
-      {!loading && authorPosts.length === 0 && <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>}
+      {!loading && data.length === 0 && error && (
+        <div className={classes.noDataFound}><p>{error}</p></div>
+      )}
+      {!loading && !error && data.length === 0 && (
+        <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
+      )}
       <section className={classes.container}>
-
         {
           loading && (
             <>
@@ -53,12 +38,11 @@ const AuthorPosts = () => {
           )
         }
         {
-          authorPosts.map((post) => (
+          data.map((post) => (
             <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
           ))
         }
       </section>
-
       <Footer />
     </>
   )

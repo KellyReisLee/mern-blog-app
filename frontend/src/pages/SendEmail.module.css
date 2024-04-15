@@ -98,8 +98,18 @@ hr {
 
 .error {
   width: 84%;
-  background-color: var(--color-green);
-  margin: 0 0 0.8rem 0;
+  background-color: var(--color-red);
+  margin: 0 0 0.2rem 0;
+  padding: 0.68rem;
+  border-radius: var(--radius-1);
+  color: aliceblue;
+  text-align: center;
+}
+
+.loading {
+  width: 84%;
+  background-color: var(--color-gray-300);
+  margin: 0 0 0.2rem 0;
   padding: 0.68rem;
   border-radius: var(--radius-1);
   color: aliceblue;
@@ -111,7 +121,7 @@ hr {
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
   .section {
-    margin-top: 3rem;
+    margin-top: 2.5rem;
   }
 
   .form {
@@ -132,8 +142,8 @@ hr {
   .form h3 {
 
     margin-top: 0rem;
-    padding: 1.5rem;
-    font-size: 1rem;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
   }
 
   .btns {
@@ -157,6 +167,7 @@ hr {
     font-size: 1rem;
     font-weight: 600;
   }
+
 
 
 

@@ -10,7 +10,7 @@ import Footer from '../components/Footer'
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { setUserData, setLoggedIn } = useContext(UserContext)
+  const { setUserData } = useContext(UserContext)
   const [userDataLogin, setUserDataLogin] = useState({
     email: '',
     password: '',
@@ -38,25 +38,22 @@ const LoginPage = () => {
 
     try {
       const { data } = await axios.post("/api/users/login", { email, password })
-      console.log(data);
-      if (!data) {
-        setError(data?.response?.data?.error || 'Could not sign in.')
+      //console.log(data);
+      if (data.error) {
+        setError(data.error)
       } else {
         localStorage.setItem("user-data", JSON.stringify(data))
-        setLoggedIn(true)
         setUserData(data);
         setUserDataLogin({
           email: '',
           password: '',
         });
         navigate('/')
-
-
       }
 
 
     } catch (error) {
-      console.error('Erro ao efetuar login:', error);
+      console.log(error);
       setError(error.response?.data?.error || 'unknown error');
     }
 
@@ -65,16 +62,11 @@ const LoginPage = () => {
   }
 
 
+
   function showPasswordFunc(name) {
-    // clearTimeout(timer);
     if (name === 'password') {
       setShowPassword(() => !showPassword)
     }
-
-    setTimeout(() => {
-      setShowPassword(false)
-
-    }, 4000);
 
   }
 

@@ -4,7 +4,6 @@ import App from './App.jsx'
 import './index.css'
 import axios from 'axios'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Layout from './components/Layout.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
 import Home from './pages/Home.jsx'
 import PostDetail from './pages/PostDetail.jsx'
@@ -40,7 +39,6 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "api/users/verify", element: <VerificationPage /> },
-
       { path: "api/users/register", element: <RegisterPage /> },
       { path: "api/users/login", element: <LoginPage /> },
       { path: "api/users/logout", element: <Home /> },

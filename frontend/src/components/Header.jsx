@@ -10,28 +10,22 @@ import axios from 'axios';
 
 const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click', 'load'];
 
-
-
 const Header = () => {
-
   const userDataStorage = localStorage.getItem('user-data')
   const userDataObject = JSON.parse(userDataStorage);
-  const { userData, setUserData, setLoggedIn } = useContext(UserContext);
-  const navigation = useNavigate();
+  const { userData, setUserData } = useContext(UserContext);
   const [show, setShow] = useState(window.innerWidth > 800 ? true : false)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState('')
+  const navigation = useNavigate();
 
 
+  // Getting data from localStorage.
   useEffect(() => {
     setUserData(userDataObject)
-
-    console.log(userData);
-
   }, [])
 
 
   function handleCloseNav() {
-
     if (window.innerWidth < 800) {
       setShow(false)
     } else {
@@ -39,14 +33,12 @@ const Header = () => {
     }
   }
 
-  // console.log(userData);
 
+  // Logout after 10 minutes without activite
   let timer;
   const resetTimer = () => {
     if (timer) clearTimeout(timer);
   };
-
-
 
   const logoutAction = () => {
     handleCloseNav()
@@ -54,11 +46,10 @@ const Header = () => {
       setUserData(null)
     }
     localStorage.clear();
-    setLoggedIn(false)
+
     setUserData(null)
+
     navigation('/api/users/login')
-
-
 
   };
 
@@ -87,23 +78,24 @@ const Header = () => {
   }, []);
 
 
+
+  // Logout using the logout button.
   const handleLogout = async () => {
     resetTimer();
-    setError(true)
-    // Faz a solicitação de logout
-    await axios.get('api/users/logout')
-
 
     try {
+
+      // Faz a solicitação de logout
+      const response = await axios.get('api/users/logout')
+      if (!response) {
+        setError('Could not logout. Try again')
+      }
       localStorage.clear();
-      setLoggedIn(false)
       setUserData(null)
-      setError(false)
       navigation('/api/users/logout')
 
-
     } catch (error) {
-      setError(error)
+      setError(error.response.data.error)
     }
   };
 
@@ -137,12 +129,12 @@ const Header = () => {
                   </li>
                 </ul>
               )}
-              {/* Navbar for a mobile */}
 
+              {/* Navbar for a mobile */}
               {
                 window.innerWidth < 800 && (
                   <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
-                    {show ? <IoMdClose /> : < GiHamburgerMenu />}
+                    {show ? <IoMdClose /> : <GiHamburgerMenu />}
                   </button>
                 )
               }
@@ -170,12 +162,13 @@ const Header = () => {
 
                 </ul>
               )}
-              {/* Navbar for a mobile */}
 
+
+              {/* Navbar for a mobile */}
               {
                 window.innerWidth < 800 && (
                   <button onClick={() => setShow(!show)} className={`${classes.btnHeader}`}>
-                    {show ? <IoMdClose /> : < GiHamburgerMenu />}
+                    {show ? <IoMdClose /> : <GiHamburgerMenu />}
                   </button>
                 )
               }
