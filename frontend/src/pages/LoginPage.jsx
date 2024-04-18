@@ -8,6 +8,7 @@ import { RiEyeCloseLine } from "react-icons/ri";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
+
 const LoginPage = () => {
   const navigate = useNavigate();
   const { setUserData } = useContext(UserContext)
@@ -71,59 +72,61 @@ const LoginPage = () => {
   }
 
   return (
-    <>
-
+    <section className={classes.noScroll}>
       <Header />
-      <section className={classes.login}>
-        <div className={classes.mainLogin}>
-          <h2>Sign In</h2>
-          <form onSubmit={handleLoginUser} className={classes.form}>
-            {error && (
-              <p className={classes.error}>{error}</p>
-            )}
+      <section className={classes.section}>
+        <div className={classes.login}>
+          <div className={classes.mainLogin}>
+            <h2>Sign In</h2>
+            <form onSubmit={handleLoginUser} className={classes.form}>
+              {error && (
+                <p className={classes.error}>{error}</p>
+              )}
 
-            {loading && !error && <p className={classes.loading}>Loding...</p>}
+              {loading && !error && <p className={classes.loading}>Loding...</p>}
 
-            {/* email */}
-            <input
-              type='email'
-              placeholder='Email'
-              name='email'
-              value={userDataLogin.email}
-              onChange={(e) => changeInputHandler('email', e)}
-              autoFocus
-
-            />
-
-            {/* password */}
-            <div className={classes.password}>
+              {/* email */}
               <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder='Password'
-                name='password'
-                value={userDataLogin.password}
-                onChange={(e) => changeInputHandler('password', e)}
+                type='email'
+                placeholder='Email'
+                name='email'
+                value={userDataLogin.email}
+                onChange={(e) => changeInputHandler('email', e)}
+                autoFocus
 
               />
-              <span onClick={() => showPasswordFunc('password')}>{
-                showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-              }
-              </span>
+
+              {/* password */}
+              <div className={classes.password}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='Password'
+                  name='password'
+                  value={userDataLogin.password}
+                  onChange={(e) => changeInputHandler('password', e)}
+
+                />
+                <span onClick={() => showPasswordFunc('password')}>{
+                  showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+                }
+                </span>
+              </div>
+              <button>Login</button>
+            </form>
+            <div className={classes.links}>
+
+              <small >Are you forgot the password? <Link to="/api/users/send-email">Click here!</Link></small>
+              <br />
+              <small >Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
+
             </div>
-            <button>Login</button>
-          </form>
-          <div className={classes.links}>
-
-            <small >Are you forgot the password? <Link to="/api/users/send-email">Click here!</Link></small>
-            <br />
-            <small >Don't have an account? <Link to="/api/users/register">Sign up</Link></small>
-
           </div>
-        </div>
 
+
+        </div>
       </section>
       <Footer />
-    </>
+    </section>
   )
 }
 

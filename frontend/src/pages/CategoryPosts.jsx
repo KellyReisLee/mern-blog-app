@@ -42,22 +42,24 @@ const CategoryPosts = () => {
           </div>
         )
       }
-      <section className={classes.container}>
-        <div className={classes.posts}>
+      <section className={classes.section}>
+        <div className={classes.container}>
+          <div className={classes.posts}>
 
-          {
-            loading && data.length === 0 && (
-              <>
-                {skeleton}
-              </>
-            )
-          }
-          {
-            data.map((post) => (
-              <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
-            ))
-          }
+            {
+              loading && data.length === 0 && (
+                <>
+                  {skeleton}
+                </>
+              )
+            }
+            {
+              data.map((post) => (
+                <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
+              ))
+            }
 
+          </div>
         </div>
       </section>
       <Footer />

@@ -29,19 +29,21 @@ const AuthorPosts = () => {
       {!loading && !error && data.length === 0 && (
         <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
       )}
-      <section className={classes.container}>
-        {
-          loading && (
-            <>
-              {skeleton}
-            </>
-          )
-        }
-        {
-          data.map((post) => (
-            <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
-          ))
-        }
+      <section className={classes.section}>
+        <div className={classes.container}>
+          {
+            loading && (
+              <>
+                {skeleton}
+              </>
+            )
+          }
+          {
+            data.map((post) => (
+              <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
+            ))
+          }
+        </div>
       </section>
       <Footer />
     </>

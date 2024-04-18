@@ -1,39 +1,54 @@
 .errorPg {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.errorPg div {
-  text-align: center;
-  padding-top: 5rem;
-  margin-inline: center;
-  display: block;
-  width: 50%;
 
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+
+.errorPg h2 {
+  font-size: 4rem;
+  color: var(--color-gray-300);
+  padding: 2rem;
+  border-radius: 20px;
+
+}
+
+
+.containerImg {
+  width: 70%;
+}
+
+.containerImg img {
+  width: 100%;
+}
+
 
 .errorPg a {
   font-size: 1.1rem;
   background-color: var(--color-primary);
   color: var(--color-white);
-  padding: 1.5rem 2.5rem;
-  border-radius: 50px;
+  padding: 1.2rem 2.5rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-1);
+
 }
+
 
 .errorPg a:hover {
   background-color: var(--color-gray-900);
 }
 
-.errorPg h2 {
-  margin-top: 6rem;
-  font-size: 4rem;
-  color: var(--color-gray-700);
-  border: 10px solid var(--color-gray-700);
-  padding: 3.5rem;
-  border-radius: 20px;
-
-}
 
 
 
@@ -41,32 +56,49 @@
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
 
-  .errorPg div {
+  .errorPg {
     text-align: center;
-    padding-top: 2rem;
-    margin-inline: center;
-    display: block;
-    width: 90%;
+    padding-top: 1rem;
+    width: 100%;
+
+  }
+
+  .center {
+    justify-content: flex-start;
 
   }
 
   .errorPg a {
-    font-size: 1rem;
+    font-size: 0.9rem;
     background-color: var(--color-primary);
     color: var(--color-white);
-    padding: 1rem 2rem;
-    border-radius: 50px;
+    padding: 1.0rem 2.5rem;
+    margin-top: 0rem;
+    margin-bottom: 0.7rem;
+    border-radius: var(--radius-1);
+
+  }
+
+
+  .errorPg a:hover {
+    background-color: var(--color-gray-900);
+    margin: 0;
   }
 
 
   .errorPg h2 {
-    margin-top: 4rem;
-    font-size: 2rem;
-    color: var(--color-gray-700);
-    border: 10px solid var(--color-gray-700);
-    padding: 3.5rem;
-    border-radius: 20px;
+    font-size: 2.4rem;
+    color: var(--color-gray-300);
+    padding: 2rem 0 0 0;
+    margin-top: 0rem;
+    margin-bottom: 0;
+
 
   }
+
+  .containerImg {
+    width: 100%;
+  }
+
 
 }

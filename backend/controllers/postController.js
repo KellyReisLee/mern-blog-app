@@ -159,10 +159,14 @@ const editPost = async (req, res, next) => {
       return res.status(422).json({ error: 'All fields are required!' });
     }
 
+
     // get old post
     const oldPost = await Post.findById(id);
+    if (!oldPost) {
+      return res.status(200).json({ error: 'Could not find post.' })
+    }
 
-    if (req.user.userId == oldPost.creator) {
+    if (oldPost.creator) {
       if (!req.files) {
         updatePost = await Post.findByIdAndUpdate(id, { title, category, description }, { new: true });
       } else {
@@ -171,7 +175,7 @@ const editPost = async (req, res, next) => {
           if (err) {
             return res.status(422).json({ error: 'Could not find image.' });
           }
-
+          // Move on to upload new image if no error
           // upload new image
           const { image } = req.files;
 
@@ -187,25 +191,39 @@ const editPost = async (req, res, next) => {
           // move the image file to uploadsPostImg
           image.mv(path.join(__dirname, '..', 'uploads', 'uploadsPostImg', newFileName), async (err) => {
             if (err) {
-              return res.json({ error: err || 'Could not move image to the specified folder.' });
+              // Pass the error to Express's error handling middleware
+              return next(err);
             }
 
             // update post with new image
             updatePost = await Post.findByIdAndUpdate(id, { title, category, description, image: newFileName }, { new: true });
-
             if (!updatePost) {
               return res.status(500).json({ error: 'Could not update this post.' });
             }
 
-            res.status(200).json({ message: 'Post updated successfully!' });
+            res.status(200).json({ message: 'Post updated successfully!', updatePost });
           });
         });
+
+        // Return here to avoid executing the rest of the code after sending error response
+        return;
       }
+    } else {
+      return res.status(403).json({ error: 'Unauthorized' });
     }
+
+    if (!updatePost) {
+      return res.status(500).json({ error: 'Could not update this post.' });
+    }
+
+    res.status(200).json({ message: 'Post updated successfully!', updatePost });
   } catch (error) {
-    return res.status(500).json({ error: 'Could not edit the post.', error });
+    // Pass the error to Express's error handling middleware
+    return next(error);
   }
 };
+
+module.exports = editPost;
 
 
 
@@ -217,11 +235,15 @@ const deletePost = async (req, res, next) => {
   try {
     const id = req.params.id
 
-
     if (!id) {
       return res.status(400).json({ error: 'Post Unavailable.' })
     }
+
     const post = await Post.findById(id)
+    if (!post) {
+      const posts = await Post.find({ creator: id }).populate('creator', 'username avatar verified posts').sort({ createdAt: -1 })
+
+    }
     const fileName = post?.image;
 
 

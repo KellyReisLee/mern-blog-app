@@ -20,7 +20,7 @@ router.get('/', getPosts)
 router.get('/:id', getSinglePost)
 router.get('/user/:id', getAuthorPosts)
 router.get('/categories/:category', getPostsCategory)
-router.patch('/:id', authMiddleware, editPost)
+router.patch('/edit/:id', editPost)
 router.delete('/:id', authMiddleware, deletePost)
 
 module.exports = router

@@ -113,76 +113,77 @@ const RegisterPage = () => {
   return (
     <>
       <Header />
+      <section className={classes.section}>
+        <div className={classes.register}>
+          <div className={classes.mainRegister}>
+            <h2>Sign Up</h2>
+            <form onSubmit={handleSubmit} className={classes.form}>
+              {error && (
+                <p className={classes.error}>{error}</p>
+              )}
+              {success && !error && (
+                <p className={classes.success}>{success}</p>
+              )}
+              {loading && !error && !success && <p className={classes.loading}>Loading...</p>}
 
-      <section className={classes.register}>
-        <div className={classes.mainRegister}>
-          <h2>Sign Up</h2>
-          <form onSubmit={handleSubmit} className={classes.form}>
-            {error && (
-              <p className={classes.error}>{error}</p>
-            )}
-            {success && !error && (
-              <p className={classes.success}>{success}</p>
-            )}
-            {loading && !error && !success && <p className={classes.loading}>Loading...</p>}
-
-            <input
-              type='text'
-              placeholder='Username'
-              name='username'
-              value={userData.username}
-              onChange={(e) => changeInputHandler('username', e)}
-              autoFocus
-
-            />
-            {/* email */}
-            <input
-              type='email'
-              placeholder='Email'
-              name='email'
-              value={userData.email}
-              onChange={(e) => changeInputHandler('email', e)}
-
-            />
-            {/* password */}
-            <div className={classes.password}>
               <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder='Password'
-                name='password'
-                value={userData.password}
-                onChange={(e) => changeInputHandler('password', e)}
+                type='text'
+                placeholder='Username'
+                name='username'
+                value={userData.username}
+                onChange={(e) => changeInputHandler('username', e)}
+                autoFocus
 
               />
-              <span onClick={() => showPasswordFunc('password')}>{
-                showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-              }
-              </span>
-            </div>
-
-
-            {/* confirm password */}
-            <div className={classes.password}>
+              {/* email */}
               <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                placeholder='Confirm Password'
-                name='confirmPassword'
-                value={userData.confirmPassword}
-                onChange={(e) => changeInputHandler('confirmPassword', e)}
+                type='email'
+                placeholder='Email'
+                name='email'
+                value={userData.email}
+                onChange={(e) => changeInputHandler('email', e)}
+
               />
+              {/* password */}
+              <div className={classes.password}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='Password'
+                  name='password'
+                  value={userData.password}
+                  onChange={(e) => changeInputHandler('password', e)}
 
-              <span onClick={() => showPasswordFunc('confirmPassword')}>{
-                showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
-              }</span>
-            </div>
-            <button >Register</button>
-          </form>
+                />
+                <span onClick={() => showPasswordFunc('password')}>{
+                  showPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+                }
+                </span>
+              </div>
 
-          <small>Already have an account? <Link to="/api/users/login">Sign in</Link></small>
 
+              {/* confirm password */}
+              <div className={classes.password}>
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder='Confirm Password'
+                  name='confirmPassword'
+                  value={userData.confirmPassword}
+                  onChange={(e) => changeInputHandler('confirmPassword', e)}
+                />
+
+                <span onClick={() => showPasswordFunc('confirmPassword')}>{
+                  showConfirmPassword ? <BsFillEyeFill /> : <RiEyeCloseLine />
+                }</span>
+              </div>
+              <button >Register</button>
+            </form>
+
+            <small>Already have an account? <Link to="/api/users/login">Sign in</Link></small>
+
+          </div>
         </div>
 
-      </ section>
+      </section>
       <Footer />
     </>
   )

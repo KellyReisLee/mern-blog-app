@@ -22,13 +22,14 @@ const Authors = () => {
   return (
     <>
       <Header />
+      {!loading && data.length === 0 && error && (
+        <div className={classes.noDataFound}><p>{error}</p></div>
+      )}
+      {!loading && !error && data.length === 0 && (
+        <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
+      )}
       <section className={classes.section}>
-        {!loading && data.length === 0 && error && (
-          <div className={classes.noDataFound}><p>{error}</p></div>
-        )}
-        {!loading && !error && data.length === 0 && (
-          <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
-        )}
+
         <div className={classes.container}>
 
           {loading && (<>{skeleton}</>)}

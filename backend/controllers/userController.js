@@ -108,7 +108,7 @@ const loginUser = async (req, res, next) => {
       return res.status(422).json({ error: 'User not Verified! Check your email and click on the link to validate.' })
     }
     if (passwordMatch) {
-      const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '10m' }, (err, token) => {
+      const token = jwt.sign({ userId: user._id, email: user.email, username: user.username }, process.env.SECRET, { expiresIn: '1h' }, (err, token) => {
         if (err) throw err;
         res.cookie('token', token).json({ token: token, username, posts, verified, _id, avatar });
 

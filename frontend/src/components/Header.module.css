@@ -4,7 +4,7 @@
   background-color: rgba(223, 223, 223, 0.592);
   display: grid;
   place-items: center;
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1;

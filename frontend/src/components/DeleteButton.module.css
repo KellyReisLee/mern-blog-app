@@ -1,0 +1,22 @@
+.delete {
+  background-color: var(--color-red);
+  padding: 0.6rem 1rem;
+  color: var(--color-white);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+  width: 100%;
+
+
+}
+
+@media screen and (max-width: 800px) {
+  .delete {
+    background-color: var(--color-red);
+    padding: 0.5rem 0.5rem;
+    border-radius: var(--radius-2);
+    color: aliceblue;
+    font-size: 1rem;
+    width: 100%;
+
+  }
+}

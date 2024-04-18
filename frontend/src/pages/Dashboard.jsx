@@ -1,12 +1,11 @@
 import { useState, useContext, useEffect } from 'react'
 import classes from './Dashboard.module.css'
 import NoImage from '../assets/noImage.jpg'
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/userContext'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import SkeletonAuthors from '../components/SkeletonAuthors';
-import DeletePost from './DeletePost'
+import DeleteButton from '../components/DeleteButton'
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import Header from '../components/Header'
@@ -14,18 +13,16 @@ import Footer from '../components/Footer'
 import { useFetch } from '../hooks/useFetch'
 
 const Dashboard = () => {
-
   const { userData } = useContext(UserContext)
   const navigate = useNavigate();
   const { id } = useParams();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
 
-  console.log(userData);
   const skeleton = [];
   for (let i = 1; i <= 6; i++) {
     skeleton.push(<SkeletonAuthors key={i} />)
   }
+
 
   // Protecting page.
   const token = userData?.token;
@@ -36,26 +33,15 @@ const Dashboard = () => {
 
   }, [])
 
-  const { data, loading, error, setError } = useFetch(axios.get(`api/posts/user/${id}`), 'Could not find data.')
-
-
-  function handleStartRemovePlace() {
-    setModalIsOpen(true);
-  }
-
-  function handleStopRemovePlace() {
-    setModalIsOpen(false);
-  }
-
-  console.log(data);
-
+  const { data, loading, error } = useFetch(axios.get(`api/posts/user/${id}`), 'Could not find data.')
 
   return (
     <>
       <Header />
       <section className={classes.section}>
         <div className={classes.dashboard}>
-          {!loading && data.length === 0 && error && <p className={classes.noDataFound}>Could not find data. || {error}</p>}
+          {!loading && data.length === 0 && <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>}
+          {!loading && data.length === 0 && error && <div className={classes.noDataFound}><p>{`Could not find data` || { error }}</p></div>}
           {loading && data.length === 0 && !error && (<>{skeleton}</>)}
           {data.length > 0 && (<>
             {
@@ -72,11 +58,8 @@ const Dashboard = () => {
                   </div>
                   <div className={classes.btns}>
                     <Link className={classes.view} to={`/api/posts/${item._id}`}>View</Link>
-                    <Link className={classes.edit} to={`/posts/${item._id}/edit`}><FaEdit size={15} /></Link>
-                    <DeletePost setError={setError} modalIsOpen={modalIsOpen} handleStopRemovePlace={handleStopRemovePlace} handleStartRemovePlace={handleStartRemovePlace} postId={item._id} >
-                      <MdDelete size={17} />
-                    </DeletePost>
-
+                    <Link className={classes.edit} to={`/posts/edit/${item._id}`}><FaEdit size={17} /></Link>
+                    <Link className={classes.delete} to={`/posts/delete/${item._id}`}><MdDelete size={17} /></Link>
                   </div>
                 </article>
               })

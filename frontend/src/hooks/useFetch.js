@@ -27,7 +27,8 @@ export const useFetch = (fetchFn, message) => {
     data,
     loading,
     error,
-    setError
+    setError,
+    setLoading
   }
 
 }

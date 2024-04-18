@@ -33,6 +33,8 @@ const Header = () => {
     }
   }
 
+  console.log(userData);
+
 
   // Logout after 10 minutes without activite
   let timer;
@@ -45,10 +47,8 @@ const Header = () => {
     if (userData) {
       setUserData(null)
     }
-    localStorage.clear();
-
+    localStorage.removeItem('user-data');
     setUserData(null)
-
     navigation('/api/users/login')
 
   };
@@ -82,21 +82,22 @@ const Header = () => {
   // Logout using the logout button.
   const handleLogout = async () => {
     resetTimer();
-
     try {
-
       // Faz a solicitação de logout
       const response = await axios.get('api/users/logout')
       if (!response) {
         setError('Could not logout. Try again')
       }
-      localStorage.clear();
+      localStorage.removeItem('user-data');
       setUserData(null)
-      navigation('/api/users/logout')
+      navigation('/api/users/login')
 
     } catch (error) {
       setError(error.response.data.error)
     }
+    localStorage.removeItem('user-data');
+    setUserData(null)
+    navigation('/api/users/login')
   };
 
 

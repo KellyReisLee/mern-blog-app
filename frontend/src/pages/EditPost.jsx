@@ -23,7 +23,6 @@ const EditPost = () => {
   const [message, setMessage] = useState('')
 
 
-
   // Protecting page.
   const token = userData?.token;
   useEffect(() => {
@@ -31,7 +30,7 @@ const EditPost = () => {
       navigate('/api/users/login')
     }
 
-  }, [])
+  }, [token])
 
   function validation() {
     if (!title || !category || !description) {
@@ -40,8 +39,6 @@ const EditPost = () => {
     }
     return true
   }
-
-
 
   // getting post from database
   useEffect(() => {
@@ -57,8 +54,6 @@ const EditPost = () => {
         setCategory(data.category)
         setImage(data.image)
 
-        console.log(data);
-
       } catch (error) {
         console.log(error);
         setError(error.response.data.error || 'Could not Update Post.')
@@ -66,7 +61,7 @@ const EditPost = () => {
     }
     fetchPost()
 
-  }, [])
+  }, [id])
 
   const handleEditPost = async (e) => {
     e.preventDefault();
@@ -79,10 +74,12 @@ const EditPost = () => {
 
     if (validation()) {
       try {
-        const response = await axios.patch(`api/posts/${id}`, postData, {
+        const response = await axios.patch(`api/posts/edit/${id}`, postData, {
           withCredentials: true,
           headers: { Authorization: `Bearer ${token}` }
         })
+        console.log(response);
+
         if (!response) {
           setError('Could not update post.')
         }
@@ -91,11 +88,11 @@ const EditPost = () => {
         setTimeout(() => {
           navigate('/')
 
-        }, 4000);
+        }, 3000);
 
       } catch (error) {
-        console.log(error.response.data.error || 'Could not update data.');
-        setError(error.response.data.error || 'Could not update post.')
+        console.log(error);
+        setError(error.response?.data?.error || 'Could not update post.')
       }
     }
     setLoading(false)
@@ -108,9 +105,9 @@ const EditPost = () => {
       <section className={classes.editPost}>
         <div className={classes.container}>
           <h2>Edit Post</h2>
-          {loading && !error && <p className={classes.loading}>Loading...</p>}
           {error && <p className={classes.error}>{error}</p>}
           {message && !error && <p className={classes.message}>{message}</p>}
+          {loading && !error && !message && <p className={classes.loading}>Loading...</p>}
           <form onSubmit={handleEditPost} className={classes.form}>
             <input name='title' type='text' placeholder='Title' value={title} onChange={e => setTitle(e.target.value)} autoFocus />
             <select name='category' value={category} onChange={e => setCategory(e.target.value)} id=''>
@@ -124,7 +121,7 @@ const EditPost = () => {
             <button type='submit' className={classes.btn}>Update</button>
           </form>
         </div>
-      </section>
+      </section >
       <Footer />
     </>
 

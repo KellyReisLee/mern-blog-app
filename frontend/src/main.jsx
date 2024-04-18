@@ -34,7 +34,6 @@ axios.defaults.withCredentials = true
 const router = createBrowserRouter([
   {
     path: "/",
-
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
@@ -49,8 +48,8 @@ const router = createBrowserRouter([
       { path: "create", element: <CreatePosts /> },
       { path: "posts/categories/:category", element: <CategoryPosts /> },
       { path: "myposts/:id", element: <Dashboard /> },
-      { path: "posts/:id/edit", element: <EditPost /> },
-      { path: "posts/:id/delete", element: <DeletePost /> },
+      { path: "posts/edit/:id", element: <EditPost /> },
+      { path: "posts/delete/:id", element: <DeletePost /> },
       { path: "posts/authors", element: <Authors /> },
       { path: "api/users/send-email", element: <SendEmail /> },
       { path: "api/users/change-password/:id/:token", element: <ChangePassword /> },
