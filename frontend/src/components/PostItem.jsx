@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import PostAuthor from '../components/PostAuthor'
 import classes from './PostItem.module.css'

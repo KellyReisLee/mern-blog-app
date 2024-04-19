@@ -83,6 +83,9 @@
 
 @media screen and (max-width: 1200px) {
 
+  .footer {
+    margin-top: 0;
+  }
 
 
   .footer ul {

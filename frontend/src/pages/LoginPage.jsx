@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext } from 'react'
 import classes from './LoginPage.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
@@ -72,6 +72,7 @@ const LoginPage = () => {
   }
 
   return (
+
     <section className={classes.noScroll}>
       <Header />
       <section className={classes.section}>
@@ -124,6 +125,9 @@ const LoginPage = () => {
 
 
         </div>
+
+
+
       </section>
       <Footer />
     </section>

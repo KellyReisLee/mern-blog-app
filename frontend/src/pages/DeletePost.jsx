@@ -49,7 +49,7 @@ const DeletePosts = () => {
   }
 
 
-  const { data, loading, error } = useFetch(axios.get(`api/posts/${id}`), 'Could not find data.')
+  const { data, loading, error, setError } = useFetch(axios.get(`api/posts/${id}`), 'Could not find data.')
 
 
 

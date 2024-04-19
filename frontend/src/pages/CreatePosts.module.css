@@ -1,6 +1,7 @@
 .createPost {
   display: flex;
   justify-content: center;
+  margin-top: 7rem;
 }
 
 .container {
@@ -79,7 +80,7 @@
 
   .container {
     width: 95%;
-    margin-top: 0;
+    margin-top: 6rem;
   }
 
   .container h2 {

@@ -14,13 +14,13 @@ export function validEmail(email) {
 }
 
 
-export function validation(data, isValidPassword, isValidEmail, setError) {
+export function validation(data, isValidPassword, validEmail, setError) {
   const { email, password, confirmPassword } = data;
 
   if (!email || !password || !confirmPassword) {
     setError('All fields are required!')
     return false
-  } else if (!isValidEmail(email)) {
+  } else if (!validEmail(email)) {
     setError('This is Email is not valid!')
     return false
 
@@ -29,6 +29,34 @@ export function validation(data, isValidPassword, isValidEmail, setError) {
     return false
 
   } else if (password.length > 20 || confirmPassword.length > 20) {
+    setError('Password cannot be longer than 20 characters.')
+    return false
+  } else if (password !== confirmPassword) {
+    setError('Password and Confirm Password have to match!')
+    return false
+  }
+  return true
+}
+
+
+// Register validation:
+export function registerValidation(username, email, password, confirmPassword, isValid, isValidEmail, setError) {
+
+  if (!username || !email || !password || !confirmPassword) {
+    setError('All fields are required!')
+    return false
+  } else if (username.length < 4) {
+    setError('The username must contain at least 4 characters.')
+    return false
+  } else if (!isValid(password)) {
+    setError('Password must contain minimum 8 characters, including: 1 lowercase letter, 1 special character(@$!%*?&), 1 capital letter and at least 1 number(0-9)')
+    return false
+
+  } else if (!isValidEmail(email)) {
+    setError('This Email is not valid!')
+    return false
+  }
+  else if (password.length > 20 || confirmPassword.length > 20) {
     setError('Password cannot be longer than 20 characters.')
     return false
   } else if (password !== confirmPassword) {

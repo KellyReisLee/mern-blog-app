@@ -3,12 +3,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-
 }
 
 .box {
-  background-color: rgb(218, 217, 217);
+  background-color: rgb(221, 221, 221);
   width: 60%;
   display: flex;
   flex-direction: column;
@@ -89,7 +87,11 @@
 @media screen and (max-width: 800px) {
 
   .container {
-    margin-top: 3rem;
+    margin-top: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-top: 8rem;
 
   }
 
@@ -106,7 +108,7 @@
 
 
   .container p {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     color: aliceblue;
     padding: 1rem;
     border-radius: var(--radius-1);

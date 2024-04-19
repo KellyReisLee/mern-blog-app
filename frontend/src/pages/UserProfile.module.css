@@ -2,7 +2,7 @@
   display: grid;
   text-align: center;
   place-items: center;
-  margin-top: 3rem;
+  margin-top: 7rem;
 
 }
 
@@ -156,17 +156,17 @@
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
-  .profile {
-    width: 100%;
-    padding: 1.5rem 3rem;
-  }
-
-
   .mainContainer {
     display: grid;
     text-align: center;
     place-items: center;
-    margin-top: 2rem;
+    margin-top: 7rem;
+
+  }
+
+  .profile {
+    width: 100%;
+    padding: 1.5rem 3rem;
 
   }
 
@@ -190,7 +190,7 @@
 
   .mainContainer h2 {
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   .wrapperImg {

@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  margin-top: 4rem;
 
 }
 
@@ -12,7 +13,7 @@
 .form {
   margin-top: 3rem;
   background-color: rgba(240, 240, 240, 0.889);
-  width: 45%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,7 +89,7 @@ hr {
 /* Check card */
 .checkEmail {
   font-size: 1.5rem;
-  padding: 3.5rem;
+  padding: 2rem;
   font-weight: 600;
 }
 
@@ -121,7 +122,7 @@ hr {
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {
   .section {
-    margin-top: 2.5rem;
+    margin-top: 6rem;
   }
 
   .form {

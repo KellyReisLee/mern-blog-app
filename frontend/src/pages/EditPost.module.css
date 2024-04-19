@@ -3,6 +3,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  margin-top: 8rem;
 
 
 }
@@ -78,7 +79,7 @@
   .editPost {
     display: flex;
     justify-content: center;
-    margin-top: 0.2rem;
+    margin-top: 06rem;
   }
 
   .container {
