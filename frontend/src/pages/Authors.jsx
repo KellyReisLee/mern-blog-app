@@ -22,6 +22,7 @@ const Authors = () => {
   return (
     <>
       <Header />
+
       {!loading && data.length === 0 && error && (
         <div className={classes.noDataFound}><p>{error}</p></div>
       )}
@@ -29,8 +30,10 @@ const Authors = () => {
         <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
       )}
       <section className={classes.section}>
+        <h1 className={classes.title}>Authors</h1>
 
         <div className={classes.container}>
+
 
           {loading && (<>{skeleton}</>)}
 

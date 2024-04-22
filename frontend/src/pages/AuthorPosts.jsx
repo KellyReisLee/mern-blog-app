@@ -23,6 +23,7 @@ const AuthorPosts = () => {
   return (
     <>
       <Header />
+      <h1 className={classes.title}>Author's Post</h1>
 
       <section className={classes.section}>
         {!loading && data.length === 0 && error && (
@@ -32,6 +33,7 @@ const AuthorPosts = () => {
           <div className={classes.noDataFound}><p>This author don't have posts yet.</p></div>
         )}
         <div className={classes.container}>
+
           {
             loading && (
               <>
@@ -42,6 +44,7 @@ const AuthorPosts = () => {
           {
             data.map((post) => (
               <PostItem key={post._id} id={post._id} image={post.image} category={post.category} title={post.title} description={post.description} creatorData={post.creator} createdAt={post.createdAt} />
+
             ))
           }
         </div>

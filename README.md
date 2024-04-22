@@ -1,7 +1,11 @@
-<H1 align ="center" > MERN BLOG  </h1>
+<H1 align ="center" > Code-Blog - MERN Project Complete </h1>
 <h5  align ="center"> 
-Fullstack open source blogging application made with MongoDB, Express, React & Nodejs (MERN) </h5>
+Fullstack open source blogging application made with MongoDB, Express, React & Nodejs (MERN). </h5>
 <br/>
+
+<h3>Description: </h3>
+<h5  align ="center"> 
+Blog created for developers that want to share information about Web development. </h5>
 
 - [Configuration and Setup](#configuration-and-setup)
 - [Key Features](#key-features)
@@ -25,7 +29,7 @@ In the first terminal
 ```
 $ cd Frontend
 $ npm install (to install frontend-side dependencies)
-$ npm run  start (to start the frontend)
+$ npm run start (to start the frontend) or npm run dev for vite projects.
 ```
 
 In the second terminal
@@ -109,47 +113,76 @@ This project was created using the following technologies.
 
 ## Screenshots
 
-![1](https://user-images.githubusercontent.com/111676859/226197211-8abc5de5-7659-4811-b28a-ef885de64267.png)
+<h3>First Blog Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JS1koFa.png" alt="JS1koFa.png" border="0" /></a>
+<a href="https://freeimage.host/"><img src="https://iili.io/JS1mPse.png" alt="JS1mPse.png" border="0" /></a>
 
 ---
 
-![2](https://user-images.githubusercontent.com/111676859/226197288-1f0cf951-dd30-464f-b70a-10c449fe33b4.png)
+<h3>Authors Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JS1yoyQ.png" alt="JS1yoyQ.png" border="0" /></a>
 
 ---
 
-![3](https://user-images.githubusercontent.com/111676859/226197295-e9525dd5-1346-4951-a1c8-d5620166d7aa.png)
+<h3>Author's Post Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JS1yPcb.png" alt="JS1yPcb.png" border="0" /></a>
 
 ---
 
-![4](https://user-images.githubusercontent.com/111676859/226197298-ca0f5b6e-f523-4040-98a8-b92a17bbe22e.png)
+<h3>Category's Post Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSE9Pst.png" alt="JSE9Pst.png" border="0" /></a>
 
 ---
 
-![5](https://user-images.githubusercontent.com/111676859/226197303-5d8a1a39-07f7-409f-8614-12d0ca0b2836.png)
+<h3>Sign in Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEJAnS.png" alt="JSEJAnS.png" border="0" /></a>
 
 ---
 
-![6](https://user-images.githubusercontent.com/111676859/226197307-1d95a1f6-147a-4edb-b899-449c90c07713.png)
+<h3>Register Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEnhIn.png" alt="JSEnhIn.png" border="0" /></a>
 
 ---
 
-![7](https://user-images.githubusercontent.com/111676859/226197312-b7bf6ae6-2c05-4b1d-bc25-4262af3f04f2.png)
+<h3>Change-Password Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEoqvI.png" alt="JSEoqvI.png" border="0" /></a>
 
 ---
 
-![8](https://user-images.githubusercontent.com/111676859/226197316-eb387e87-9690-44ca-b138-f15b03bed7d4.png)
+<h3>Sent Image confirmation Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEotMG.png" alt="JSEotMG.png" border="0" /></a>
 
 ---
 
-![9](https://user-images.githubusercontent.com/111676859/226197324-dcbad05b-2283-4ef5-bae9-2da8d09d55c9.png)
+<h3>User Profile Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSExkRS.png" alt="JSExkRS.png" border="0" /></a>
 
 ---
 
-![10](https://user-images.githubusercontent.com/111676859/226197329-025091a0-642b-4d68-ac4e-f365e0e78e82.png)
+<h3>Post Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEz2Jp.png" alt="JSEz2Jp.png" border="0" /></a>
 
 ---
 
-![11](https://user-images.githubusercontent.com/111676859/226197338-3e530bc6-e7bf-4e4a-9284-165f85be47d2.png)
+<h3>Edit Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEzRm7.png" alt="JSEzRm7.png" border="0" /></a>
+
+---
+
+<h3>Create Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEIEnn.png" alt="JSEIEnn.png" border="0" /></a>
+
+---
+
+<h3>Delete Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEz1rx.png" alt="JSEz1rx.png" border="0" /></a>
+
+---
+
+<h3>Author's Posts Page</h3>
+<a href="https://freeimage.host/"><img src="https://iili.io/JSEzjhF.png" alt="JSEzjhF.png" border="0" /></a>
+
+---
 
 ## Author
 

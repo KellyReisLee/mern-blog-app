@@ -3,7 +3,7 @@ import classes from './DeleteConfirmation.module.css'
 
 import ProgressBar from './ProgressBar.jsx';
 
-const TIMER = 4000;
+const TIMER = 7000;
 
 export default function DeleteConfirmation({ onCancel, onConfirm }) {
   useEffect(() => {
