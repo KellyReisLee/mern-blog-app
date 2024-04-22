@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import PostAuthor from '../components/PostAuthor'
 import classes from './PostItem.module.css'
+import NoImage from '../assets/noImage.jpg'
 
 const PostItem = ({ id, image, title, category, description, creatorData, createdAt }) => {
 
@@ -10,7 +11,11 @@ const PostItem = ({ id, image, title, category, description, creatorData, create
   return (
     <article className={classes.post}>
       <div className={classes.imagePost} >
-        <img src={`http://localhost:4000/uploads/uploadsPostImg/${image}`} alt={title} />
+        <img src={`http://localhost:4000/uploads/uploadsPostImg/${image}`} onError={(e) => {
+          e.currentTarget.src = NoImage,
+            e.currentTarget.onerror = null
+        }}
+          alt={title} />
       </div>
       <div >
         <Link to={`/api/posts/${id}`}>

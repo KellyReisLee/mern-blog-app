@@ -49,6 +49,11 @@
   font-size: 0.7rem;
 }
 
+.active {
+  background-color: whitesmoke;
+  color: var(--color-gray-700);
+}
+
 /* Mobile */
 /* Devices with less than 800px */
 @media screen and (max-width: 800px) {

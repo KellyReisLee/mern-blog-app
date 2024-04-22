@@ -2,10 +2,13 @@ import classes from './Footer.module.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { categories } from '../helpers/dataPost';
 
+
 const Footer = () => {
   const date = new Date();
   const year = date.getFullYear()
   const navigate = useNavigate();
+
+
 
   const categoriesFooter = categories.filter((item) => item !== 'Uncategorized')
 
@@ -14,7 +17,9 @@ const Footer = () => {
     navigate(`posts/categories/${name}`)
     setTimeout(() => {
       window.location.reload()
-    }, 100);
+    },);
+
+
   };
 
 
@@ -26,7 +31,9 @@ const Footer = () => {
           {
             categoriesFooter.map((item) => (
               <li key={item}>
-                <Link onClick={() => handleLinkClick(item)} to={`/posts/categories/${item}`}>{item}</Link>
+                <Link className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                } onClick={() => handleLinkClick(item)} to={`/posts/categories/${item}`}>{item}</Link>
               </li>
             ))
           }
