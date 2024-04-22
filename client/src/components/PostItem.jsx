@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import PostAuthor from '../components/PostAuthor'
+import PostAuthor from './PostAuthor'
 import classes from './PostItem.module.css'
 import NoImage from '../assets/noImage.jpg'
 
