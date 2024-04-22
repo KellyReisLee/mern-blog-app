@@ -16,6 +16,9 @@ app.use(cors({ credentials: true, origin: "http://localhost:5173" }))
 app.use(upload())
 app.use('/uploads', express.static(__dirname + '/uploads'))
 app.use(cookieParser());
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "build")));
 
 // Routes.
 // Esse é o caminho que será solicitad0.
