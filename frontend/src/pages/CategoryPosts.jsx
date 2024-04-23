@@ -43,6 +43,7 @@ const CategoryPosts = () => {
         )
       }
       <section className={classes.section}>
+        <h1 className={classes.title}>Category's Post</h1>
         <div className={classes.container}>
           <div className={classes.posts}>
 
