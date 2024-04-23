@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+
 import PostItem from '../components/PostItem'
 import classes from './AuthorPosts.module.css'
 import SkeletonPost from '../components/SkeletonPost'
@@ -25,7 +25,7 @@ const AuthorPosts = () => {
       <Header />
 
       <section className={classes.section}>
-        <h1 className={classes.title}>Author's Post</h1>
+        <h1 className={classes.title}>Author's Posts</h1>
         {!loading && data.length === 0 && error && (
           <div className={classes.noDataFound}><p>{error}</p></div>
         )}

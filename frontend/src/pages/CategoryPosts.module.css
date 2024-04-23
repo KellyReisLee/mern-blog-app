@@ -45,7 +45,7 @@
     grid-template-columns: repeat(1, 1fr);
     gap: 2rem;
     padding: 0;
-    margin: 7rem 2rem 6rem 2rem;
+    margin: 2.5rem 2rem 6rem 2rem;
 
   }
 
@@ -65,14 +65,14 @@
 
 /* Tablet device */
 /* Devices with less than 1200px */
-@media (min-width: 800px) and (max-width: 1200px) {
+@media (min-width: 805px) and (max-width: 1200px) {
 
   .posts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     padding: 0;
-    margin: 8rem 2rem 6rem 2rem;
+    margin: 2.5rem 2rem 6rem 2rem;
 
   }
 }
