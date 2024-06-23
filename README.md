@@ -115,6 +115,7 @@ This project was created using the following technologies.
 
 <h3>First Blog Page</h3>
 <a href="https://freeimage.host/"><img src="https://iili.io/JS1koFa.png" alt="JS1koFa.png" border="0" /></a>
+---
 <a href="https://freeimage.host/"><img src="https://iili.io/JS1mPse.png" alt="JS1mPse.png" border="0" /></a>
 
 ---
