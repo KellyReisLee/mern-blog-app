@@ -124,16 +124,6 @@ This project was created using the following technologies.
 
 ---
 
-<h3>Author's Post Page</h3>
-<a href="https://freeimage.host/"><img src="https://iili.io/JS1yPcb.png" alt="JS1yPcb.png" border="0" /></a>
-
----
-
-<h3>Category's Post Page</h3>
-<a href="https://freeimage.host/"><img src="https://iili.io/JSE9Pst.png" alt="JSE9Pst.png" border="0" /></a>
-
----
-
 <h3>Sign in Page</h3>
 <a href="https://freeimage.host/"><img src="https://iili.io/JSEJAnS.png" alt="JSEJAnS.png" border="0" /></a>
 
